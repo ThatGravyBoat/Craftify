@@ -1,0 +1,18 @@
+[
+  {
+    "modid": "craftify",
+    "name": "Craftify",
+    "description": "Spotify in minecraft!",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "",
+    "updateUrl": "",
+    "authorList": [
+      ""
+    ],
+    "credits": "",
+    "logoFile": "",
+    "screenshots": [],
+    "dependencies": []
+  }
+]

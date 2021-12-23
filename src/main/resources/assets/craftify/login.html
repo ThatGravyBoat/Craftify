@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Craftify Login</title>
+</head>
+<body style="font-size: 10vw;">
+<script defer>
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get("code")
+    if (token === undefined) document.body.innerHTML += "Status: Failed"
+    else {
+        fetch(`http://localhost:21851/settoken?${token}`, {method: "GET"});
+        document.body.innerText = "Status: Good"
+    }
+</script>
+</body>
+</html>

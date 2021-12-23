@@ -1,0 +1,82 @@
+plugins {
+    id "java"
+    id "com.github.johnrengelman.shadow" version "6.1.0"
+    id "net.minecraftforge.gradle.forge" version "ddb1eb0"
+    id "org.jetbrains.kotlin.jvm" version "1.5.31"
+}
+
+version = "1.0.0"
+group = "tech.thatgravyboat"
+archivesBaseName = "Craftify"
+
+sourceCompatibility = targetCompatibility = 1.8
+compileJava.options.encoding = 'UTF-8'
+
+minecraft {
+    version = "1.8.9-11.15.1.2318-1.8.9"
+    runDir = "run"
+    mappings = "stable_22"
+    makeObfSourceJar = false
+}
+
+configurations {
+    provided
+    compile.extendsFrom(provided)
+}
+
+repositories {
+    mavenCentral()
+    maven { url "https://repo.sk1er.club/repository/maven-public" }
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+    maven { url 'https://repo.spongepowered.org/maven' }
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    provided "gg.essential:loader-launchwrapper:1.1.2"
+    implementation "gg.essential:essential-1.8.9-forge:1582"
+}
+
+/**
+ * This task simply replaces the `${version}` and `${mcversion}` properties in the mcmod.info with the data from Gradle
+ */
+processResources {
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+    filesMatching("mcmod.info") {
+        expand "version": project.version, "mcversion": project.minecraft.version
+    }
+}
+
+/**
+ * This task simply moves resources so they can be accessed at runtime, Forge is quite weird isn't it
+ */
+task moveResources {
+    doLast {
+        ant.move file: "${buildDir}/resources/main",
+            todir: "${buildDir}/classes/java"
+    }
+}
+
+moveResources.dependsOn processResources
+classes.dependsOn moveResources
+
+tasks.reobfJar.dependsOn(tasks.shadowJar)
+
+shadowJar {
+    archiveClassifier.set('')
+    configurations = [project.configurations.provided]
+    duplicatesStrategy DuplicatesStrategy.EXCLUDE
+}
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+        freeCompilerArgs = ['-Xjvm-default=enable']
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
