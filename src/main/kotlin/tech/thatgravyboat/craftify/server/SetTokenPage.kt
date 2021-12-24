@@ -9,7 +9,6 @@ class SetTokenPage : HttpHandler {
     override fun handle(exchange: HttpExchange?) {
         exchange?.let {
             val code = it.requestURI.query
-            println(code)
             code?.let {
                 SpotifyAPI.login("auth", code)
             }
@@ -17,7 +16,7 @@ class SetTokenPage : HttpHandler {
             it.close()
             if (code == null) return
             it.httpContext.server.stop(5)
-            LoginServer.destoryServer()
+            LoginServer.destroyServer()
         }
     }
 }

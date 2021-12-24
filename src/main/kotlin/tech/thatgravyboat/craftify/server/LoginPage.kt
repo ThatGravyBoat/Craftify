@@ -6,7 +6,7 @@ import com.sun.net.httpserver.HttpHandler
 class LoginPage : HttpHandler {
 
     override fun handle(exchange: HttpExchange?) {
-        val loginPage = this.javaClass.classLoader.getResourceAsStream("./assets/craftify/login.html")
+        val loginPage = this.javaClass.classLoader.getResourceAsStream("login.html")
         val data: ByteArray
         val length: Long
         if (loginPage == null) {

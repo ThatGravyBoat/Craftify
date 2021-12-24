@@ -41,7 +41,7 @@ object LoginServer {
         if (!opened) UChat.chat("Please open this link in your browser: https://accounts.spotify.com/authorize?client_id=7314a0ab3c734b2caa4b483032cdd91f&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A21851%2F&scope=user-read-playback-state%20user-modify-playback-state")
     }
 
-    fun destoryServer() {
+    fun destroyServer() {
         server = null
     }
 }
