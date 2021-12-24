@@ -13,6 +13,7 @@ import net.minecraft.client.Minecraft
 import tech.thatgravyboat.craftify.AlbumCache
 import tech.thatgravyboat.craftify.Config
 import tech.thatgravyboat.craftify.types.PlayerState
+import tech.thatgravyboat.craftify.ui.enums.Position
 import java.awt.Color
 import java.net.URL
 
@@ -32,6 +33,8 @@ class UiPlayer : UIBlock(background) {
             enableEffect(OutlineEffect(VigilancePalette.getAccent(), 1F, drawInsideChildren = true))
             if (Config.premiumControl) {
                 setHeight(63.pixel())
+                val pos = Position.values()[Config.position]
+                if (pos.ordinal > 4) setY(pos.y(this) - 13.pixels())
                 this.addChild(controls)
             }
         }
@@ -39,6 +42,8 @@ class UiPlayer : UIBlock(background) {
         onMouseLeave {
             removeEffect<OutlineEffect>()
             setHeight(50.pixel())
+            val pos = Position.values()[Config.position]
+            if (pos.ordinal > 4) setY(pos.y(this))
             this.removeChild(controls)
         }
     }
@@ -101,7 +106,9 @@ class UiPlayer : UIBlock(background) {
                         height = 100.percent()
                     }
                 )
-            } catch (ignored: Exception) {}
+            } catch (ignored: Exception) {
+                // Ignoring exception due that it would be that Spotify sent a broken url.
+            }
         }
     }
 

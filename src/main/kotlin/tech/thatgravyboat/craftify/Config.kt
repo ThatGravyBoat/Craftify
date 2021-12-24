@@ -28,7 +28,10 @@ object Config : Vigilant(File("./config/craftify.toml")) {
             "TOP MIDDLE",
             "TOP RIGHT",
             "MIDDLE LEFT",
-            "MIDDLE RIGHT"
+            "MIDDLE RIGHT",
+            "BOTTOM LEFT",
+            "BOTTOM MIDDLE",
+            "BOTTOM RIGHT"
         ],
         name = "Position",
         description = "The position at which the display will be.",

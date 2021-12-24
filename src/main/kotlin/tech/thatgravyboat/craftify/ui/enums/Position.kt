@@ -11,7 +11,10 @@ import gg.essential.elementa.dsl.pixel
 enum class Position(val x: (UIComponent.() -> XConstraint), val y: (UIComponent.() -> YConstraint)) {
     TOPLEFT({ 0.percent() }, { 0.percent() }),
     TOPMIDDLE({ CenterConstraint() }, { 0.percent() }),
-    TOPRIGHT({ 100.percent() - this.getWidth().pixel() }, { 0.percent() }),
+    TOPRIGHT({ 100.percent() - 150.pixel() }, { 0.percent() }),
     MIDDLELEFT({ 0.percent() }, { CenterConstraint() }),
-    MIDDLERIGHT({ 100.percent() - this.getWidth().pixel() }, { CenterConstraint() })
+    MIDDLERIGHT({ 100.percent() - 150.pixel() }, { CenterConstraint() }),
+    BOTTOMLEFT({ 0.percent() }, { 100.percent() - 50.pixel() }),
+    BOTTOMMIDDLE({ CenterConstraint() }, { 100.percent() - 50.pixel() }),
+    BOTTOMRIGHT({ 100.percent() - 150.pixel() }, { 100.percent() - 50.pixel() })
 }
