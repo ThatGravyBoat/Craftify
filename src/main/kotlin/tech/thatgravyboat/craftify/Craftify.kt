@@ -18,7 +18,7 @@ object Craftify {
     fun onFMLInitialization(event: FMLInitializationEvent?) {
         MinecraftForge.EVENT_BUS.register(this)
         MinecraftForge.EVENT_BUS.register(Player)
-        Command().register()
+        Command.register()
         SpotifyAPI.startPoller()
     }
 }

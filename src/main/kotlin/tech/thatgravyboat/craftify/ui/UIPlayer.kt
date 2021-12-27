@@ -19,7 +19,7 @@ import java.net.URL
 
 val background = Color(0, 0, 0, 80)
 
-class UiPlayer : UIBlock(background) {
+class UIPlayer : UIBlock(background) {
 
     init {
         constrain {
