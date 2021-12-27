@@ -54,7 +54,7 @@ object Player {
         isPlaying = state.isPlaying()
         if (lastSong != state.getTitle() && state.isPlaying()) {
             if (Config.announceNewSong) {
-                UChat.chat("[Craftify]: Now Playing: ${state.getTitle()}")
+                UChat.chat("§f[§aCraftify§f]§r §7Now Playing: ${state.getTitle()}")
             }
         }
         lastSong = state.getTitle()
