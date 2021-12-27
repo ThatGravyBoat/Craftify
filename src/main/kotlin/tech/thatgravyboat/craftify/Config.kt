@@ -63,6 +63,14 @@ object Config : Vigilant(File("./config/craftify.toml")) {
     var premiumControl = false
 
     @Property(
+        type = PropertyType.SWITCH,
+        name = "Announce New Song",
+        category = "General",
+        description = "Send a message in chat when a new song is playing."
+    )
+    var announceNewSong = false
+
+    @Property(
         type = PropertyType.BUTTON,
         name = "Login Button",
         description = "Click to login in if you haven't already. This will open a web browser where you will have 120s to accept and login.",

@@ -17,6 +17,8 @@ minecraft {
     runDir = "run"
     mappings = "stable_22"
     makeObfSourceJar = false
+
+    clientRunArgs += '--tweakClass gg.essential.loader.stage0.EssentialSetupTweaker'
 }
 
 configurations {
@@ -33,8 +35,8 @@ repositories {
 }
 
 dependencies {
-    provided "gg.essential:loader-launchwrapper:1.1.2"
-    implementation "gg.essential:essential-1.8.9-forge:1582"
+    provided "gg.essential:loader-launchwrapper:1.1.3"
+    implementation "gg.essential:essential-1.8.9-forge:1703+release-1.1-phase1"
 }
 
 /**

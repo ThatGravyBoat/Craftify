@@ -6,7 +6,7 @@ import gg.essential.api.commands.SubCommand
 import gg.essential.api.utils.GuiUtil
 import tech.thatgravyboat.craftify.api.SpotifyAPI
 
-class Command : Command("craftify") {
+object Command : Command("craftify") {
 
     @DefaultHandler
     fun handle() {
