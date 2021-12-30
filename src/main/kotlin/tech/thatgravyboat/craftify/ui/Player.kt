@@ -1,10 +1,12 @@
 package tech.thatgravyboat.craftify.ui
 
+import gg.essential.api.EssentialAPI
 import gg.essential.api.utils.GuiUtil
 import gg.essential.api.utils.Multithreading
 import gg.essential.elementa.ElementaVersion
 import gg.essential.elementa.components.Window
 import gg.essential.elementa.dsl.childOf
+import gg.essential.universal.ChatColor
 import gg.essential.universal.UChat
 import gg.essential.universal.UMouse
 import net.minecraft.client.settings.KeyBinding
@@ -21,7 +23,6 @@ import tech.thatgravyboat.craftify.api.SpotifyAPI
 import tech.thatgravyboat.craftify.types.PlayerState
 import tech.thatgravyboat.craftify.ui.enums.Position
 import tech.thatgravyboat.craftify.ui.enums.RenderType
-
 
 object Player {
 
@@ -53,8 +54,14 @@ object Player {
         player.updateState(state)
         isPlaying = state.isPlaying()
         if (lastSong != state.getTitle() && state.isPlaying()) {
-            if (Config.announceNewSong) {
-                UChat.chat("[Craftify]: Now Playing: ${state.getTitle()}")
+            if (Config.announceNewSong == 1) {
+                UChat.chat(
+                    "${ChatColor.GREEN}Craftify > ${ChatColor.GRAY}" +
+                        "Now Playing: ${ChatColor.AQUA}${state.getTitle()} by ${state.getArtists()}"
+                )
+            }
+            if (Config.announceNewSong == 2) {
+                EssentialAPI.getNotifications().push("Craftify", "Now Playing: \n${state.getTitle()}")
             }
         }
         lastSong = state.getTitle()
@@ -79,6 +86,7 @@ object Player {
     fun onKeyInput(event: KeyInputEvent) {
         if (Keyboard.getEventKeyState()) {
             when (Keyboard.getEventKey()) {
+                0 -> return
                 skipForward.keyCode -> {
                     Multithreading.runAsync {
                         SpotifyAPI.skip(true)

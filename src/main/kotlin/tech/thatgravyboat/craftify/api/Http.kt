@@ -21,9 +21,7 @@ object Http {
                 object : X509TrustManager {
                     override fun checkClientTrusted(chain: Array<X509Certificate?>?, authType: String?) {}
                     override fun checkServerTrusted(chain: Array<X509Certificate?>?, authType: String?) {}
-                    override fun getAcceptedIssuers(): Array<X509Certificate>? {
-                        return null
-                    }
+                    override fun getAcceptedIssuers() = null
                 }
             ),
             SecureRandom()
@@ -34,8 +32,8 @@ object Http {
         if (path.requiresBody && body == null) throw IllegalArgumentException("Body is required for $path")
         if (path.requireParams && params == null) throw IllegalArgumentException("Parameters are required for $path")
         return try {
-            val formattedParams = params?.map { entry -> "${entry.key}=${entry.value}" }?.joinToString("&")
-            call(path.url + if (formattedParams != null) "?$formattedParams" else "", path.methodType, auth, body)
+            val formattedParams = params?.map { (key, value) -> "$key=$value" }?.joinToString("&")
+            call(path.url + (formattedParams?.let { "?$it" } ?: ""), path.methodType, auth, body)
         } catch (e: Exception) {
             null
         }
@@ -49,19 +47,18 @@ object Http {
         connection.requestMethod = method.name
         connection.useCaches = true
         connection.addRequestProperty("User-Agent", "Mozilla/4.76 (Craftify)")
-        if (contentType != null) connection.addRequestProperty("Content-Type", contentType)
-        if (auth != null) connection.addRequestProperty("Authorization", "Bearer $auth")
-        if (bytes != null) connection.addRequestProperty("Content-Length", bytes.size.toString())
+        contentType?.let { connection.addRequestProperty("Content-Type", it) }
+        auth?.let { connection.addRequestProperty("Authorization", "Bearer $it") }
+        bytes?.apply { connection.addRequestProperty("Content-Length", size.toString()) }
         connection.readTimeout = 15000
         connection.connectTimeout = 15000
         connection.doOutput = true
-        if (bytes != null) {
+        bytes?.let {
             connection.doInput = true
-            connection.outputStream.write(bytes)
+            connection.outputStream.write(it)
         }
         val code = connection.responseCode
-        if (code / 100 != 2) return Response(responseCode = code)
-        return Response(connection.inputStream, code)
+        return if (code / 100 != 2) Response(responseCode = code) else Response(connection.inputStream, code)
     }
 }
 

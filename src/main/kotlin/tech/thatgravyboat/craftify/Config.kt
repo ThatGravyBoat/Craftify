@@ -35,7 +35,7 @@ object Config : Vigilant(File("./config/craftify.toml")) {
         ],
         name = "Position",
         description = "The position at which the display will be.",
-        category = "General"
+        category = "Rendering"
     )
     var position = 0
 
@@ -50,25 +50,30 @@ object Config : Vigilant(File("./config/craftify.toml")) {
         ],
         name = "Render Type",
         description = "How/When the song with display.",
-        category = "General"
+        category = "Rendering"
     )
     var renderType = 2
 
     @Property(
         type = PropertyType.SWITCH,
         name = "Controls",
-        category = "General",
+        category = "Rendering",
         description = "Will allow you to pause/play, skip forward and backwards, repeat, and shuffle the music in game. (Requires Spotify Premium)"
     )
     var premiumControl = false
 
     @Property(
-        type = PropertyType.SWITCH,
+        type = PropertyType.SELECTOR,
+        options = [
+            "Disable",
+            "Chat Message",
+            "Essential Notification"
+        ],
         name = "Announce New Song",
         category = "General",
-        description = "Send a message in chat when a new song is playing."
+        description = "Send a notifcation when a new song is playing."
     )
-    var announceNewSong = false
+    var announceNewSong = 0
 
     @Property(
         type = PropertyType.BUTTON,

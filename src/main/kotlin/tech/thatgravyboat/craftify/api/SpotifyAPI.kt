@@ -3,10 +3,16 @@ package tech.thatgravyboat.craftify.api
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import gg.essential.api.utils.Multithreading
+import gg.essential.universal.ChatColor
+import gg.essential.universal.UChat
+import gg.essential.universal.UDesktop
+import gg.essential.universal.utils.MCStringTextComponent
+import net.minecraft.event.ClickEvent
 import org.apache.commons.io.IOUtils
 import tech.thatgravyboat.craftify.Config
 import tech.thatgravyboat.craftify.types.PlayerState
 import tech.thatgravyboat.craftify.ui.Player
+import java.net.URI
 import java.util.concurrent.ScheduledFuture
 import java.util.concurrent.TimeUnit
 
@@ -113,6 +119,16 @@ object SpotifyAPI {
         val path: Paths = if (forward) Paths.NEXT else Paths.PREV
         callCloseGetCode(path, "")?.let {
             if (it == 401) regenToken()
+        }
+    }
+
+    fun openTrack() {
+        lastState?.item?.external_urls?.spotify?.let {
+            if (!UDesktop.browse(URI(it))) {
+                val component = MCStringTextComponent("${ChatColor.GREEN}Craftify > ${ChatColor.GRAY} $it")
+                component.chatStyle.chatClickEvent = ClickEvent(ClickEvent.Action.OPEN_URL, it)
+                UChat.chat(component)
+            }
         }
     }
 

@@ -2,11 +2,14 @@ package tech.thatgravyboat.craftify.types
 
 import kotlin.math.roundToInt
 
+data class ExternalUrls(val spotify: String)
+
 data class PlayerItem(
     val duration_ms: Long,
     val name: String,
     val artists: List<Artist>,
-    val album: Album
+    val album: Album,
+    val external_urls: ExternalUrls
 )
 
 data class Artist(

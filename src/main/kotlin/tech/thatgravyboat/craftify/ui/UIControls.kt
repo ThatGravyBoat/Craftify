@@ -1,8 +1,10 @@
 package tech.thatgravyboat.craftify.ui
 
+import gg.essential.api.utils.GuiUtil
 import gg.essential.elementa.components.UIContainer
 import gg.essential.elementa.dsl.*
 import gg.essential.elementa.svg.SVGParser
+import tech.thatgravyboat.craftify.Config
 import tech.thatgravyboat.craftify.api.SpotifyAPI
 import tech.thatgravyboat.craftify.types.PlayerState
 
@@ -14,6 +16,17 @@ class UIControls : UIContainer() {
     private val repeat = SVGParser.parseFromResource("/assets/craftify/svg/repeat.svg")
     private val next = SVGParser.parseFromResource("/assets/craftify/svg/next.svg")
     private val prev = SVGParser.parseFromResource("/assets/craftify/svg/prev.svg")
+    private val external = SVGParser.parseFromResource("/assets/craftify/svg/external.svg")
+    private val settings = SVGParser.parseFromResource("/assets/craftify/svg/settings.svg")
+
+    init {
+        UIButton(settings, settings, click = { Config.gui()?.let { it1 -> GuiUtil.open(it1) } }).constrain {
+            width = 10.pixels()
+            height = 10.pixels()
+            y = 0.pixels()
+            x = 70.pixels() - 36.pixels()
+        } childOf this
+    }
 
     private val shuffleButton = UIButton(shuffle, shuffle, true, click = { state -> SpotifyAPI.toggleShuffle(state) }).constrain {
         width = 10.pixels()
@@ -56,6 +69,15 @@ class UIControls : UIContainer() {
         y = 0.pixels()
         x = 70.pixels() + 24.pixels()
     } childOf this
+
+    init {
+        UIButton(external, external, click = { SpotifyAPI.openTrack() }).constrain {
+            width = 10.pixels()
+            height = 10.pixels()
+            y = 0.pixels()
+            x = 70.pixels() + 36.pixels()
+        } childOf this
+    }
 
     fun updateState(state: PlayerState) {
         repeatButton.updateState(state.isRepeating())
