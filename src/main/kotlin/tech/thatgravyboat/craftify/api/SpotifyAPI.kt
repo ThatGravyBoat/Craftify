@@ -5,13 +5,13 @@ import com.google.gson.JsonObject
 import gg.essential.api.utils.Multithreading
 import gg.essential.universal.ChatColor
 import gg.essential.universal.UChat
-import gg.essential.universal.UDesktop
 import gg.essential.universal.utils.MCStringTextComponent
 import net.minecraft.event.ClickEvent
 import org.apache.commons.io.IOUtils
 import tech.thatgravyboat.craftify.Config
 import tech.thatgravyboat.craftify.types.PlayerState
 import tech.thatgravyboat.craftify.ui.Player
+import tech.thatgravyboat.craftify.ui.enums.copying.LinkingMode
 import java.net.URI
 import java.util.concurrent.ScheduledFuture
 import java.util.concurrent.TimeUnit
@@ -124,7 +124,8 @@ object SpotifyAPI {
 
     fun openTrack() {
         lastState?.item?.external_urls?.spotify?.let {
-            if (!UDesktop.browse(URI(it))) {
+            val linkingMode = LinkingMode.values()[Config.linkMode]
+            if (!linkingMode.copy(URI(it))) {
                 val component = MCStringTextComponent("${ChatColor.GREEN}Craftify > ${ChatColor.GRAY} $it")
                 component.chatStyle.chatClickEvent = ClickEvent(ClickEvent.Action.OPEN_URL, it)
                 UChat.chat(component)

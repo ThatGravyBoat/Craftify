@@ -12,14 +12,13 @@ import gg.essential.vigilance.gui.VigilancePalette
 import net.minecraft.client.Minecraft
 import tech.thatgravyboat.craftify.AlbumCache
 import tech.thatgravyboat.craftify.Config
+import tech.thatgravyboat.craftify.themes.ThemeConfig
 import tech.thatgravyboat.craftify.types.PlayerState
+import tech.thatgravyboat.craftify.ui.constraints.ConfigColorConstraint
 import tech.thatgravyboat.craftify.ui.enums.Position
-import java.awt.Color
 import java.net.URL
 
-val background = Color(0, 0, 0, 80)
-
-class UIPlayer : UIBlock(background) {
+class UIPlayer : UIBlock(ConfigColorConstraint("background")) {
 
     init {
         constrain {
@@ -30,7 +29,7 @@ class UIPlayer : UIBlock(background) {
         }
 
         onMouseEnter {
-            enableEffect(OutlineEffect(VigilancePalette.getAccent(), 1F, drawInsideChildren = true))
+            enableEffect(OutlineEffect(ThemeConfig.borderColor, 1F, drawInsideChildren = true))
             if (Config.premiumControl) {
                 setHeight(63.pixel())
                 val pos = Position.values()[Config.position]
@@ -65,6 +64,7 @@ class UIPlayer : UIBlock(background) {
     private val title = UITextMarquee(text = "Song Title").constrain {
         width = 100.percent()
         height = 10.pixel()
+        color = ConfigColorConstraint("title")
     } childOf info
 
     private val artist = UIWrappedText("Artists, here").constrain {
@@ -72,6 +72,7 @@ class UIPlayer : UIBlock(background) {
         height = 10.pixel()
         y = SiblingConstraint() + 2.pixel()
         textScale = 0.5.pixel()
+        color = ConfigColorConstraint("artist")
     } childOf info
 
     private val progress = UIProgressBar().constrain {

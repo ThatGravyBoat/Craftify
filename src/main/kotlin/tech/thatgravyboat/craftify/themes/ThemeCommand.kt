@@ -1,13 +1,13 @@
-package tech.thatgravyboat.craftify
+package tech.thatgravyboat.craftify.themes
 
 import gg.essential.api.commands.Command
 import gg.essential.api.commands.DefaultHandler
 import gg.essential.api.utils.GuiUtil
 
-object Command : Command("craftify") {
+object ThemeCommand : Command("craftifytheme") {
 
     @DefaultHandler
     fun handle() {
-        Config.gui()?.let { GuiUtil.open(it) }
+        ThemeConfig.gui()?.let { GuiUtil.open(it) }
     }
 }

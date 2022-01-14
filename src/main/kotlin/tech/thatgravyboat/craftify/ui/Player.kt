@@ -22,7 +22,8 @@ import tech.thatgravyboat.craftify.Config
 import tech.thatgravyboat.craftify.api.SpotifyAPI
 import tech.thatgravyboat.craftify.types.PlayerState
 import tech.thatgravyboat.craftify.ui.enums.Position
-import tech.thatgravyboat.craftify.ui.enums.RenderType
+import tech.thatgravyboat.craftify.ui.enums.displaying.DisplayMode
+import tech.thatgravyboat.craftify.ui.enums.rendering.RenderType
 
 object Player {
 
@@ -32,7 +33,7 @@ object Player {
     private val hidePlayer = KeyBinding("Toggle Spotify HUD", Keyboard.KEY_NONE, "Craftify")
 
     private val window = Window(version = ElementaVersion.V1)
-    private val player = UIPlayer() childOf window
+    private var player = UIPlayer() childOf window
 
     private var isPlaying = false
     private var tempHide = false
@@ -76,8 +77,9 @@ object Player {
     fun onRender(event: TickEvent.RenderTickEvent) {
         if (event.phase.equals(TickEvent.Phase.START)) return
         if (tempHide) return
-        val renderType = RenderType.values()[Config.renderType]
-        if (renderType.canRender(GuiUtil.getOpenedScreen()) && Config.enable) {
+        val renderType = RenderType.values()[Config.renderType].canRender(GuiUtil.getOpenedScreen())
+        val displayMode = DisplayMode.values()[Config.displayMode].canDisplay(SpotifyAPI.lastState)
+        if (displayMode && renderType && Config.enable) {
             window.draw()
         }
     }
@@ -115,8 +117,9 @@ object Player {
     fun onMouseClicked(event: GuiScreenEvent.MouseInputEvent.Pre) {
         if (!Config.enable) return
         if (tempHide) return
-        val renderType = RenderType.values()[Config.renderType]
-        if (renderType.canRender(GuiUtil.getOpenedScreen()) && Config.enable && player.isHovered() && Mouse.getEventButtonState()) {
+        val renderType = RenderType.values()[Config.renderType].canRender(GuiUtil.getOpenedScreen())
+        val displayMode = DisplayMode.values()[Config.displayMode].canDisplay(SpotifyAPI.lastState)
+        if (renderType && displayMode && Config.enable && player.isHovered() && Mouse.getEventButtonState()) {
             val button = Mouse.getEventButton()
             player.mouseClick(UMouse.Scaled.x, UMouse.Scaled.y, button)
             event.isCanceled = true

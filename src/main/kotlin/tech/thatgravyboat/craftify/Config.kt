@@ -1,10 +1,12 @@
 package tech.thatgravyboat.craftify
 
+import gg.essential.api.utils.GuiUtil
 import gg.essential.universal.UDesktop
 import gg.essential.vigilance.Vigilant
 import gg.essential.vigilance.data.Property
 import gg.essential.vigilance.data.PropertyType
 import tech.thatgravyboat.craftify.server.LoginServer
+import tech.thatgravyboat.craftify.themes.ThemeConfig
 import tech.thatgravyboat.craftify.ui.Player
 import tech.thatgravyboat.craftify.ui.enums.Position
 import java.io.File
@@ -20,6 +22,31 @@ object Config : Vigilant(File("./config/craftify.toml")) {
         description = "Enables the mod."
     )
     var enable = true
+
+    @Property(
+        type = PropertyType.SELECTOR,
+        name = "Link Mode",
+        options = [
+            "Open In Browser",
+            "Copy To Clipboard"
+        ],
+        category = "General",
+        description = "How you will get/display the link when you click on the link button."
+    )
+    var linkMode = 1
+
+    @Property(
+        type = PropertyType.BUTTON,
+        name = "Theme Config",
+        category = "General",
+        placeholder = "Open",
+        description = "Open theme config."
+    )
+    fun themeConfig() {
+        ThemeConfig.gui()?.let {
+            GuiUtil.open(it)
+        }
+    }
 
     @Property(
         type = PropertyType.SELECTOR,
@@ -53,6 +80,19 @@ object Config : Vigilant(File("./config/craftify.toml")) {
         category = "Rendering"
     )
     var renderType = 2
+
+    @Property(
+        type = PropertyType.SELECTOR,
+        options = [
+            "All The Time",
+            "When Playing",
+            "When Song Found"
+        ],
+        name = "Display Mode",
+        description = "When it will display.",
+        category = "Rendering"
+    )
+    var displayMode = 0
 
     @Property(
         type = PropertyType.SWITCH,

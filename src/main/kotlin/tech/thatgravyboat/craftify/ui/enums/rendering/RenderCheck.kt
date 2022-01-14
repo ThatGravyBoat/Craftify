@@ -1,4 +1,4 @@
-package tech.thatgravyboat.craftify.ui.enums
+package tech.thatgravyboat.craftify.ui.enums.rendering
 
 import net.minecraft.client.gui.GuiScreen
 

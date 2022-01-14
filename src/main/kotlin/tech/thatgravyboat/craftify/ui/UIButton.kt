@@ -8,11 +8,7 @@ import gg.essential.elementa.dsl.childOf
 import gg.essential.elementa.dsl.constrain
 import gg.essential.elementa.dsl.percent
 import gg.essential.elementa.svg.data.SVG
-import gg.essential.elementa.utils.withAlpha
-import gg.essential.vigilance.gui.VigilancePalette
-import java.awt.Color
-
-private val BUTTON_HOVER = Color(0, 212, 105)
+import tech.thatgravyboat.craftify.themes.ThemeConfig
 
 class UIButton(private val original: SVG, private val clicked: SVG, private val color: Boolean = false, click: (UIComponent.(state: Boolean) -> Unit)? = null) : UIContainer() {
 
@@ -34,11 +30,11 @@ class UIButton(private val original: SVG, private val clicked: SVG, private val 
         }
 
         onMouseEnter {
-            icon.setColor(if (state && color) BUTTON_HOVER else Color(150, 150, 150, 255))
+            icon.setColor(if (state && color) ThemeConfig.selectedHoverControlColor else ThemeConfig.hoverControlColor)
         }
 
         onMouseLeave {
-            icon.setColor(if (state && color) VigilancePalette.getAccent() else Color.WHITE.withAlpha(255))
+            icon.setColor(if (state && color) ThemeConfig.selectedControlColor else ThemeConfig.controlColor)
         }
     }
 
@@ -46,7 +42,7 @@ class UIButton(private val original: SVG, private val clicked: SVG, private val 
         if (this.state != state) {
             this.state = state
             icon.setSVG(if (state) clicked else original)
-            icon.setColor(if (state && color) VigilancePalette.getAccent() else Color.WHITE.withAlpha(255))
+            icon.setColor(if (state && color) ThemeConfig.selectedControlColor else ThemeConfig.controlColor)
         }
     }
 
@@ -55,9 +51,9 @@ class UIButton(private val original: SVG, private val clicked: SVG, private val 
         icon.setSVG(if (state) clicked else original)
         icon.setColor(
             if (state && color)
-                (if (this.isHovered()) BUTTON_HOVER else VigilancePalette.getAccent())
+                (if (this.isHovered()) ThemeConfig.selectedHoverControlColor else ThemeConfig.selectedControlColor)
             else
-                (if (this.isHovered()) Color(150, 150, 150, 255) else Color.WHITE.withAlpha(255))
+                (if (this.isHovered()) ThemeConfig.hoverControlColor else ThemeConfig.controlColor)
         )
     }
 }

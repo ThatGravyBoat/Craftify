@@ -5,14 +5,15 @@ import gg.essential.elementa.components.UIRoundedRectangle
 import gg.essential.elementa.components.UIText
 import gg.essential.elementa.constraints.animation.Animations
 import gg.essential.elementa.dsl.*
-import gg.essential.vigilance.gui.VigilancePalette
 import tech.thatgravyboat.craftify.api.SpotifyAPI
+import tech.thatgravyboat.craftify.themes.ThemeConfig
+import tech.thatgravyboat.craftify.ui.constraints.ConfigColorConstraint
 import java.util.concurrent.ScheduledFuture
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.math.floor
 
-class UIProgressBar : UIRoundedRectangle(3f) {
+class UIProgressBar : UIRoundedRectangle(ThemeConfig.progressRadius) {
 
     private var stop: Boolean = false
     private var timer: AtomicInteger = AtomicInteger(0)
@@ -21,7 +22,7 @@ class UIProgressBar : UIRoundedRectangle(3f) {
 
     init {
         constrain {
-            color = VigilancePalette.getHighlight().constraint
+            color = ConfigColorConstraint("progress_background")
         }
 
         timerUpdater = Multithreading.schedule({
@@ -32,20 +33,23 @@ class UIProgressBar : UIRoundedRectangle(3f) {
         }, 1, 1, TimeUnit.SECONDS)
     }
 
-    private val bar = UIRoundedRectangle(3f).constrain {
+    private val bar = UIRoundedRectangle(ThemeConfig.progressRadius).constrain {
         width = 0.percent()
         height = 100.percent()
+        color = ConfigColorConstraint("progress_bar")
     } childOf this
 
     private val startTime = UIText("0:00").constrain {
         y = (-6).pixel()
         textScale = 0.5.pixel()
+        color = ConfigColorConstraint("progress_text")
     } childOf this
 
     private val endTime = UIText("0:00").let {
         it.constrain {
             x = 100.percent() - "0:00".width(0.5f).pixel()
             y = (-6).pixel()
+            color = ConfigColorConstraint("progress_text")
 
             textScale = 0.5.pixel()
         } childOf this

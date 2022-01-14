@@ -35,7 +35,7 @@ data class PlayerState(
     val item: PlayerItem?
 ) {
 
-    fun getTitle() = item?.name ?: "Song Not Found"
+    fun getTitle() = item?.name ?: "Media Not Found"
 
     fun getTime() = (progress_ms / 1000).toDouble().roundToInt()
 
