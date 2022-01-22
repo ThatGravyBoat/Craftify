@@ -50,5 +50,5 @@ data class PlayerState(
     fun isPlaying() = is_playing
 
     // TODO CHANGE IMAGE LOL
-    fun getImage() = item?.album?.images?.sortedWith(compareBy { it.width })?.first()?.url ?: "https://i.imgur.com/iTkRQqP.png"
+    fun getImage() = item?.album?.images?.sortedWith(compareByDescending { it.width })?.first()?.url ?: "https://i.imgur.com/iTkRQqP.png"
 }

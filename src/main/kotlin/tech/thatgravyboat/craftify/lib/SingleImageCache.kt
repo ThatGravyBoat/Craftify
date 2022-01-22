@@ -1,10 +1,10 @@
-package tech.thatgravyboat.craftify
+package tech.thatgravyboat.craftify.lib
 
 import gg.essential.elementa.components.image.ImageCache
 import java.awt.image.BufferedImage
 import java.net.URL
 
-object AlbumCache : ImageCache {
+object SingleImageCache : ImageCache {
 
     private var lastURL: URL? = null
     private var lastImage: BufferedImage? = null

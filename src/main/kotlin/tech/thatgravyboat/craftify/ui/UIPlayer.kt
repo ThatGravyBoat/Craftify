@@ -10,7 +10,7 @@ import gg.essential.elementa.dsl.*
 import gg.essential.elementa.effects.OutlineEffect
 import gg.essential.vigilance.gui.VigilancePalette
 import net.minecraft.client.Minecraft
-import tech.thatgravyboat.craftify.AlbumCache
+import tech.thatgravyboat.craftify.lib.SingleImageCache
 import tech.thatgravyboat.craftify.Config
 import tech.thatgravyboat.craftify.themes.ThemeConfig
 import tech.thatgravyboat.craftify.types.PlayerState
@@ -102,7 +102,7 @@ class UIPlayer : UIBlock(ConfigColorConstraint("background")) {
             try {
                 image.clearChildren()
                 image.addChild(
-                    UIImage.ofURL(URL(state.getImage()), AlbumCache).constrain {
+                    UIImage.ofURL(URL(state.getImage()), SingleImageCache).constrain {
                         width = 100.percent()
                         height = 100.percent()
                     }

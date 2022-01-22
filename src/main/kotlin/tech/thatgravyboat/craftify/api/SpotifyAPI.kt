@@ -34,12 +34,10 @@ object SpotifyAPI {
     }
 
     fun startPoller() {
-        println("POLLER START")
         poller = Multithreading.schedule({ pollSpotify() }, 0, 2, TimeUnit.SECONDS)
     }
 
     fun stopPoller(): Boolean {
-        println("POLLER STOPPED")
         return poller?.cancel(false) ?: false
     }
 
@@ -146,14 +144,12 @@ object SpotifyAPI {
                 body = "{\"type\": \"$type\", \"code\": \"$code\"}",
                 contentType = "application/json"
             ).let { res ->
-                println(res.responseCode)
                 res.inputStream?.let { stream ->
                     val data = try {
                         GSON.fromJson(IOUtils.toString(stream, Charsets.UTF_8), TokenData::class.java)
                     } catch (e: Exception) {
                         null
                     }
-                    // println(data)
                     data?.let {
                         Config.token = data.access_token ?: ""
                         Config.refreshToken = if (type != "refresh" && data.refresh_token == null) "" else data.refresh_token ?: Config.refreshToken

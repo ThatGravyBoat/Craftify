@@ -79,8 +79,6 @@ class UIProgressBar : UIRoundedRectangle(ThemeConfig.progressRadius) {
         }
         startTime.setText("${floor((start / 60).toDouble()).toInt()}:${(start % 60).let { if (it < 10) "0$it" else "$it" }}")
         endTime.setText("${floor((end / 60).toDouble()).toInt()}:${(end % 60).let { if (it < 10) "0$it" else "$it" }}")
-        endTime.constrain {
-            x = 100.percent() - endTime.getText().width(0.5f).pixel()
-        }
+        endTime.constraints.x = 100.percent() - endTime.getText().width(0.5f).pixel()
     }
 }
