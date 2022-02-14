@@ -1,18 +1,16 @@
 package tech.thatgravyboat.cosmetics.types;
 
 import gg.essential.api.utils.Multithreading;
+import gg.essential.api.utils.WebUtil;
 import net.minecraft.client.renderer.texture.SimpleTexture;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
-import org.apache.commons.io.FileUtils;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.concurrent.Future;
 
 public class FlagTexture extends SimpleTexture {
@@ -32,27 +30,12 @@ public class FlagTexture extends SimpleTexture {
 
     private void downloadTexture() {
         future = Multithreading.INSTANCE.submit(() -> {
-            HttpURLConnection connection = null;
             boolean errored = false;
-
             try {
-                connection = ((HttpURLConnection) (new URL(flag.getUrl())).openConnection());
-                connection.setDoInput(true);
-                connection.connect();
-
-                if (connection.getResponseCode() / 100 == 2) {
-                    FileUtils.copyInputStreamToFile(connection.getInputStream(), cache);
-                    bufferedImage = ImageIO.read(connection.getInputStream());
-                }else {
-                    errored = true;
-                }
-            }catch (Exception e) {
-                e.printStackTrace();
+                WebUtil.downloadToFile(flag.getUrl(), cache, "Mozilla/4.76 (Gravy Cosmetics)");
+                bufferedImage = ImageIO.read(cache);
+            } catch (Exception e) {
                 errored = true;
-            } finally {
-                if (connection != null) {
-                    connection.disconnect();
-                }
             }
 
             if (errored) flag.error();

@@ -61,6 +61,7 @@ public class FlagRenderer {
             GlStateManager.rotate(-renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
             GlStateManager.rotate(renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
             GlStateManager.scale(-f1, -f1, f1);
+            if (entity.isSneaking()) GlStateManager.translate(0.0F, 9.374999F, 0.0F);
             GlStateManager.disableLighting();
             GlStateManager.enableBlend();
             GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
@@ -82,12 +83,18 @@ public class FlagRenderer {
 
             worldrenderer = tessellator.getWorldRenderer();
 
+            float alpha = entity.isSneaking() ? 0.25f : 1f;
+
+            GlStateManager.doPolygonOffset(-3.0F, -3.0F);
+            GlStateManager.enablePolygonOffset();
             worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
-            worldrenderer.pos(j + 1.0, 0.25+i, 0).tex(0, 10d/72d).color(1f,1f,1f,1f).endVertex();
-            worldrenderer.pos(j + 1.0, 6.75 + i, 0).tex(0, 62d/72d).color(1f,1f,1f,1f).endVertex();
-            worldrenderer.pos(j + 10.0, 6.75 + i, 0).tex(1, 62d/72d).color(1f,1f,1f,1f).endVertex();
-            worldrenderer.pos(j + 10.0, 0.25+i, 0).tex(1, 10d/72d).color(1f,1f,1f,1f).endVertex();
+            worldrenderer.pos(j + 1.0, 0.25+i, 0).tex(0, 10d/72d).color(1f,1f,1f,alpha).endVertex();
+            worldrenderer.pos(j + 1.0, 6.75 + i, 0).tex(0, 62d/72d).color(1f,1f,1f,alpha).endVertex();
+            worldrenderer.pos(j + 10.0, 6.75 + i, 0).tex(1, 62d/72d).color(1f,1f,1f,alpha).endVertex();
+            worldrenderer.pos(j + 10.0, 0.25+i, 0).tex(1, 10d/72d).color(1f,1f,1f,alpha).endVertex();
             tessellator.draw();
+            GlStateManager.doPolygonOffset(0f, 0f);
+            GlStateManager.disablePolygonOffset();
 
             GlStateManager.enableDepth();
             GlStateManager.depthMask(true);

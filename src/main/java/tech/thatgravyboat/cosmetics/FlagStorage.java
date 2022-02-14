@@ -63,8 +63,8 @@ public class FlagStorage {
             if (defaultIcon.isJsonPrimitive()) {
                 defaultFlag = FLAGS.get(defaultIcon.getAsString());
             }
-        }catch (Exception ignored){
-            //Does nothing
+        }catch (Exception e){
+            System.out.println("Could not load Gravy Cosmetic API: " + e.getMessage());
         }
     }
 

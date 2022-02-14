@@ -3,6 +3,7 @@ package tech.thatgravyboat.craftify
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.event.FMLInitializationEvent
+import tech.thatgravyboat.cosmetics.Cosmetics
 import tech.thatgravyboat.craftify.api.SpotifyAPI
 import tech.thatgravyboat.craftify.themes.ThemeCommand
 import tech.thatgravyboat.craftify.ui.Player
@@ -17,6 +18,7 @@ object Craftify {
 
     @Mod.EventHandler
     fun onFMLInitialization(event: FMLInitializationEvent?) {
+        Cosmetics.initialize()
         MinecraftForge.EVENT_BUS.register(this)
         MinecraftForge.EVENT_BUS.register(Player)
         Command.register()
