@@ -10,8 +10,8 @@ import gg.essential.elementa.dsl.*
 import gg.essential.elementa.effects.OutlineEffect
 import gg.essential.vigilance.gui.VigilancePalette
 import net.minecraft.client.Minecraft
-import tech.thatgravyboat.craftify.lib.SingleImageCache
 import tech.thatgravyboat.craftify.Config
+import tech.thatgravyboat.craftify.lib.SingleImageCache
 import tech.thatgravyboat.craftify.themes.ThemeConfig
 import tech.thatgravyboat.craftify.types.PlayerState
 import tech.thatgravyboat.craftify.ui.constraints.ConfigColorConstraint
@@ -46,6 +46,8 @@ class UIPlayer : UIBlock(ConfigColorConstraint("background")) {
             this.removeChild(controls)
         }
     }
+
+    private var imageUrl = ""
 
     private val image = UIBlock(VigilancePalette.getHighlight()).constrain {
         height = 40.pixel()
@@ -100,13 +102,16 @@ class UIPlayer : UIBlock(ConfigColorConstraint("background")) {
             controls.updateState(state)
 
             try {
-                image.clearChildren()
-                image.addChild(
-                    UIImage.ofURL(URL(state.getImage()), SingleImageCache).constrain {
-                        width = 100.percent()
-                        height = 100.percent()
-                    }
-                )
+                if (imageUrl != state.getImage()) {
+                    imageUrl = state.getImage()
+                    image.clearChildren()
+                    image.addChild(
+                        UIImage.ofURL(URL(state.getImage()), SingleImageCache).constrain {
+                            width = 100.percent()
+                            height = 100.percent()
+                        }
+                    )
+                }
             } catch (ignored: Exception) {
                 // Ignoring exception due that it would be that Spotify sent a broken url.
             }
