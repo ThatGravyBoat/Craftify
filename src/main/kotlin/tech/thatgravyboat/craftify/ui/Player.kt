@@ -71,13 +71,15 @@ object Player {
                     title = "Craftify",
                     message = "Now Playing: \n${state.getTitle()}",
                     configure = {
-                        this.withCustomComponent(
-                            Slot.PREVIEW,
-                            UIImage.ofURL(URL(state.getImage())).constrain {
-                                width = 25.pixels()
-                                height = 25.pixels()
-                            }
-                        )
+                        if (Config.announcementRendering != 0) {
+                            this.withCustomComponent(
+                                if (Config.announcementRendering == 1) Slot.PREVIEW else Slot.ACTION,
+                                UIImage.ofURL(URL(state.getImage())).constrain {
+                                    width = 25.pixels()
+                                    height = 25.pixels()
+                                }
+                            )
+                        }
                     }
                 )
             }

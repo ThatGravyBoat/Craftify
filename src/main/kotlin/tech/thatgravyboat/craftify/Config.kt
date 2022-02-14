@@ -116,6 +116,19 @@ object Config : Vigilant(File("./config/craftify.toml")) {
     var announceNewSong = 0
 
     @Property(
+        type = PropertyType.SELECTOR,
+        options = [
+            "None",
+            "Left",
+            "Right"
+        ],
+        name = "Notification Album Art Location",
+        description = "Where should the album art be located when Announce New Song is set to Essential Notifcation.",
+        category = "General"
+    )
+    var announcementRendering = 1
+
+    @Property(
         type = PropertyType.BUTTON,
         name = "Login Button",
         description = "Click to login in if you haven't already. This will open a web browser where you will have 120s to accept and login.",
