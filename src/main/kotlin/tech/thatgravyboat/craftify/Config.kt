@@ -17,6 +17,15 @@ object Config : Vigilant(File("./config/craftify.toml")) {
 
     @Property(
         type = PropertyType.SWITCH,
+        name = "First Time",
+        category = "General",
+        description = "Determines whether to show a startup message.",
+        hidden = true
+    )
+    var firstTime = true
+
+    @Property(
+        type = PropertyType.SWITCH,
         name = "Enable",
         category = "General",
         description = "Enables the mod."
@@ -92,7 +101,7 @@ object Config : Vigilant(File("./config/craftify.toml")) {
         description = "When it will display.",
         category = "Rendering"
     )
-    var displayMode = 0
+    var displayMode = 2
 
     @Property(
         type = PropertyType.SWITCH,

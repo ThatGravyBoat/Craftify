@@ -35,6 +35,8 @@ data class PlayerState(
     val item: PlayerItem?
 ) {
 
+    fun hasData() = item != null
+
     fun getTitle() = item?.name ?: "Media Not Found"
 
     fun getTime() = (progress_ms / 1000).toDouble().roundToInt()
@@ -49,6 +51,5 @@ data class PlayerState(
 
     fun isPlaying() = is_playing
 
-    // TODO CHANGE IMAGE LOL
-    fun getImage() = item?.album?.images?.sortedWith(compareByDescending { it.width })?.first()?.url ?: "https://i.imgur.com/iTkRQqP.png"
+    fun getImage() = item?.album?.images?.sortedWith(compareByDescending { it.width })?.first()?.url ?: "https://raw.githubusercontent.com/twitter/twemoji/master/assets/72x72/26d4.png"
 }

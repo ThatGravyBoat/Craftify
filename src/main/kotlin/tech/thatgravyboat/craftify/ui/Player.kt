@@ -59,7 +59,7 @@ object Player {
     fun updatePlayer(state: PlayerState) {
         player.updateState(state)
         isPlaying = state.isPlaying()
-        if (lastSong != state.getTitle() && state.isPlaying()) {
+        if (lastSong != state.getTitle() && state.isPlaying() && state.hasData()) {
             if (Config.announceNewSong == 1) {
                 UChat.chat(
                     "${ChatColor.GREEN}Craftify > ${ChatColor.GRAY}" +
