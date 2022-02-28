@@ -1,7 +1,7 @@
 package tech.thatgravyboat.craftify.ui.enums.rendering
 
-import net.minecraft.client.gui.GuiScreen
+import gg.essential.universal.utils.MCScreen
 
 interface RenderCheck {
-    fun canRender(gui: GuiScreen?): Boolean
+    fun canRender(gui: MCScreen?): Boolean
 }

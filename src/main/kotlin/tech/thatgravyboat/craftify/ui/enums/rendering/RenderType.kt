@@ -1,38 +1,38 @@
 package tech.thatgravyboat.craftify.ui.enums.rendering
 
-import net.minecraft.client.gui.GuiChat
-import net.minecraft.client.gui.GuiIngameMenu
-import net.minecraft.client.gui.GuiScreen
-import net.minecraft.client.gui.inventory.GuiInventory
+import gg.essential.universal.utils.MCScreen
+import tech.thatgravyboat.craftify.platform.MCChatMenu
+import tech.thatgravyboat.craftify.platform.MCEscMenu
+import tech.thatgravyboat.craftify.platform.MCInventoryMenu
 
 enum class RenderType : RenderCheck {
     ESC_ONLY {
-        override fun canRender(gui: GuiScreen?): Boolean {
-            return gui is GuiIngameMenu
+        override fun canRender(gui: MCScreen?): Boolean {
+            return gui is MCEscMenu
         }
     },
 
     IN_GAME_ONLY {
-        override fun canRender(gui: GuiScreen?): Boolean {
+        override fun canRender(gui: MCScreen?): Boolean {
             return gui == null
         }
     },
 
     NON_INTRUSIVE {
-        override fun canRender(gui: GuiScreen?): Boolean {
-            return gui == null || gui is GuiIngameMenu || gui is GuiChat
+        override fun canRender(gui: MCScreen?): Boolean {
+            return gui == null || gui is MCEscMenu || gui is MCChatMenu
         }
     },
 
     ALL {
-        override fun canRender(gui: GuiScreen?): Boolean {
+        override fun canRender(gui: MCScreen?): Boolean {
             return true
         }
     },
 
     INV {
-        override fun canRender(gui: GuiScreen?): Boolean {
-            return gui is GuiInventory
+        override fun canRender(gui: MCScreen?): Boolean {
+            return gui is MCInventoryMenu
         }
     };
 }

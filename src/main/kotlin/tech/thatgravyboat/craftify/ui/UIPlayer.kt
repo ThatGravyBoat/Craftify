@@ -9,9 +9,9 @@ import gg.essential.elementa.constraints.SiblingConstraint
 import gg.essential.elementa.dsl.*
 import gg.essential.elementa.effects.OutlineEffect
 import gg.essential.vigilance.gui.VigilancePalette
-import net.minecraft.client.Minecraft
 import tech.thatgravyboat.craftify.Config
 import tech.thatgravyboat.craftify.lib.SingleImageCache
+import tech.thatgravyboat.craftify.platform.runOnMcThread
 import tech.thatgravyboat.craftify.themes.ThemeConfig
 import tech.thatgravyboat.craftify.types.PlayerState
 import tech.thatgravyboat.craftify.ui.constraints.ConfigColorConstraint
@@ -95,7 +95,7 @@ class UIPlayer : UIBlock(ConfigColorConstraint("background")) {
     }
 
     fun updateState(state: PlayerState) {
-        Minecraft.getMinecraft().addScheduledTask {
+        runOnMcThread {
             progress.updateTime(state.getTime(), state.getEndTime())
             artist.setText(state.getArtists())
             title.updateText(state.getTitle())

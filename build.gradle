@@ -36,12 +36,9 @@ repositories {
 
 dependencies {
     provided "gg.essential:loader-launchwrapper:1.1.3"
-    implementation "gg.essential:essential-1.8.9-forge:1872"
+    implementation "gg.essential:essential-1.8.9-forge:1933"
 }
 
-/**
- * This task simply replaces the `${version}` and `${mcversion}` properties in the mcmod.info with the data from Gradle
- */
 processResources {
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
@@ -50,9 +47,6 @@ processResources {
     }
 }
 
-/**
- * This task simply moves resources so they can be accessed at runtime, Forge is quite weird isn't it
- */
 task moveResources {
     doLast {
         ant.move file: "${buildDir}/resources/main",
