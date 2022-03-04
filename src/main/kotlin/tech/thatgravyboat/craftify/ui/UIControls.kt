@@ -82,7 +82,7 @@ class UIControls : UIContainer() {
         settingsButton.updateImage(notNullNotBlankOrElse(ThemeConfig.settingsIcon, settings))
         shuffleButton.updateImage(notNullNotBlankOrElse(ThemeConfig.shuffleIcon, shuffle))
         prevButton.updateImage(notNullNotBlankOrElse(ThemeConfig.previousIcon, prev))
-        playButton.updateImage(notNullNotBlankOrElse(ThemeConfig.playIcon, play), notNullNotBlankOrElse(ThemeConfig.pauseIcon, pause))
+        playButton.updateImage(notNullNotBlankOrElse(ThemeConfig.pauseIcon, pause), notNullNotBlankOrElse(ThemeConfig.playIcon, play))
         nextButton.updateImage(notNullNotBlankOrElse(ThemeConfig.nextIcon, next))
         repeatButton.updateImage(notNullNotBlankOrElse(ThemeConfig.repeatIcon, repeat))
         externalButton.updateImage(notNullNotBlankOrElse(ThemeConfig.externalIcon, external))

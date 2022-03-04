@@ -20,7 +20,7 @@ data class Theme(
     val selectedControlHoverColor: Color = Color(0, 212, 105),
 
     val settingIcon: String = "https://i.imgur.com/Nd4gQzY.png",
-    val shuffleIcon: String = "https://i.imgur.com/Nd4gQzY.png",
+    val shuffleIcon: String = "https://i.imgur.com/W58UJGf.png",
     val previousIcon: String = "https://i.imgur.com/Lb4YYOu.png",
     val pauseIcon: String = "https://i.imgur.com/9tsZMcO.png",
     val playIcon: String = "https://i.imgur.com/JQdBt2K.png",
