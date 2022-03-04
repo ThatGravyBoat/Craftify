@@ -1,5 +1,8 @@
 package tech.thatgravyboat.craftify
 
+import gg.essential.api.utils.GuiUtil
+import gg.essential.vigilance.gui.SettingsGui
+import net.minecraftforge.client.event.GuiOpenEvent
 import net.minecraftforge.client.event.GuiScreenEvent
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.Mod
@@ -48,5 +51,12 @@ object Craftify {
         val event = Event()
         Player.onMouseClicked(event)
         if (event.isCancelled()) mouseEvent.isCanceled = true
+    }
+
+    @SubscribeEvent
+    fun onGuiClose(event: GuiOpenEvent) {
+        if (event.gui == null && GuiUtil.getOpenedScreen() is SettingsGui) {
+            Player.updateTheme()
+        }
     }
 }

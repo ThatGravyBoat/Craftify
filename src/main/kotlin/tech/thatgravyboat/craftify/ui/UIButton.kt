@@ -2,22 +2,19 @@ package tech.thatgravyboat.craftify.ui
 
 import gg.essential.api.utils.Multithreading
 import gg.essential.elementa.UIComponent
-import gg.essential.elementa.components.SVGComponent
 import gg.essential.elementa.components.UIContainer
+import gg.essential.elementa.components.UIImage
 import gg.essential.elementa.dsl.childOf
 import gg.essential.elementa.dsl.constrain
 import gg.essential.elementa.dsl.percent
-import gg.essential.elementa.svg.data.SVG
 import tech.thatgravyboat.craftify.themes.ThemeConfig
+import java.net.URL
 
-class UIButton(private val original: SVG, private val clicked: SVG, private val color: Boolean = false, click: (UIComponent.(state: Boolean) -> Unit)? = null) : UIContainer() {
+class UIButton(private var original: URL, private var clicked: URL, private val color: Boolean = false, click: (UIComponent.(state: Boolean) -> Unit)? = null) : UIContainer() {
 
     private var state = false
 
-    private val icon = SVGComponent(original).constrain {
-        height = 100.percent()
-        width = 100.percent()
-    } childOf this
+    private var icon = createButtonImageFromUrl(original)
 
     init {
         onMouseClick { event ->
@@ -41,19 +38,42 @@ class UIButton(private val original: SVG, private val clicked: SVG, private val 
     fun updateState(state: Boolean) {
         if (this.state != state) {
             this.state = state
-            icon.setSVG(if (state) clicked else original)
+            updateImage(clicked, original)
             icon.setColor(if (state && color) ThemeConfig.selectedControlColor else ThemeConfig.controlColor)
         }
     }
 
     private fun updateStateWithHover(state: Boolean) {
         this.state = state
-        icon.setSVG(if (state) clicked else original)
+        updateImage(clicked, original)
         icon.setColor(
             if (state && color)
                 (if (this.isHovered()) ThemeConfig.selectedHoverControlColor else ThemeConfig.selectedControlColor)
             else
                 (if (this.isHovered()) ThemeConfig.hoverControlColor else ThemeConfig.controlColor)
         )
+    }
+
+    fun updateImage(icon: String) {
+        val url = URL(icon)
+        updateImage(url, url)
+    }
+
+    fun updateImage(click: String, og: String) {
+        updateImage(URL(click), URL(og))
+    }
+
+    fun updateImage(click: URL, og: URL) {
+        clicked = click
+        original = og
+        this.removeChild(icon)
+        icon = createButtonImageFromUrl(if (state) clicked else original)
+    }
+
+    private fun createButtonImageFromUrl(url: URL): UIImage {
+        return UIImage.ofURL(url).constrain {
+            height = 100.percent()
+            width = 100.percent()
+        } childOf this
     }
 }

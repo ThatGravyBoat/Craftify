@@ -38,6 +38,7 @@ object Player {
 
     init {
         changePosition(Position.values()[Config.position])
+        updateTheme()
     }
 
     fun init() {
@@ -45,6 +46,10 @@ object Player {
         skipPrevious.register()
         togglePlaying.register()
         hidePlayer.register()
+    }
+
+    fun updateTheme() {
+        player.updateTheme()
     }
 
     fun stopClient() {

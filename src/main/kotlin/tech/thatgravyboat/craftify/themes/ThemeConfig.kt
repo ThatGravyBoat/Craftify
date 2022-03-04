@@ -7,6 +7,7 @@ import gg.essential.vigilance.data.Property
 import gg.essential.vigilance.data.PropertyData
 import gg.essential.vigilance.data.PropertyType
 import gg.essential.vigilance.data.SortingBehavior
+import tech.thatgravyboat.craftify.ui.Player
 import java.awt.Color
 import java.io.File
 
@@ -44,7 +45,9 @@ object ThemeConfig : Vigilant(
     fun load() {
         try {
             Theme.fromJson(UDesktop.getClipboardString()).setConfig()
-        } catch (e: Exception) {}
+        } catch (ignored: Exception) {
+            // Don't do anything if fails.
+        }
         ThemeConfig.gui()?.let { GuiUtil.open(it) }
     }
 
@@ -118,7 +121,8 @@ object ThemeConfig : Vigilant(
         category = "Theme",
         subcategory = "Progress Bar",
         minF = 0f,
-        maxF = 10f
+        maxF = 10f,
+        decimalPlaces = 0
     )
     var progressRadius: Float = 3f
 
@@ -154,7 +158,72 @@ object ThemeConfig : Vigilant(
     )
     var selectedHoverControlColor: Color = Color(0, 212, 105)
 
+    @Property(
+        type = PropertyType.TEXT,
+        name = "Settings",
+        category = "Theme",
+        subcategory = "Icons"
+    )
+    var settingsIcon: String = "https://i.imgur.com/Nd4gQzY.png"
+
+    @Property(
+        type = PropertyType.TEXT,
+        name = "Shuffle",
+        category = "Theme",
+        subcategory = "Icons"
+    )
+    var shuffleIcon: String = "https://i.imgur.com/W58UJGf.png"
+
+    @Property(
+        type = PropertyType.TEXT,
+        name = "Previous",
+        category = "Theme",
+        subcategory = "Icons"
+    )
+    var previousIcon: String = "https://i.imgur.com/Lb4YYOu.png"
+
+    @Property(
+        type = PropertyType.TEXT,
+        name = "Pause",
+        category = "Theme",
+        subcategory = "Icons"
+    )
+    var pauseIcon: String = "https://i.imgur.com/JQdBt2K.png"
+
+    @Property(
+        type = PropertyType.TEXT,
+        name = "Play",
+        category = "Theme",
+        subcategory = "Icons"
+    )
+    var playIcon: String = "https://i.imgur.com/9tsZMcO.png"
+
+    @Property(
+        type = PropertyType.TEXT,
+        name = "Next",
+        category = "Theme",
+        subcategory = "Icons"
+    )
+    var nextIcon: String = "https://i.imgur.com/4L2322Q.png"
+
+    @Property(
+        type = PropertyType.TEXT,
+        name = "Repeat",
+        category = "Theme",
+        subcategory = "Icons"
+    )
+    var repeatIcon: String = "https://i.imgur.com/C8h1RBc.png"
+
+    @Property(
+        type = PropertyType.TEXT,
+        name = "External Link",
+        category = "Theme",
+        subcategory = "Icons"
+    )
+    var externalIcon: String = "https://i.imgur.com/qQs0WHt.png"
+
     init {
         initialize()
+        registerListener("progressRadius") { _: Float -> Player.updateTheme() }
     }
 }

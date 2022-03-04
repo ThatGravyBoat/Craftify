@@ -18,6 +18,15 @@ data class Theme(
     val controlHoverColor: Color = Color(150, 150, 150),
     val selectedControlColor: Color = Color(1, 165, 82),
     val selectedControlHoverColor: Color = Color(0, 212, 105),
+
+    val settingIcon: String = "https://i.imgur.com/Nd4gQzY.png",
+    val shuffleIcon: String = "https://i.imgur.com/Nd4gQzY.png",
+    val previousIcon: String = "https://i.imgur.com/Lb4YYOu.png",
+    val pauseIcon: String = "https://i.imgur.com/9tsZMcO.png",
+    val playIcon: String = "https://i.imgur.com/JQdBt2K.png",
+    val nextIcon: String = "https://i.imgur.com/4L2322Q.png",
+    val repeatIcon: String = "https://i.imgur.com/C8h1RBc.png",
+    val externalIcon: String = "https://i.imgur.com/qQs0WHt.png",
 ) {
     fun getData(): String = GSON.toJson(this)
 
@@ -34,6 +43,14 @@ data class Theme(
         ThemeConfig.hoverControlColor = this.controlHoverColor
         ThemeConfig.selectedControlColor = this.selectedControlColor
         ThemeConfig.selectedHoverControlColor = this.selectedControlHoverColor
+        ThemeConfig.settingsIcon = this.settingIcon
+        ThemeConfig.shuffleIcon = this.shuffleIcon
+        ThemeConfig.repeatIcon = this.repeatIcon
+        ThemeConfig.playIcon = this.playIcon
+        ThemeConfig.pauseIcon = this.pauseIcon
+        ThemeConfig.previousIcon = this.previousIcon
+        ThemeConfig.nextIcon = this.nextIcon
+        ThemeConfig.externalIcon = this.externalIcon
         ThemeConfig.markDirty()
         ThemeConfig.writeData()
     }
@@ -58,7 +75,15 @@ data class Theme(
                 ThemeConfig.controlColor,
                 ThemeConfig.hoverControlColor,
                 ThemeConfig.selectedControlColor,
-                ThemeConfig.selectedHoverControlColor
+                ThemeConfig.selectedHoverControlColor,
+                ThemeConfig.settingsIcon,
+                ThemeConfig.shuffleIcon,
+                ThemeConfig.previousIcon,
+                ThemeConfig.pauseIcon,
+                ThemeConfig.playIcon,
+                ThemeConfig.nextIcon,
+                ThemeConfig.repeatIcon,
+                ThemeConfig.externalIcon,
             )
         }
     }

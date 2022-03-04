@@ -1,3 +1,5 @@
+rootProject.name = "Craftify"
+
 pluginManagement {
     repositories {
         mavenCentral()
@@ -15,5 +17,3 @@ pluginManagement {
         }
     }
 }
-
-rootProject.name = "Craftify"

@@ -118,6 +118,11 @@ class UIPlayer : UIBlock(ConfigColorConstraint("background")) {
         }
     }
 
+    fun updateTheme() {
+        progress.updateTheme()
+        controls.updateTheme()
+    }
+
     override fun isHovered(): Boolean {
         return GuiUtil.getOpenedScreen() != null && super.isHovered()
     }
