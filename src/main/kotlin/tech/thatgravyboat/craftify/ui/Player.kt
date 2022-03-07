@@ -16,6 +16,7 @@ import tech.thatgravyboat.craftify.Config
 import tech.thatgravyboat.craftify.api.SpotifyAPI
 import tech.thatgravyboat.craftify.platform.Event
 import tech.thatgravyboat.craftify.platform.UKeybind
+import tech.thatgravyboat.craftify.themes.library.ScreenshotScreen
 import tech.thatgravyboat.craftify.types.PlayerState
 import tech.thatgravyboat.craftify.ui.enums.Position
 import tech.thatgravyboat.craftify.ui.enums.displaying.DisplayMode
@@ -94,9 +95,7 @@ object Player {
 
     fun onRender() {
         if (tempHide) return
-        val renderType = RenderType.values()[Config.renderType].canRender(GuiUtil.getOpenedScreen())
-        val displayMode = DisplayMode.values()[Config.displayMode].canDisplay(SpotifyAPI.lastState)
-        if (displayMode && renderType && Config.enable) {
+        if (canRender() && Config.enable) {
             window.draw()
         }
     }
@@ -142,13 +141,17 @@ object Player {
         return bind.getBinding().keyCode != UKeyboard.KEY_NONE && bind.getBinding().isPressed
     }
 
+    private fun canRender(): Boolean {
+        val renderType = RenderType.values()[Config.renderType].canRender(GuiUtil.getOpenedScreen())
+        val displayMode = DisplayMode.values()[Config.displayMode].canDisplay(SpotifyAPI.lastState)
+        return (GuiUtil.getOpenedScreen() is ScreenshotScreen || (renderType && displayMode)) && Config.enable
+    }
+
     // XY values taken from GuiScreen go there if anything screws up.
     fun onMouseClicked(event: Event) {
         if (!Config.enable) return
         if (tempHide) return
-        val renderType = RenderType.values()[Config.renderType].canRender(GuiUtil.getOpenedScreen())
-        val displayMode = DisplayMode.values()[Config.displayMode].canDisplay(SpotifyAPI.lastState)
-        if (renderType && displayMode && Config.enable && player.isHovered() && Mouse.getEventButtonState()) {
+        if (canRender() && player.isHovered() && Mouse.getEventButtonState()) {
             val button = Mouse.getEventButton()
             player.mouseClick(UMouse.Scaled.x, UMouse.Scaled.y, button)
             event.cancel()

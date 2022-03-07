@@ -13,7 +13,6 @@ import net.minecraftforge.fml.common.gameevent.TickEvent
 import tech.thatgravyboat.cosmetics.Cosmetics
 import tech.thatgravyboat.craftify.api.SpotifyAPI
 import tech.thatgravyboat.craftify.platform.Event
-import tech.thatgravyboat.craftify.themes.ThemeCommand
 import tech.thatgravyboat.craftify.ui.Player
 
 @Mod(
@@ -28,7 +27,6 @@ object Craftify {
     fun onFMLInitialization(event: FMLInitializationEvent?) {
         Cosmetics.initialize()
         Command.register()
-        ThemeCommand.register()
         SpotifyAPI.startPoller()
         Player.init()
         MinecraftForge.EVENT_BUS.register(this)

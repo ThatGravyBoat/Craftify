@@ -1,6 +1,7 @@
 package tech.thatgravyboat.craftify.themes
 
 import com.google.gson.GsonBuilder
+import tech.thatgravyboat.craftify.ui.Player
 import java.awt.Color
 
 private val GSON = GsonBuilder()
@@ -53,6 +54,7 @@ data class Theme(
         ThemeConfig.externalIcon = this.externalIcon
         ThemeConfig.markDirty()
         ThemeConfig.writeData()
+        Player.updateTheme()
     }
 
     companion object {
