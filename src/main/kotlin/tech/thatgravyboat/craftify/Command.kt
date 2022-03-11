@@ -8,6 +8,7 @@ import tech.thatgravyboat.craftify.themes.ThemeConfig
 import tech.thatgravyboat.craftify.themes.library.LibraryScreen
 import tech.thatgravyboat.craftify.themes.library.LibraryStorage
 import tech.thatgravyboat.craftify.themes.library.ScreenshotScreen
+import tech.thatgravyboat.craftify.ui.PositionEditorScreen
 
 object Command : Command("craftify") {
 
@@ -34,5 +35,10 @@ object Command : Command("craftify") {
     @SubCommand("refresh")
     fun refresh() {
         LibraryStorage.refresh()
+    }
+
+    @SubCommand("position")
+    fun position() {
+        GuiUtil.open(PositionEditorScreen())
     }
 }

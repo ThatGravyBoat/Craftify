@@ -7,6 +7,7 @@ import gg.essential.elementa.constraints.SiblingConstraint
 import gg.essential.elementa.dsl.*
 import gg.essential.vigilance.gui.VigilancePalette
 import java.net.URL
+
 class UIThemeButton(iconUrl: URL, title: String, author: String) : UIBlock(VigilancePalette.getHighlight()) {
 
     private val iconContainer = UIContainer().constrain {

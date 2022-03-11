@@ -1,6 +1,7 @@
 package tech.thatgravyboat.craftify
 
 import gg.essential.api.utils.GuiUtil
+import gg.essential.universal.UMinecraft
 import gg.essential.vigilance.gui.SettingsGui
 import net.minecraftforge.client.event.GuiOpenEvent
 import net.minecraftforge.client.event.GuiScreenEvent
@@ -40,7 +41,7 @@ object Craftify {
 
     @SubscribeEvent
     fun onRender(event: TickEvent.RenderTickEvent) {
-        if (event.phase.equals(TickEvent.Phase.START)) return
+        if (event.phase.equals(TickEvent.Phase.START) || UMinecraft.getMinecraft().gameSettings.hideGUI) return
         Player.onRender()
     }
 

@@ -18,7 +18,7 @@ import tech.thatgravyboat.craftify.platform.Event
 import tech.thatgravyboat.craftify.platform.UKeybind
 import tech.thatgravyboat.craftify.themes.library.ScreenshotScreen
 import tech.thatgravyboat.craftify.types.PlayerState
-import tech.thatgravyboat.craftify.ui.enums.Position
+import tech.thatgravyboat.craftify.ui.enums.Anchor
 import tech.thatgravyboat.craftify.ui.enums.displaying.DisplayMode
 import tech.thatgravyboat.craftify.ui.enums.rendering.RenderType
 import java.net.URL
@@ -38,7 +38,7 @@ object Player {
     private var lastSong = ""
 
     init {
-        changePosition(Position.values()[Config.position])
+        changePosition(Anchor.values()[Config.anchorPoint])
         updateTheme()
     }
 
@@ -88,9 +88,9 @@ object Player {
         lastSong = state.getTitle()
     }
 
-    fun changePosition(position: Position) {
-        player.setX(position.x(player))
-        player.setY(position.y(player))
+    fun changePosition(position: Anchor) {
+        player.setX(position.getX(player))
+        player.setY(position.getY(player))
     }
 
     fun onRender() {

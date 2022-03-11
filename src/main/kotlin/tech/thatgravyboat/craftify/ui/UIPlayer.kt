@@ -15,7 +15,7 @@ import tech.thatgravyboat.craftify.platform.runOnMcThread
 import tech.thatgravyboat.craftify.themes.ThemeConfig
 import tech.thatgravyboat.craftify.types.PlayerState
 import tech.thatgravyboat.craftify.ui.constraints.ConfigColorConstraint
-import tech.thatgravyboat.craftify.ui.enums.Position
+import tech.thatgravyboat.craftify.ui.enums.Anchor
 import java.net.URL
 
 class UIPlayer : UIBlock(ConfigColorConstraint("background")) {
@@ -32,8 +32,8 @@ class UIPlayer : UIBlock(ConfigColorConstraint("background")) {
             enableEffect(OutlineEffect(ThemeConfig.borderColor, 1F, drawInsideChildren = true))
             if (Config.premiumControl) {
                 setHeight(63.pixel())
-                val pos = Position.values()[Config.position]
-                if (pos.ordinal > 4) setY(pos.y(this) - 13.pixels())
+                val pos = Anchor.values()[Config.anchorPoint]
+                if (pos.ordinal > 4) setY(pos.getY(this) - 13.pixels())
                 this.addChild(controls)
             }
         }
@@ -41,8 +41,8 @@ class UIPlayer : UIBlock(ConfigColorConstraint("background")) {
         onMouseLeave {
             removeEffect<OutlineEffect>()
             setHeight(50.pixel())
-            val pos = Position.values()[Config.position]
-            if (pos.ordinal > 4) setY(pos.y(this))
+            val pos = Anchor.values()[Config.anchorPoint]
+            if (pos.ordinal > 4) setY(pos.getY(this))
             this.removeChild(controls)
         }
     }

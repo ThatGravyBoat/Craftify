@@ -8,7 +8,7 @@ import gg.essential.vigilance.data.PropertyType
 import tech.thatgravyboat.craftify.server.LoginServer
 import tech.thatgravyboat.craftify.themes.ThemeConfig
 import tech.thatgravyboat.craftify.ui.Player
-import tech.thatgravyboat.craftify.ui.enums.Position
+import tech.thatgravyboat.craftify.ui.enums.Anchor
 import java.io.File
 import java.net.URI
 
@@ -69,11 +69,33 @@ object Config : Vigilant(File("./config/craftify.toml")) {
             "BOTTOM MIDDLE",
             "BOTTOM RIGHT"
         ],
-        name = "Position",
-        description = "The position at which the display will be.",
+        name = "Anchor Point",
+        description = "The Point at which the display will be anchored to.",
         category = "Rendering"
     )
-    var position = 0
+    var anchorPoint = 0
+
+    @Property(
+        type = PropertyType.DECIMAL_SLIDER,
+        minF = -1f,
+        maxF = 1f,
+        name = "Position X Offset",
+        description = "The X offset",
+        category = "Rendering",
+        hidden = true
+    )
+    var xOffset = 0f
+
+    @Property(
+        type = PropertyType.DECIMAL_SLIDER,
+        minF = -1f,
+        maxF = 1f,
+        name = "Position Y Offset",
+        description = "The Y offset",
+        category = "Rendering",
+        hidden = true
+    )
+    var yOffset = 0f
 
     @Property(
         type = PropertyType.SELECTOR,
@@ -190,8 +212,13 @@ object Config : Vigilant(File("./config/craftify.toml")) {
     init {
         initialize()
 
-        registerListener("position") { it: Int ->
-            Player.changePosition(Position.values()[it])
+        registerListener("anchorPoint") { it: Int ->
+            val anchor = Anchor.values()[it]
+            xOffset = anchor.getDefaultXOffset()
+            yOffset = anchor.getDefaultYOffset()
+            Config.markDirty()
+            Config.writeData()
+            Player.changePosition(anchor)
         }
     }
 
