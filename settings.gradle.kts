@@ -1,19 +1,35 @@
-rootProject.name = "Craftify"
-
 pluginManagement {
     repositories {
-        mavenCentral()
+        mavenLocal()
         gradlePluginPortal()
-        maven("https://maven.minecraftforge.net")
-        maven("https://jitpack.io/")
+        mavenCentral()
+        google()
+        maven("https://repo.woverflow.cc/")
+        flatDir {
+            dirs=setOf(file("../../libs"))
+        }
     }
     resolutionStrategy {
         eachPlugin {
             when (requested.id.id) {
-                "net.minecraftforge.gradle.forge" -> {
-                    useModule("com.github.asbyth:ForgeGradle:${requested.version}")
+                "com.replaymod.preprocess" -> {
+                    useModule("com.github.replaymod:preprocessor:${requested.version}")
                 }
             }
         }
     }
+}
+
+rootProject.buildFileName = "root.gradle.kts"
+
+listOf(
+    "1.8.9",
+    "1.12.2"
+).forEach { version ->
+    include(":$version")
+    project(":$version").apply {
+        projectDir = file("versions/$version")
+        buildFileName = "../../build.gradle"
+    }
+
 }

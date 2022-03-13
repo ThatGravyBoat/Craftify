@@ -8,7 +8,6 @@ import gg.essential.elementa.dsl.constrain
 import gg.essential.elementa.dsl.pixels
 import gg.essential.universal.UResolution
 import gg.essential.vigilance.gui.VigilancePalette
-import net.minecraft.util.MathHelper
 import tech.thatgravyboat.craftify.Config
 import tech.thatgravyboat.craftify.ui.enums.Anchor
 
@@ -37,8 +36,8 @@ class PositionEditorScreen : WindowScreen(ElementaVersion.V1) {
 
         if (button == 0) {
             this@onMouseDrag.constrain {
-                x = (MathHelper.clamp_float(this@onMouseDrag.getLeft() + mouseX - clickPos!!.first, 0f, UResolution.scaledWidth - 150f)).pixels()
-                y = (MathHelper.clamp_float(this@onMouseDrag.getTop() + mouseY - clickPos!!.second, 0f, UResolution.scaledHeight - 50f)).pixels()
+                x = (clamp(this@onMouseDrag.getLeft() + mouseX - clickPos!!.first, 0f, UResolution.scaledWidth - 150f)).pixels()
+                y = (clamp(this@onMouseDrag.getTop() + mouseY - clickPos!!.second, 0f, UResolution.scaledHeight - 50f)).pixels()
             }
         }
     } childOf this.window
@@ -52,5 +51,14 @@ class PositionEditorScreen : WindowScreen(ElementaVersion.V1) {
         Config.markDirty()
         Config.writeData()
         Player.changePosition(position)
+    }
+
+    private fun clamp(num: Float, min: Float, max: Float): Float {
+        if (num < min) {
+            return min
+        }
+        return if (num > max) {
+            max
+        } else num
     }
 }
