@@ -1,0 +1,1 @@
+net.minecraft.client.renderer.entity.RenderLivingBase net.minecraft.client.renderer.entity.RendererLivingEntity

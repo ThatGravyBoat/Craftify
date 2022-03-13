@@ -22,8 +22,13 @@ public class FlagRenderer {
 
     @SubscribeEvent
     public void onNameTagRenderer(RenderLivingEvent.Specials.Pre<EntityLivingBase> event) {
+        //#if MC==10809
         RendererLivingEntity<EntityLivingBase> renderer = event.renderer;
         EntityLivingBase entity = event.entity;
+        //#else
+        //$$ RenderLivingBase<EntityLivingBase> renderer = event.getRenderer();
+        //$$ EntityLivingBase entity = event.getEntity();
+        //#endif
 
         if (!(entity instanceof AbstractClientPlayer)) return;
 
@@ -48,7 +53,11 @@ public class FlagRenderer {
 
                 UGraphics.GL.pushMatrix();
                 GlStateManager.alphaFunc(516, 0.1F);
+                //#if MC==10809
                 UGraphics.GL.translate(event.x, event.y + entity.height + 0.5, event.z);
+                //#else
+                //$$ UGraphics.GL.translate(event.getX(), event.getY() + entity.height + 0.5, event.getZ());
+                //#endif
                 GL11.glNormal3f(0.0F, 1.0F, 0.0F);
                 UGraphics.GL.rotate(-renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
                 UGraphics.GL.rotate(renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
@@ -114,6 +123,11 @@ public class FlagRenderer {
             }
         }
 
-        return Minecraft.isGuiEnabled() && entity != renderManager.livingPlayer && !entity.isInvisibleToPlayer(entityplayersp) && entity.riddenByEntity == null;
+        return Minecraft.isGuiEnabled() && entity != renderManager.livingPlayer && !entity.isInvisibleToPlayer(entityplayersp) &&
+                //#if MC==10809
+                entity.riddenByEntity == null;
+                //#else
+                //$$ !entity.isBeingRidden();
+                //#endif
     }
 }

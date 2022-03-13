@@ -5,9 +5,8 @@ import com.google.gson.JsonObject
 import gg.essential.api.utils.Multithreading
 import gg.essential.universal.ChatColor
 import gg.essential.universal.UChat
-import gg.essential.universal.utils.MCClickEvent
 import gg.essential.universal.utils.MCClickEventAction
-import gg.essential.universal.utils.MCStringTextComponent
+import gg.essential.universal.wrappers.message.UTextComponent
 import org.apache.commons.io.IOUtils
 import tech.thatgravyboat.craftify.Config
 import tech.thatgravyboat.craftify.types.PlayerState
@@ -125,8 +124,8 @@ object SpotifyAPI {
         lastState?.item?.external_urls?.spotify?.let {
             val linkingMode = LinkingMode.values()[Config.linkMode]
             if (!linkingMode.copy(URI(it))) {
-                val component = MCStringTextComponent("${ChatColor.GREEN}Craftify > ${ChatColor.GRAY} $it")
-                component.chatStyle.chatClickEvent = MCClickEvent(MCClickEventAction.OPEN_URL, it)
+                val component = UTextComponent("${ChatColor.GREEN}Craftify > ${ChatColor.GRAY} $it")
+                component.setClick(MCClickEventAction.OPEN_URL, it)
                 UChat.chat(component)
             }
         }

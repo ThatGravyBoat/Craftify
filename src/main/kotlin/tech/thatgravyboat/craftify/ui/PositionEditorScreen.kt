@@ -8,7 +8,6 @@ import gg.essential.elementa.dsl.constrain
 import gg.essential.elementa.dsl.pixels
 import gg.essential.universal.UResolution
 import gg.essential.vigilance.gui.VigilancePalette
-import net.minecraft.util.MathHelper
 import tech.thatgravyboat.craftify.Config
 import tech.thatgravyboat.craftify.ui.enums.Anchor
 
@@ -37,8 +36,8 @@ class PositionEditorScreen : WindowScreen(ElementaVersion.V1) {
 
         if (button == 0) {
             this@onMouseDrag.constrain {
-                x = (MathHelper.clamp_float(this@onMouseDrag.getLeft() + mouseX - clickPos!!.first, 0f, UResolution.scaledWidth - 150f)).pixels()
-                y = (MathHelper.clamp_float(this@onMouseDrag.getTop() + mouseY - clickPos!!.second, 0f, UResolution.scaledHeight - 50f)).pixels()
+                x = ((this@onMouseDrag.getLeft() + mouseX - clickPos!!.first).coerceIn(0f, UResolution.scaledWidth - 150f)).pixels()
+                y = ((this@onMouseDrag.getTop() + mouseY - clickPos!!.second).coerceIn(0f, UResolution.scaledHeight - 50f)).pixels()
             }
         }
     } childOf this.window
