@@ -36,8 +36,8 @@ class PositionEditorScreen : WindowScreen(ElementaVersion.V1) {
 
         if (button == 0) {
             this@onMouseDrag.constrain {
-                x = (clamp(this@onMouseDrag.getLeft() + mouseX - clickPos!!.first, 0f, UResolution.scaledWidth - 150f)).pixels()
-                y = (clamp(this@onMouseDrag.getTop() + mouseY - clickPos!!.second, 0f, UResolution.scaledHeight - 50f)).pixels()
+                x = ((this@onMouseDrag.getLeft() + mouseX - clickPos!!.first).coerceIn(0f, UResolution.scaledWidth - 150f)).pixels()
+                y = ((this@onMouseDrag.getTop() + mouseY - clickPos!!.second).coerceIn(0f, UResolution.scaledHeight - 50f)).pixels()
             }
         }
     } childOf this.window
@@ -51,14 +51,5 @@ class PositionEditorScreen : WindowScreen(ElementaVersion.V1) {
         Config.markDirty()
         Config.writeData()
         Player.changePosition(position)
-    }
-
-    private fun clamp(num: Float, min: Float, max: Float): Float {
-        if (num < min) {
-            return min
-        }
-        return if (num > max) {
-            max
-        } else num
     }
 }
