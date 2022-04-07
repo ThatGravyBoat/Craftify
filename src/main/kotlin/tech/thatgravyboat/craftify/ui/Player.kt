@@ -11,11 +11,11 @@ import gg.essential.elementa.dsl.childOf
 import gg.essential.elementa.dsl.constrain
 import gg.essential.elementa.dsl.pixels
 import gg.essential.universal.*
-import org.lwjgl.input.Mouse
 import tech.thatgravyboat.craftify.Config
 import tech.thatgravyboat.craftify.api.SpotifyAPI
-import tech.thatgravyboat.craftify.platform.Event
+import tech.thatgravyboat.craftify.platform.MouseEvent
 import tech.thatgravyboat.craftify.platform.UKeybind
+import tech.thatgravyboat.craftify.platform.isPressed
 import tech.thatgravyboat.craftify.themes.library.ScreenshotScreen
 import tech.thatgravyboat.craftify.types.PlayerState
 import tech.thatgravyboat.craftify.ui.enums.Anchor
@@ -93,10 +93,10 @@ object Player {
         player.setY(position.getY(player))
     }
 
-    fun onRender() {
+    fun onRender(matrix: UMatrixStack) {
         if (tempHide) return
         if (canRender() && Config.enable) {
-            window.draw()
+            window.draw(matrix)
         }
     }
 
@@ -137,10 +137,6 @@ object Player {
         }
     }
 
-    private fun isPressed(bind: UKeybind): Boolean {
-        return bind.getBinding().keyCode != UKeyboard.KEY_NONE && bind.getBinding().isPressed
-    }
-
     private fun canRender(): Boolean {
         val renderType = RenderType.values()[Config.renderType].canRender(GuiUtil.getOpenedScreen())
         val displayMode = DisplayMode.values()[Config.displayMode].canDisplay(SpotifyAPI.lastState)
@@ -148,12 +144,11 @@ object Player {
     }
 
     // XY values taken from GuiScreen go there if anything screws up.
-    fun onMouseClicked(event: Event) {
+    fun onMouseClicked(event: MouseEvent) {
         if (!Config.enable) return
         if (tempHide) return
-        if (canRender() && player.isHovered() && Mouse.getEventButtonState()) {
-            val button = Mouse.getEventButton()
-            player.mouseClick(UMouse.Scaled.x, UMouse.Scaled.y, button)
+        if (canRender() && player.isHovered()) {
+            player.mouseClick(UMouse.Scaled.x, UMouse.Scaled.y, event.button)
             event.cancel()
         }
     }

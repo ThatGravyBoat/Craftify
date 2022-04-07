@@ -8,4 +8,5 @@ enum class Paths(val url: String, val methodType: MethodType, val requiresBody: 
     REPEAT("https://api.spotify.com/v1/me/player/repeat", MethodType.PUT, true, true),
     NEXT("https://api.spotify.com/v1/me/player/next", MethodType.POST, true),
     PREV("https://api.spotify.com/v1/me/player/previous", MethodType.POST, true),
+    SETVOLUME("https://api.spotify.com/v1/me/player/volume", MethodType.PUT, true, true),
 }

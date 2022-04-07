@@ -120,6 +120,12 @@ object SpotifyAPI {
         }
     }
 
+    fun setVolume(volume: Int) {
+        callCloseGetCode(Paths.SETVOLUME, "", mapOf(Pair("volume_percent", "$volume")))?.let {
+            if (it == 401) regenToken()
+        }
+    }
+
     fun openTrack() {
         lastState?.item?.external_urls?.spotify?.let {
             val linkingMode = LinkingMode.values()[Config.linkMode]

@@ -1,6 +1,6 @@
 package tech.thatgravyboat.craftify.platform
 
-class Event {
+class MouseEvent(val button: Int) {
 
     private var cancelled = false
 

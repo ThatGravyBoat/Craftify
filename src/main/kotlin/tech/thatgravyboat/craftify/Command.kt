@@ -4,6 +4,7 @@ import gg.essential.api.commands.Command
 import gg.essential.api.commands.DefaultHandler
 import gg.essential.api.commands.SubCommand
 import gg.essential.api.utils.GuiUtil
+import tech.thatgravyboat.craftify.api.SpotifyAPI
 import tech.thatgravyboat.craftify.themes.ThemeConfig
 import tech.thatgravyboat.craftify.themes.library.LibraryScreen
 import tech.thatgravyboat.craftify.themes.library.LibraryStorage
@@ -40,5 +41,10 @@ object Command : Command("craftify") {
     @SubCommand("position")
     fun position() {
         GuiUtil.open(PositionEditorScreen())
+    }
+
+    @SubCommand("volume")
+    fun setVolume(volume: Int) {
+        SpotifyAPI.setVolume(volume.coerceIn(0, 100))
     }
 }
