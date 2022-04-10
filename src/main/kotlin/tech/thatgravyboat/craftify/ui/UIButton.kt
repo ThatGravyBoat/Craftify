@@ -63,7 +63,7 @@ class UIButton(private var original: URL, private var clicked: URL, private val 
         updateImage(URL(click), URL(og))
     }
 
-    fun updateImage(click: URL, og: URL) {
+    private fun updateImage(click: URL, og: URL) {
         clicked = click
         original = og
         this.removeChild(icon)

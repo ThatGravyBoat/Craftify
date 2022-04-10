@@ -1,10 +1,9 @@
 package tech.thatgravyboat.craftify
 
 import gg.essential.api.utils.GuiUtil
-import gg.essential.universal.UMinecraft
+import gg.essential.universal.UMatrixStack
 import gg.essential.vigilance.gui.SettingsGui
 import net.minecraftforge.client.event.GuiOpenEvent
-import net.minecraftforge.client.event.GuiScreenEvent
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.event.FMLInitializationEvent
@@ -13,7 +12,9 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.gameevent.TickEvent
 import tech.thatgravyboat.cosmetics.Cosmetics
 import tech.thatgravyboat.craftify.api.SpotifyAPI
-import tech.thatgravyboat.craftify.platform.Event
+import tech.thatgravyboat.craftify.platform.MouseEvent
+import tech.thatgravyboat.craftify.platform.ScreenClickedEvent
+import tech.thatgravyboat.craftify.platform.isGuiHidden
 import tech.thatgravyboat.craftify.ui.Player
 
 @Mod(
@@ -41,15 +42,19 @@ object Craftify {
 
     @SubscribeEvent
     fun onRender(event: TickEvent.RenderTickEvent) {
-        if (event.phase.equals(TickEvent.Phase.START) || UMinecraft.getMinecraft().gameSettings.hideGUI) return
-        Player.onRender()
+        if (event.phase.equals(TickEvent.Phase.START) || isGuiHidden()) return
+        Player.onRender(UMatrixStack.Compat.get())
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
-    fun onMouseClicked(mouseEvent: GuiScreenEvent.MouseInputEvent.Pre) {
-        val event = Event()
-        Player.onMouseClicked(event)
-        if (event.isCancelled()) mouseEvent.isCanceled = true
+    fun onMouseClicked(mouseEvent: ScreenClickedEvent) {
+        var shouldContinue = org.lwjgl.input.Mouse.getEventButtonState()
+        val button = org.lwjgl.input.Mouse.getEventButton()
+        if (shouldContinue) {
+            val event = MouseEvent(button)
+            Player.onMouseClicked(event)
+            if (event.isCancelled()) mouseEvent.isCanceled = true
+        }
     }
 
     @SubscribeEvent

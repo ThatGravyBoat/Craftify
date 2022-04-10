@@ -5,13 +5,14 @@ import gg.essential.elementa.components.Window
 import gg.essential.elementa.dsl.width
 import gg.essential.elementa.state.BasicState
 import gg.essential.universal.UGraphics
+import gg.essential.universal.UMatrixStack
 
 open class UITextMarquee(private val frames: Float = .5f, text: String) : UIComponent() {
     private val textState = BasicState("$text   ").map { it }
-    var ogText = text
-    var shouldAnimate = text.width() > this.getWidth()
-    var elapsedFrames = 0
-    var totalFrames = 0
+    private var ogText = text
+    private var shouldAnimate = text.width() > this.getWidth()
+    private var elapsedFrames = 0
+    private var totalFrames = 0
 
     private fun getText() = textState.get()
     private fun setText(text: String) = apply { textState.set(text) }
@@ -32,27 +33,28 @@ open class UITextMarquee(private val frames: Float = .5f, text: String) : UIComp
         }
     }
 
-    override fun draw() {
+    override fun draw(matrixStack: UMatrixStack) {
         val text = textState.get()
         if (text.isEmpty()) return
 
-        beforeDraw()
+        beforeDraw(matrixStack)
 
         val x = getLeft()
         val y = getTop()
         val color = getColor()
 
-        if (color.alpha <= 10) return super.draw()
+        if (color.alpha <= 10)
+            return super.draw(matrixStack)
 
         UGraphics.enableBlend()
 
         val formattedText = splitText(text)
 
         getFontProvider().drawString(
-            formattedText, color, x, y,
+            matrixStack, formattedText, color, x, y,
             10f, 1.0f, true, null
         )
-        super.draw()
+        super.draw(matrixStack)
     }
 
     fun updateText(text: String) {
