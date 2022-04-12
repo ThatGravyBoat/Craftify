@@ -1,3 +1,4 @@
+//#if MODERN==0
 package tech.thatgravyboat.cosmetics;
 
 import gg.essential.universal.UGraphics;
@@ -131,3 +132,4 @@ public class FlagRenderer {
                 //#endif
     }
 }
+//#endif

@@ -7,7 +7,9 @@ class UKeybind(private val name: String, private val category: String, private v
     fun getBinding() = bind
 
     fun register() {
+        //#if MODERN==0 || FABRIC==1
         bind = registerKeybinding(name, category, type, code)
+        //#endif
     }
 
     enum class Type {

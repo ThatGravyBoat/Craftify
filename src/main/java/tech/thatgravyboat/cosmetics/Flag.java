@@ -1,3 +1,4 @@
+//#if MODERN==0
 package tech.thatgravyboat.cosmetics;
 
 import gg.essential.api.utils.Multithreading;
@@ -60,3 +61,4 @@ public class Flag {
         });
     }
 }
+//#endif

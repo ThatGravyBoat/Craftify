@@ -1,10 +1,10 @@
 [
   {
-    "modid": "craftify",
-    "name": "Craftify",
+    "modid": "${id}",
+    "name": "${name}",
     "description": "Spotify in minecraft!",
     "version": "${version}",
-    "mcversion": "${mcversion}",
+    "mcversion": "${mcVersionStr}",
     "url": "",
     "updateUrl": "",
     "authorList": [

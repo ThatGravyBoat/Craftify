@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "${id}",
+  "name": "${name}",
+  "version": "${version}",
+  "description": "Spotify in minecraft!",
+  "authors": [
+    "ThatGravyBoat"
+  ],
+  "contact": {
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/craftify",
+    "sources": "https://github.com/ThatGravyBoat/Craftify",
+    "issues": "https://github.com/ThatGravyBoat/Craftify/issues"
+  },
+  "entrypoints": {
+    "preLaunch": [
+      "gg.essential.loader.stage0.EssentialSetupPreLaunch"
+    ],
+    "modmenu": [
+      "tech.thatgravyboat.craftify.CraftifyModMenu"
+    ]
+  },
+  "mixins": [
+    "mixins.${id}.json"
+  ],
+  "license": "LGPL-3.0",
+  "environment": "client",
+  "depends": {
+    "fabric-language-kotlin": ">=1.6.4+kotlin.1.5.30",
+    "fabricloader": ">=0.12.0",
+    "fabric-api-base": "*",
+    "minecraft": "${mcVersionStr}",
+    "java": ">=${java}"
+  }
+}
