@@ -1,3 +1,4 @@
+//#if MODERN==0
 package tech.thatgravyboat.cosmetics;
 
 import com.google.gson.Gson;
@@ -75,3 +76,5 @@ public class FlagCosmetics {
         return flags.getOrDefault(id, defaultFlag);
     }
 }
+
+//#endif

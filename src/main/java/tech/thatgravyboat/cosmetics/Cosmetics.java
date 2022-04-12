@@ -1,3 +1,4 @@
+//#if MODERN==0
 package tech.thatgravyboat.cosmetics;
 
 import net.minecraftforge.common.MinecraftForge;
@@ -28,3 +29,4 @@ public class Cosmetics {
         return flagCosmetics;
     }
 }
+//#endif
