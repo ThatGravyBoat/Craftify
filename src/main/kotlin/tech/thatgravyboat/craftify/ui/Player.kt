@@ -21,19 +21,15 @@ import tech.thatgravyboat.craftify.ui.enums.displaying.DisplayMode
 import tech.thatgravyboat.craftify.ui.enums.rendering.RenderType
 import java.net.URL
 
-//#if MODERN==0 || FABRIC==1
 import tech.thatgravyboat.craftify.platform.UKeybind
 import tech.thatgravyboat.craftify.platform.isPressed
-//#endif
 
 object Player {
 
-    //#if MODERN==0 || FABRIC==1
     private val skipForward = UKeybind("Skip Forward", "Craftify", UKeybind.Type.KEYBOARD, UKeyboard.KEY_NONE)
     private val skipPrevious = UKeybind("Skip Previous", "Craftify", UKeybind.Type.KEYBOARD, UKeyboard.KEY_NONE)
     private val togglePlaying = UKeybind("Toggle Playing", "Craftify", UKeybind.Type.KEYBOARD, UKeyboard.KEY_NONE)
     private val hidePlayer = UKeybind("Toggle Spotify HUD", "Craftify", UKeybind.Type.KEYBOARD, UKeyboard.KEY_NONE)
-    //#endif
 
     private val window = Window(version = ElementaVersion.V1)
     private var player = UIPlayer() childOf window
@@ -48,12 +44,10 @@ object Player {
     }
 
     fun init() {
-        //#if MODERN==0 || FABRIC==1
         skipForward.register()
         skipPrevious.register()
         togglePlaying.register()
         hidePlayer.register()
-        //#endif
     }
 
     fun updateTheme() {
@@ -123,7 +117,6 @@ object Player {
             UChat.chat("\u00A77----------------------")
             UChat.chat("")
         }
-        //#if MODERN==0 || FABRIC==1
         if (isPressed(skipForward)) {
             Multithreading.runAsync {
                 SpotifyAPI.skip(true)
@@ -143,7 +136,6 @@ object Player {
         if (isPressed(hidePlayer)) {
             tempHide = !tempHide
         }
-        //#endif
     }
 
     private fun canRender(): Boolean {

@@ -22,7 +22,6 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent
 //#endif
 object Craftify {
 
-    private var firstTick = false
 
     //#if MODERN==0
     @Mod.EventHandler
@@ -43,10 +42,6 @@ object Craftify {
 
     @Subscribe
     fun onFirstLoad(event: TickEvent) {
-        if (!firstTick) {
-            firstTick = true
-
-        }
         Player.onTick()
     }
 
