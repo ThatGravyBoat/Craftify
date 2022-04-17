@@ -1,0 +1,10 @@
+modLoader="javafml"
+loaderVersion="[37,)"
+license="All Rights Reserved"
+
+[[mods]]
+    modId="craftify"
+    version="${version}"
+    displayName="Craftify"
+    authors="ThatGravyBoat"
+    description="Spotify in Minecraft!"

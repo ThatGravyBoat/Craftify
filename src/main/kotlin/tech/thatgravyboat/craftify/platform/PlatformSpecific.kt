@@ -1,7 +1,8 @@
 package tech.thatgravyboat.craftify.platform
 
 import gg.essential.universal.UKeyboard
-import gg.essential.universal.UMinecraft
+import net.minecraft.client.Minecraft
+import net.minecraftforge.fml.client.registry.ClientRegistry
 
 typealias MCKeyBinding = net.minecraft.client.settings.KeyBinding
 typealias MCEscMenu = net.minecraft.client.gui.GuiIngameMenu
@@ -10,7 +11,7 @@ typealias MCChatMenu = net.minecraft.client.gui.GuiChat
 
 fun registerKeybinding(name: String, category: String, type: UKeybind.Type, code: Int): MCKeyBinding {
     val bind = MCKeyBinding(name, if (type == UKeybind.Type.MOUSE) code - 100 else code, category)
-    net.minecraftforge.fml.client.registry.ClientRegistry.registerKeyBinding(bind)
+    ClientRegistry.registerKeyBinding(bind)
     return bind
 }
 
@@ -19,9 +20,9 @@ fun isPressed(bind: UKeybind): Boolean {
 }
 
 fun runOnMcThread(block: () -> Unit) {
-    UMinecraft.getMinecraft().addScheduledTask(block)
+    Minecraft.getMinecraft().addScheduledTask(block)
 }
 
 fun isGuiHidden(): Boolean {
-    return UMinecraft.getSettings().hideGUI
+    return !Minecraft.isGuiEnabled()
 }

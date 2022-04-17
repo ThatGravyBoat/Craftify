@@ -39,21 +39,19 @@ class UIProgressBar : UIRoundedRectangle(ThemeConfig.progressRadius) {
         color = ConfigColorConstraint("progress_bar")
     } childOf this
 
-    private val startTime = UIText("0:00").constrain {
+    private val startTime by lazy { UIText("0:00").constrain {
         y = (-6).pixel()
         textScale = 0.5.pixel()
         color = ConfigColorConstraint("progress_text")
-    } childOf this
+    } childOf this }
 
-    private val endTime = UIText("0:00").let {
-        it.constrain {
-            x = 100.percent() - "0:00".width(0.5f).pixel()
-            y = (-6).pixel()
-            color = ConfigColorConstraint("progress_text")
+    private val endTime by lazy { UIText("0:00").constrain {
+        x = 100.percent() - "0:00".width(0.5f).pixel()
+        y = (-6).pixel()
+        color = ConfigColorConstraint("progress_text")
 
-            textScale = 0.5.pixel()
-        } childOf this
-    }
+        textScale = 0.5.pixel()
+    } childOf this }
 
     fun tempStop() {
         stop = true

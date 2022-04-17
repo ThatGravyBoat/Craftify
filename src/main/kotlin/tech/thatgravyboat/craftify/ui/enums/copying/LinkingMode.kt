@@ -13,5 +13,9 @@ enum class LinkingMode : CopyingType {
             UDesktop.setClipboardString(url.toString())
             return true
         }
+    },
+
+    CHAT {
+        override fun copy(url: URI) = false
     }
 }

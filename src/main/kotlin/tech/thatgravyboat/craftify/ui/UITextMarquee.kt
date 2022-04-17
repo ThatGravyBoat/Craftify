@@ -10,7 +10,7 @@ import gg.essential.universal.UMatrixStack
 open class UITextMarquee(private val frames: Float = .5f, text: String) : UIComponent() {
     private val textState = BasicState("$text   ").map { it }
     private var ogText = text
-    private var shouldAnimate = text.width() > this.getWidth()
+    private var shouldAnimate = false
     private var elapsedFrames = 0
     private var totalFrames = 0
 

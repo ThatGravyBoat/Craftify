@@ -4,7 +4,6 @@ import gg.essential.api.utils.Multithreading
 import gg.essential.elementa.UIComponent
 import gg.essential.elementa.components.UIContainer
 import gg.essential.elementa.components.UIImage
-import gg.essential.elementa.dsl.childOf
 import gg.essential.elementa.dsl.constrain
 import gg.essential.elementa.dsl.percent
 import tech.thatgravyboat.craftify.themes.ThemeConfig
@@ -68,12 +67,13 @@ class UIButton(private var original: URL, private var clicked: URL, private val 
         original = og
         this.removeChild(icon)
         icon = createButtonImageFromUrl(if (state) clicked else original)
+        this.addChild(icon)
     }
 
     private fun createButtonImageFromUrl(url: URL): UIImage {
         return UIImage.ofURL(url).constrain {
             height = 100.percent()
             width = 100.percent()
-        } childOf this
+        }
     }
 }

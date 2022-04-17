@@ -12,12 +12,13 @@ package tech.thatgravyboat.craftify.mixin;
 //$$ public class MinecraftClientMixin {
 //$$     @Inject(method = "setScreen", at = @At("HEAD"))
 //$$     private void onSetScreen(Screen screen, CallbackInfo ci) {
-//$$         tech.thatgravyboat.craftify.EventsKt.getEventBus().post(new tech.thatgravyboat.craftify.ScreenOpenEvent(screen));
+//$$         tech.thatgravyboat.craftify.platform.EventsKt.getEventBus().post(new tech.thatgravyboat.craftify.platform.ScreenOpenEvent(screen));
 //$$     }
 //$$
-//$$     @Inject(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/GameRenderer;preloadShaders(Lnet/minecraft/resource/ResourceFactory;)V", shift = At.Shift.AFTER))
-//$$     private void initializeCraftify(@org.spongepowered.asm.mixin.injection.Coerce Object a, CallbackInfo ci) {
-//$$        tech.thatgravyboat.craftify.Craftify.INSTANCE.onInit();
+//$$     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/toast/ToastManager;draw(Lnet/minecraft/client/util/math/MatrixStack;)V", shift = At.Shift.AFTER))
+//$$     private void onRender(boolean tick, CallbackInfo ci) {
+//$$         if (MinecraftClient.getInstance().world == null) return;
+//$$         tech.thatgravyboat.craftify.platform.EventsKt.getEventBus().post(new tech.thatgravyboat.craftify.platform.RenderEvent(new gg.essential.universal.UMatrixStack()));
 //$$     }
 //$$ }
 //$$

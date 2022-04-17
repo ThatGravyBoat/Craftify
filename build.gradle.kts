@@ -84,7 +84,7 @@ tasks.processResources {
     inputs.property("java_level", compatLevel)
     inputs.property("version", mod_version)
     inputs.property("mcVersionStr", project.platform.mcVersionStr)
-    filesMatching(listOf("mcmod.info", "mixins.${mod_id}.json")) {
+    filesMatching(listOf("mcmod.info", "mixins.${mod_id}.json", "mods.toml")) {
         expand(mapOf(
             "id" to mod_id,
             "name" to mod_name,
@@ -109,14 +109,19 @@ tasks.processResources {
 tasks {
     withType(Jar::class.java) {
         if (project.platform.isFabric) {
-            exclude("mcmod.info")
+            exclude("mcmod.info", "mods.toml")
         } else {
             exclude("fabric.mod.json", "mixins.${mod_id}.json")
+            if (project.platform.isLegacyForge) {
+                exclude("mods.toml")
+            } else {
+                exclude("mcmod.info")
+            }
         }
     }
     named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar") {
         archiveClassifier.set("dev")
-        configurations = listOf(shade)
+        configurations = listOf(shade, shadeMod)
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     }
     remapJar {

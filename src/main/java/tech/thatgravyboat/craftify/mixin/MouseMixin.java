@@ -9,8 +9,8 @@ package tech.thatgravyboat.craftify.mixin;
 //$$ public class MouseMixin {
 //$$     @WrapWithCondition(method = "onMouseButton", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/Screen;wrapScreenError(Ljava/lang/Runnable;Ljava/lang/String;Ljava/lang/String;)V", ordinal = 0))
 //$$     private boolean shouldHandleButton(Runnable task, String errorTitle, String screenName, long window, int button, int action, int mods) {
-//$$         tech.thatgravyboat.craftify.MouseClickEvent event = new tech.thatgravyboat.craftify.MouseClickEvent(button);
-//$$         tech.thatgravyboat.craftify.EventsKt.getEventBus().post(event);
+//$$         tech.thatgravyboat.craftify.platform.MouseClickEvent event = new tech.thatgravyboat.craftify.platform.MouseClickEvent(button);
+//$$         tech.thatgravyboat.craftify.platform.EventsKt.getEventBus().post(event);
 //$$         return !event.getCancelled();
 //$$     }
 //$$ }

@@ -2,7 +2,12 @@ package tech.thatgravyboat.craftify.api
 
 import com.google.gson.Gson
 import com.google.gson.JsonObject
+import gg.essential.api.EssentialAPI
+import gg.essential.api.gui.Slot
 import gg.essential.api.utils.Multithreading
+import gg.essential.elementa.components.UIImage
+import gg.essential.elementa.dsl.constrain
+import gg.essential.elementa.dsl.pixels
 import gg.essential.universal.ChatColor
 import gg.essential.universal.UChat
 import gg.essential.universal.utils.MCClickEventAction
@@ -13,6 +18,7 @@ import tech.thatgravyboat.craftify.types.PlayerState
 import tech.thatgravyboat.craftify.ui.Player
 import tech.thatgravyboat.craftify.ui.enums.copying.LinkingMode
 import java.net.URI
+import java.net.URL
 import java.util.concurrent.ScheduledFuture
 import java.util.concurrent.TimeUnit
 
@@ -25,7 +31,7 @@ object SpotifyAPI {
     var lastState: PlayerState? = null
     private var errorCount = 0
 
-    private fun restartPoller() {
+    fun restartPoller() {
         if (!stopPoller()) {
             Multithreading.schedule({ startPoller() }, 2, TimeUnit.SECONDS)
         } else {
@@ -37,7 +43,7 @@ object SpotifyAPI {
         poller = Multithreading.schedule({ pollSpotify() }, 0, 2, TimeUnit.SECONDS)
     }
 
-    fun stopPoller(): Boolean {
+    private fun stopPoller(): Boolean {
         return poller?.cancel(false) ?: false
     }
 
@@ -123,6 +129,27 @@ object SpotifyAPI {
     fun setVolume(volume: Int) {
         callCloseGetCode(Paths.SETVOLUME, "", mapOf(Pair("volume_percent", "$volume")))?.let {
             if (it == 401) regenToken()
+            else {
+                val image = when {
+                    volume <= 0 -> "https://i.imgur.com/v2a3Z8n.png"
+                    volume <= 30 -> "https://i.imgur.com/8L4av1O.png"
+                    volume <= 70 -> "https://i.imgur.com/tGJKxRr.png"
+                    else -> "https://i.imgur.com/1Ay43hi.png"
+                }
+                EssentialAPI.getNotifications().push(
+                    title = "Craftify",
+                    message = "The volume has been set to $volume%",
+                    configure = {
+                        this.withCustomComponent(
+                            Slot.PREVIEW,
+                            UIImage.ofURL(URL(image)).constrain {
+                                width = 25.pixels()
+                                height = 25.pixels()
+                            }
+                        )
+                    }
+                )
+            }
         }
     }
 

@@ -1,11 +1,7 @@
 package tech.thatgravyboat.craftify.ui
 
 import gg.essential.api.utils.GuiUtil
-import gg.essential.elementa.components.UIBlock
-import gg.essential.elementa.components.UIContainer
-import gg.essential.elementa.components.UIImage
-import gg.essential.elementa.components.UIWrappedText
-import gg.essential.elementa.constraints.SiblingConstraint
+import gg.essential.elementa.components.*
 import gg.essential.elementa.dsl.*
 import gg.essential.elementa.effects.OutlineEffect
 import gg.essential.vigilance.gui.VigilancePalette
@@ -69,13 +65,13 @@ class UIPlayer : UIBlock(ConfigColorConstraint("background")) {
         color = ConfigColorConstraint("title")
     } childOf info
 
-    private val artist = UIWrappedText("Artists, here").constrain {
+    private val artist by lazy { UIWrappedText("Artists, here").constrain {
         width = 100.percent()
         height = 10.pixel()
-        y = SiblingConstraint() + 2.pixel()
+        y = 12.pixel()
         textScale = 0.5.pixel()
         color = ConfigColorConstraint("artist")
-    } childOf info
+    } childOf info }
 
     private val progress = UIProgressBar().constrain {
         width = 100.percent()

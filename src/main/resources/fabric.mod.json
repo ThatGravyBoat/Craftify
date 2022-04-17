@@ -16,6 +16,12 @@
     "preLaunch": [
       "gg.essential.loader.stage0.EssentialSetupPreLaunch"
     ],
+    "client": [
+      {
+        "adapter": "kotlin",
+        "value": "tech.thatgravyboat.craftify.Craftify"
+      }
+    ],
     "modmenu": [
       "tech.thatgravyboat.craftify.CraftifyModMenu"
     ]
@@ -23,7 +29,7 @@
   "mixins": [
     "mixins.${id}.json"
   ],
-  "license": "LGPL-3.0",
+  "license": "All Rights Reserved",
   "environment": "client",
   "depends": {
     "fabric-language-kotlin": ">=1.6.4+kotlin.1.5.30",

@@ -37,7 +37,8 @@ object Config : Vigilant(File("./config/craftify.toml")) {
         name = "Link Mode",
         options = [
             "Open In Browser",
-            "Copy To Clipboard"
+            "Copy To Clipboard",
+            "Send Chat Message"
         ],
         category = "General",
         description = "How you will get/display the link when you click on the link button."
