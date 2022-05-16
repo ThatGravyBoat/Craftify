@@ -29,6 +29,7 @@ object SpotifyAPI {
 
     private var poller: ScheduledFuture<*>? = null
     var lastState: PlayerState? = null
+    var lastStateData: JsonObject? = null
     private var errorCount = 0
 
     fun restartPoller() {
@@ -73,6 +74,8 @@ object SpotifyAPI {
                 println(data)
                 return pollError()
             }
+
+            lastStateData = data
             lastState = try {
                 GSON.fromJson(res, PlayerState::class.java)
             } catch (e: Exception) {
@@ -126,10 +129,10 @@ object SpotifyAPI {
         }
     }
 
-    fun setVolume(volume: Int) {
+    fun setVolume(volume: Int, showNotification: Boolean = false) {
         callCloseGetCode(Paths.SETVOLUME, "", mapOf(Pair("volume_percent", "$volume")))?.let {
             if (it == 401) regenToken()
-            else {
+            else if (showNotification) {
                 val image = when {
                     volume <= 0 -> "https://i.imgur.com/v2a3Z8n.png"
                     volume <= 30 -> "https://i.imgur.com/8L4av1O.png"

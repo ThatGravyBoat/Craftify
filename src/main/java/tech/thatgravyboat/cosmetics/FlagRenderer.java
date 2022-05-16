@@ -48,23 +48,23 @@ public class FlagRenderer {
         if (userFlag == null) return;
         userFlag.getTextureId().ifPresent(id -> {
 
-            UMatrixStack stack = new UMatrixStack();
+            UMatrixStack stack = UMatrixStack.Compat.INSTANCE.get();
             if (distanceToEntity < (maxDistance * maxDistance)) {
                 String str = entity.getDisplayName().getFormattedText();
 
-                stack.push();
+                UGraphics.GL.pushMatrix();
                 GlStateManager.alphaFunc(516, 0.1F);
                 //#if MC==10809
-                stack.translate(event.x, event.y + entity.height + 0.5, event.z);
+                UGraphics.GL.translate(event.x, event.y + entity.height + 0.5, event.z);
                 //#else
-                //$$ stack.translate(event.getX(), event.getY() + entity.height + 0.5, event.getZ());
+                //$$ UGraphics.GL.translate(event.getX(), event.getY() + entity.height + 0.5, event.getZ());
                 //#endif
                 GL11.glNormal3f(0.0F, 1.0F, 0.0F);
-                stack.rotate(-renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
-                stack.rotate(renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
-                stack.scale(-0.02666667f, -0.02666667f, -0.02666667f);
+                UGraphics.GL.rotate(-renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
+                UGraphics.GL.rotate(renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
+                UGraphics.GL.scale(-0.02666667f, -0.02666667f, -0.02666667f);
                 if (entity.isSneaking())
-                    stack.translate(0f, 9.374999F, 0f);
+                    UGraphics.GL.translate(0f, 9.374999F, 0f);
                 UGraphics.disableLighting();
                 UGraphics.enableBlend();
                 UGraphics.tryBlendFuncSeparate(770, 771, 1, 0);
@@ -102,7 +102,7 @@ public class FlagRenderer {
                 UGraphics.enableLighting();
                 UGraphics.disableBlend();
                 UGraphics.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-                stack.pop();
+                UGraphics.GL.popMatrix();
             }
         });
     }

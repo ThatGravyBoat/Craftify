@@ -30,8 +30,8 @@ public class Flag {
     }
 
     public Optional<Integer> getTextureId() {
-        if (future == null) {
-            File cache = new File("gravy-cosmetics/icons/"+getId());
+        if (texture == null && (future == null || future.isDone())) {
+            File cache = new File(System.getProperty("user.dir"), "gravy-cosmetics/icons/"+getId()+".png");
 
             boolean shouldDownload = true;
 
@@ -54,6 +54,7 @@ public class Flag {
     private void startDownload(File cache) {
         future = Multithreading.INSTANCE.submit(() -> {
             try {
+                cache.getParentFile().mkdirs();
                 WebUtil.downloadToFile(url, cache, "Mozilla/4.76 (Gravy Cosmetics)");
             } catch (Exception e) {
                 errored = true;

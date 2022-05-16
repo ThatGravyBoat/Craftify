@@ -10,6 +10,8 @@ import tech.thatgravyboat.craftify.themes.library.LibraryScreen
 import tech.thatgravyboat.craftify.themes.library.LibraryStorage
 import tech.thatgravyboat.craftify.themes.library.ScreenshotScreen
 import tech.thatgravyboat.craftify.ui.PositionEditorScreen
+import tech.thatgravyboat.craftify.volume.VolumeScreen
+import java.util.*
 
 object Command : Command("craftify") {
 
@@ -44,7 +46,11 @@ object Command : Command("craftify") {
     }
 
     @SubCommand("volume")
-    fun setVolume(volume: Int) {
-        SpotifyAPI.setVolume(volume.coerceIn(0, 100))
+    fun setVolume(volume: Optional<Int>) {
+        if (volume.isPresent) {
+            SpotifyAPI.setVolume(volume.get().coerceIn(0, 100), true)
+        } else {
+            GuiUtil.open(VolumeScreen())
+        }
     }
 }
