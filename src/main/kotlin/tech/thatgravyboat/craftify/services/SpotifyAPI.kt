@@ -1,38 +1,39 @@
-package tech.thatgravyboat.craftify.api
+package tech.thatgravyboat.craftify.services
 
 import com.google.gson.Gson
 import com.google.gson.JsonObject
-import gg.essential.api.EssentialAPI
-import gg.essential.api.gui.Slot
 import gg.essential.api.utils.Multithreading
-import gg.essential.elementa.components.UIImage
-import gg.essential.elementa.dsl.constrain
-import gg.essential.elementa.dsl.pixels
 import gg.essential.universal.ChatColor
 import gg.essential.universal.UChat
 import gg.essential.universal.utils.MCClickEventAction
 import gg.essential.universal.wrappers.message.UTextComponent
 import org.apache.commons.io.IOUtils
 import tech.thatgravyboat.craftify.Config
+import tech.thatgravyboat.craftify.api.Http
+import tech.thatgravyboat.craftify.api.MethodType
+import tech.thatgravyboat.craftify.api.Paths
 import tech.thatgravyboat.craftify.types.PlayerState
 import tech.thatgravyboat.craftify.ui.Player
 import tech.thatgravyboat.craftify.ui.enums.copying.LinkingMode
 import java.net.URI
-import java.net.URL
 import java.util.concurrent.ScheduledFuture
 import java.util.concurrent.TimeUnit
 
 private const val AUTH_API: String = "https://craftify-api.vercel.app/api/auth"
 private val GSON = Gson()
 
-object SpotifyAPI {
+object SpotifyAPI : BaseAPI {
 
     private var poller: ScheduledFuture<*>? = null
-    var lastState: PlayerState? = null
-    var lastStateData: JsonObject? = null
+    private var lastState: PlayerState? = null
+    private var lastStateData: JsonObject? = null
     private var errorCount = 0
 
-    fun restartPoller() {
+    override fun getState(): PlayerState? {
+        return lastState
+    }
+
+    override fun restartPoller() {
         if (!stopPoller()) {
             Multithreading.schedule({ startPoller() }, 2, TimeUnit.SECONDS)
         } else {
@@ -40,11 +41,11 @@ object SpotifyAPI {
         }
     }
 
-    fun startPoller() {
+    override fun startPoller() {
         poller = Multithreading.schedule({ pollSpotify() }, 0, 2, TimeUnit.SECONDS)
     }
 
-    private fun stopPoller(): Boolean {
+    override fun stopPoller(): Boolean {
         return poller?.cancel(false) ?: false
     }
 
@@ -57,7 +58,7 @@ object SpotifyAPI {
 
     private fun pollSpotify() {
         if (!Config.hasToken()) return
-        if (!Config.enable) {
+        if (Config.modMode != 1) {
             stopPoller()
             return
         }
@@ -92,7 +93,7 @@ object SpotifyAPI {
         }
     }
 
-    fun changePlayingState(playing: Boolean) {
+    override fun changePlayingState(playing: Boolean) {
         if (lastState == null || !Config.hasToken()) return
         val path: Paths? = if (playing && !lastState!!.is_playing) Paths.PLAY else if (!playing && lastState!!.is_playing) Paths.PAUSE else null
         path?.let { pathIt ->
@@ -102,7 +103,7 @@ object SpotifyAPI {
         }
     }
 
-    fun toggleShuffle(shuffling: Boolean) {
+    override fun toggleShuffle(shuffling: Boolean) {
         if (lastState == null || !Config.hasToken()) return
         val shuffleState: Boolean? = if (shuffling && !lastState!!.isShuffling()) true else if (!shuffling && lastState!!.isShuffling()) false else null
         shuffleState?.let { state ->
@@ -112,9 +113,9 @@ object SpotifyAPI {
         }
     }
 
-    fun toggleRepeat(repeat: Boolean) {
+    override fun toggleRepeat(repeating: Boolean) {
         if (lastState == null || !Config.hasToken()) return
-        val repeatState: String? = if (repeat && !lastState!!.isRepeating()) "context" else if (!repeat && lastState!!.isRepeating()) "off" else null
+        val repeatState: String? = if (repeating && !lastState!!.isRepeating()) "context" else if (!repeating && lastState!!.isRepeating()) "off" else null
         repeatState?.let { state ->
             callCloseGetCode(Paths.REPEAT, "", mapOf(Pair("state", state)))?.let {
                 if (it == 401) regenToken()
@@ -122,41 +123,23 @@ object SpotifyAPI {
         }
     }
 
-    fun skip(forward: Boolean) {
+    override fun skip(forward: Boolean) {
         val path: Paths = if (forward) Paths.NEXT else Paths.PREV
         callCloseGetCode(path, "")?.let {
             if (it == 401) regenToken()
         }
     }
 
-    fun setVolume(volume: Int, showNotification: Boolean = false) {
+    override fun setVolume(volume: Int, showNotification: Boolean) {
         callCloseGetCode(Paths.SETVOLUME, "", mapOf(Pair("volume_percent", "$volume")))?.let {
             if (it == 401) regenToken()
             else if (showNotification) {
-                val image = when {
-                    volume <= 0 -> "https://i.imgur.com/v2a3Z8n.png"
-                    volume <= 30 -> "https://i.imgur.com/8L4av1O.png"
-                    volume <= 70 -> "https://i.imgur.com/tGJKxRr.png"
-                    else -> "https://i.imgur.com/1Ay43hi.png"
-                }
-                EssentialAPI.getNotifications().push(
-                    title = "Craftify",
-                    message = "The volume has been set to $volume%",
-                    configure = {
-                        this.withCustomComponent(
-                            Slot.PREVIEW,
-                            UIImage.ofURL(URL(image)).constrain {
-                                width = 25.pixels()
-                                height = 25.pixels()
-                            }
-                        )
-                    }
-                )
+                showVolumeNotification(volume)
             }
         }
     }
 
-    fun openTrack() {
+    override fun openTrack() {
         lastState?.item?.external_urls?.spotify?.let {
             val linkingMode = LinkingMode.values()[Config.linkMode]
             if (!linkingMode.copy(URI(it))) {
@@ -189,7 +172,7 @@ object SpotifyAPI {
                     data?.let {
                         Config.token = data.access_token ?: ""
                         Config.refreshToken = if (type != "refresh" && data.refresh_token == null) "" else data.refresh_token ?: Config.refreshToken
-                        Config.enable = true
+                        Config.modMode = 1
                         Config.markDirty()
                         Config.writeData()
                         if (type != "refresh") restartPoller()

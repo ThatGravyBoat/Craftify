@@ -2,10 +2,13 @@ package tech.thatgravyboat.craftify.volume
 
 import gg.essential.elementa.ElementaVersion
 import gg.essential.elementa.WindowScreen
-import gg.essential.elementa.components.*
+import gg.essential.elementa.components.UIBlock
+import gg.essential.elementa.components.UIContainer
+import gg.essential.elementa.components.UIImage
+import gg.essential.elementa.components.UIText
 import gg.essential.elementa.constraints.CenterConstraint
 import gg.essential.elementa.dsl.*
-import tech.thatgravyboat.craftify.api.SpotifyAPI
+import tech.thatgravyboat.craftify.Initializer
 import java.awt.Color
 import java.net.URL
 
@@ -15,7 +18,7 @@ class VolumeScreen : WindowScreen(version = ElementaVersion.V1, restoreCurrentGu
     private var lastVolume: Float = getVolume()
 
     private fun getVolume(): Float {
-        return SpotifyAPI.lastStateData?.getAsJsonObject("device")?.get("volume_percent")?.asInt?.toFloat()?.div(100f) ?: 0.25f
+        return Initializer.getAPI()?.getState()?.device?.volume_percent?.toFloat()?.div(100f) ?: 0.25f
     }
 
     private val container by UIContainer().constrain {
@@ -66,7 +69,7 @@ class VolumeScreen : WindowScreen(version = ElementaVersion.V1, restoreCurrentGu
         }
 
         slide.onValueChanged {
-            SpotifyAPI.setVolume((it*100f).toInt())
+            Initializer.getAPI()?.setVolume((it*100f).toInt())
             volume = it
         }
     }
@@ -91,7 +94,7 @@ class VolumeScreen : WindowScreen(version = ElementaVersion.V1, restoreCurrentGu
                 volume = lastVolume
             }
             slide.setCurrentPercentage(volume)
-            SpotifyAPI.setVolume((volume*100f).toInt())
+            Initializer.getAPI()?.setVolume((volume*100f).toInt())
             createVolumeButton()
         }
         icon?.onMouseEnter {

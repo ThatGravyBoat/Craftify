@@ -2,7 +2,7 @@ package tech.thatgravyboat.craftify.server
 
 import com.sun.net.httpserver.HttpExchange
 import com.sun.net.httpserver.HttpHandler
-import tech.thatgravyboat.craftify.api.SpotifyAPI
+import tech.thatgravyboat.craftify.services.SpotifyAPI
 
 class SetTokenPage : HttpHandler {
 

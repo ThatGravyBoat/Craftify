@@ -40,7 +40,8 @@ loom {
 }
 
 repositories {
-    maven("https://repo.woverflow.cc/")
+    maven("https://maven.terraformersmc.com/releases/")
+    maven("https://repo.essential.gg/repository/maven-public/")
 }
 
 val shade: Configuration by configurations.creating {
@@ -67,7 +68,7 @@ dependencies {
             isTransitive = false
         }
     }
-    compileOnly("gg.essential:essential-$platform:2163")
+    compileOnly("gg.essential:essential-$platform:4166+ge3c5b9d02")
     shade("com.github.KevinPriv:keventbus:c52e0a2") {
         isTransitive = false
     }

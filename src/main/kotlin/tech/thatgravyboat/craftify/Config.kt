@@ -6,6 +6,7 @@ import gg.essential.vigilance.Vigilant
 import gg.essential.vigilance.data.Property
 import gg.essential.vigilance.data.PropertyType
 import tech.thatgravyboat.craftify.server.LoginServer
+import tech.thatgravyboat.craftify.services.YtmdAPI
 import tech.thatgravyboat.craftify.themes.ThemeConfig
 import tech.thatgravyboat.craftify.ui.Player
 import tech.thatgravyboat.craftify.ui.enums.Anchor
@@ -25,12 +26,17 @@ object Config : Vigilant(File("./config/craftify.toml")) {
     var firstTime = true
 
     @Property(
-        type = PropertyType.SWITCH,
-        name = "Enable",
+        type = PropertyType.SELECTOR,
+        name = "Mod Mode",
+        options = [
+            "Disabled",
+            "Spotify",
+            "YT Music Desktop App"
+        ],
         category = "General",
-        description = "Enables the mod."
+        description = "Where you would like the mod to get its information from."
     )
-    var enable = true
+    var modMode = 0
 
     @Property(
         type = PropertyType.SELECTOR,
@@ -163,22 +169,35 @@ object Config : Vigilant(File("./config/craftify.toml")) {
     @Property(
         type = PropertyType.BUTTON,
         name = "Login Button",
-        description = "Click to login in if you haven't already. This will open a web browser where you will have 120s to accept and login.",
+        description = "Click to login in if you haven't already. This will open a web browser where you will have 120s to accept and login.\nONLY FOR SPOTIFY! On YT this just refreshes the session.",
         placeholder = "Login",
         category = "Login"
     )
     fun login() {
-        LoginServer.createServer()
+        if (modMode == 1) {
+            LoginServer.createServer()
+        } else if (modMode == 2) {
+            YtmdAPI.restartPoller()
+        }
     }
 
     @Property(
         type = PropertyType.TEXT,
         protectedText = true,
-        name = "Login Token",
+        name = "Spotify Login Token",
         description = "The token to access spotify. You should never need to manually edit this.",
         category = "Login"
     )
     var token = ""
+
+    @Property(
+        type = PropertyType.TEXT,
+        protectedText = true,
+        name = "YTMD Password",
+        description = "The YTMD Password. Only for Mod Mode: YTMD",
+        category = "Login"
+    )
+    var ytmdPassword = ""
 
     @Property(
         type = PropertyType.TEXT,
@@ -211,6 +230,7 @@ object Config : Vigilant(File("./config/craftify.toml")) {
     }
 
     init {
+
         initialize()
 
         registerListener("anchorPoint") { it: Int ->
@@ -224,6 +244,8 @@ object Config : Vigilant(File("./config/craftify.toml")) {
     }
 
     fun hasToken() = token.isNotBlank()
+
+    fun hasPassword() = ytmdPassword.isNotBlank()
 
     fun optionalRefresh(): String? = refreshToken.ifBlank { null }
 }

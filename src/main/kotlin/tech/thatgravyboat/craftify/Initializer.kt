@@ -7,8 +7,10 @@ import gg.essential.universal.UKeyboard
 import gg.essential.universal.wrappers.UPlayer
 import gg.essential.vigilance.gui.SettingsGui
 import me.kbrewster.eventbus.Subscribe
-import tech.thatgravyboat.craftify.api.SpotifyAPI
+import tech.thatgravyboat.craftify.services.SpotifyAPI
 import tech.thatgravyboat.craftify.platform.*
+import tech.thatgravyboat.craftify.services.BaseAPI
+import tech.thatgravyboat.craftify.services.YtmdAPI
 import tech.thatgravyboat.craftify.ui.Player
 
 object Initializer {
@@ -20,12 +22,20 @@ object Initializer {
 
     private var inited = false
 
+    private var api: BaseAPI? = null
+
     fun init() {
         //#if MODERN==0
         tech.thatgravyboat.cosmetics.Cosmetics.initialize()
         //#endif
         Config
-        SpotifyAPI.startPoller()
+        if (Config.modMode == 1) {
+            api = SpotifyAPI
+        }
+        if (Config.modMode == 2) {
+            api = YtmdAPI
+        }
+        api?.startPoller()
         skipForward.register()
         skipPrevious.register()
         togglePlaying.register()
@@ -57,17 +67,17 @@ object Initializer {
         }
         if (isPressed(skipForward)) {
             Multithreading.runAsync {
-                SpotifyAPI.skip(true)
+                api?.skip(true)
             }
         }
         if (isPressed(skipPrevious)) {
             Multithreading.runAsync {
-                SpotifyAPI.skip(false)
+                api?.skip(false)
             }
         }
         if (isPressed(togglePlaying)) {
             Multithreading.runAsync {
-                SpotifyAPI.changePlayingState(!Player.isPlaying())
+                api?.changePlayingState(!Player.isPlaying())
                 Player.stopClient()
             }
         }
@@ -91,9 +101,20 @@ object Initializer {
     fun onGuiClose(event: ScreenOpenEvent) {
         if (event.gui == null && GuiUtil.getOpenedScreen() is SettingsGui) {
             Player.updateTheme()
-            if (Config.enable) {
-                SpotifyAPI.restartPoller()
+            if (Config.modMode == 0) api?.stopPoller()
+            if (api == SpotifyAPI && Config.modMode == 2) {
+                SpotifyAPI.stopPoller()
+                api = YtmdAPI
             }
+            if (api == YtmdAPI && Config.modMode == 1) {
+                YtmdAPI.stopPoller()
+                api = SpotifyAPI
+            }
+            if (Config.modMode != 0) api?.restartPoller()
         }
+    }
+
+    fun getAPI(): BaseAPI? {
+        return api
     }
 }

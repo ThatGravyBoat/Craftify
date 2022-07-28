@@ -14,8 +14,8 @@ import gg.essential.universal.UChat
 import gg.essential.universal.UMatrixStack
 import gg.essential.universal.UMouse
 import tech.thatgravyboat.craftify.Config
+import tech.thatgravyboat.craftify.Initializer
 import tech.thatgravyboat.craftify.platform.MouseClickEvent
-import tech.thatgravyboat.craftify.api.SpotifyAPI
 import tech.thatgravyboat.craftify.themes.library.ScreenshotScreen
 import tech.thatgravyboat.craftify.types.PlayerState
 import tech.thatgravyboat.craftify.ui.enums.Anchor
@@ -37,7 +37,7 @@ object Player {
             player = UIPlayer() childOf window
             changePosition(Anchor.values()[Config.anchorPoint])
             updateTheme()
-            SpotifyAPI.lastState?.let {
+            Initializer.getAPI()?.getState()?.let {
                 player?.updateState(it)
             }
         }
@@ -99,7 +99,7 @@ object Player {
 
     fun onRender(matrix: UMatrixStack) {
         if (tempHide) return
-        if (canRender() && Config.enable) {
+        if (canRender() && Config.modMode != 0) {
             checkAndInitPlayer()
             window.draw(matrix)
         }
@@ -107,13 +107,13 @@ object Player {
 
     private fun canRender(): Boolean {
         val renderType = RenderType.values()[Config.renderType].canRender(GuiUtil.getOpenedScreen())
-        val displayMode = DisplayMode.values()[Config.displayMode].canDisplay(SpotifyAPI.lastState)
-        return (GuiUtil.getOpenedScreen() is ScreenshotScreen || (renderType && displayMode)) && Config.enable
+        val displayMode = DisplayMode.values()[Config.displayMode].canDisplay(Initializer.getAPI()?.getState())
+        return (GuiUtil.getOpenedScreen() is ScreenshotScreen || (renderType && displayMode)) && Config.modMode != 0
     }
 
     // XY values taken from GuiScreen go there if anything screws up.
     fun onMouseClicked(event: MouseClickEvent) {
-        if (!Config.enable) return
+        if (Config.modMode == 0) return
         if (tempHide) return
         if (canRender() && player?.isHovered() == true) {
             player?.mouseClick(UMouse.Scaled.x, UMouse.Scaled.y, event.button)

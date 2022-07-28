@@ -27,12 +27,17 @@ data class AlbumImage(
     val url: String
 )
 
+data class DeviceData(
+    val volume_percent: Int
+)
+
 data class PlayerState(
     val shuffle_state: Boolean,
     val repeat_state: String,
     val progress_ms: Long,
     val is_playing: Boolean,
-    val item: PlayerItem?
+    val item: PlayerItem?,
+    val device: DeviceData?
 ) {
 
     fun hasData() = item != null

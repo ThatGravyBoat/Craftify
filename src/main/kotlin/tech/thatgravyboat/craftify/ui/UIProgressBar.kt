@@ -5,7 +5,7 @@ import gg.essential.elementa.components.UIRoundedRectangle
 import gg.essential.elementa.components.UIText
 import gg.essential.elementa.constraints.animation.Animations
 import gg.essential.elementa.dsl.*
-import tech.thatgravyboat.craftify.api.SpotifyAPI
+import tech.thatgravyboat.craftify.Initializer
 import tech.thatgravyboat.craftify.themes.ThemeConfig
 import tech.thatgravyboat.craftify.ui.constraints.ConfigColorConstraint
 import java.util.concurrent.ScheduledFuture
@@ -26,7 +26,7 @@ class UIProgressBar : UIRoundedRectangle(ThemeConfig.progressRadius) {
         }
 
         timerUpdater = Multithreading.schedule({
-            if (!stop && SpotifyAPI.lastState?.is_playing == true && timer.get() < end) {
+            if (!stop && Initializer.getAPI()?.getState()?.is_playing == true && timer.get() < end) {
                 timer.incrementAndGet()
                 update()
             }
