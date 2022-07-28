@@ -2,24 +2,19 @@ package tech.thatgravyboat.craftify.services
 
 import com.google.gson.Gson
 import com.google.gson.JsonObject
-import gg.essential.api.EssentialAPI
-import gg.essential.api.gui.Slot
 import gg.essential.api.utils.Multithreading
-import gg.essential.elementa.components.UIImage
-import gg.essential.elementa.dsl.constrain
-import gg.essential.elementa.dsl.pixels
 import gg.essential.universal.ChatColor
 import gg.essential.universal.UChat
 import gg.essential.universal.utils.MCClickEventAction
 import gg.essential.universal.wrappers.message.UTextComponent
 import org.apache.commons.io.IOUtils
 import tech.thatgravyboat.craftify.Config
-import tech.thatgravyboat.craftify.api.*
+import tech.thatgravyboat.craftify.api.Http
+import tech.thatgravyboat.craftify.api.MethodType
 import tech.thatgravyboat.craftify.types.PlayerState
 import tech.thatgravyboat.craftify.ui.Player
 import tech.thatgravyboat.craftify.ui.enums.copying.LinkingMode
 import java.net.URI
-import java.net.URL
 import java.util.concurrent.ScheduledFuture
 import java.util.concurrent.TimeUnit
 
