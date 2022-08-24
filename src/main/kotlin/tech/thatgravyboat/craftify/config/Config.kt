@@ -1,12 +1,10 @@
-package tech.thatgravyboat.craftify
+package tech.thatgravyboat.craftify.config
 
 import gg.essential.api.utils.GuiUtil
 import gg.essential.universal.UDesktop
 import gg.essential.vigilance.Vigilant
 import gg.essential.vigilance.data.Property
 import gg.essential.vigilance.data.PropertyType
-import tech.thatgravyboat.craftify.server.LoginServer
-import tech.thatgravyboat.craftify.services.YtmdAPI
 import tech.thatgravyboat.craftify.themes.ThemeConfig
 import tech.thatgravyboat.craftify.ui.Player
 import tech.thatgravyboat.craftify.ui.enums.Anchor
@@ -149,7 +147,7 @@ object Config : Vigilant(File("./config/craftify.toml")) {
         ],
         name = "Announce New Song",
         category = "General",
-        description = "Send a notifcation when a new song is playing."
+        description = "Send a notification when a new song is playing."
     )
     var announceNewSong = 0
 
@@ -161,25 +159,20 @@ object Config : Vigilant(File("./config/craftify.toml")) {
             "Right"
         ],
         name = "Notification Album Art Location",
-        description = "Where should the album art be located when Announce New Song is set to Essential Notifcation.",
+        description = "Where should the album art be located when Announce New Song is set to Essential Notification.",
         category = "General"
     )
     var announcementRendering = 1
 
     @Property(
-        type = PropertyType.BUTTON,
+        type = PropertyType.CUSTOM,
         name = "Login Button",
-        description = "Click to login in if you haven't already. This will open a web browser where you will have 120s to accept and login.\nONLY FOR SPOTIFY! On YT this just refreshes the session.",
+        description = "Click to login in if you haven't already. This will open a web browser where you will have 120s to accept and login.\n&cNote: ONLY FOR SPOTIFY! On YT this just refreshes the session.",
         placeholder = "Login",
-        category = "Login"
+        category = "Login",
+        customPropertyInfo = LoginButtonProperty::class
     )
-    fun login() {
-        if (modMode == 1) {
-            LoginServer.createServer()
-        } else if (modMode == 2) {
-            YtmdAPI.restartPoller()
-        }
-    }
+    var login: Any? = null
 
     @Property(
         type = PropertyType.TEXT,

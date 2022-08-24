@@ -7,6 +7,7 @@ import gg.essential.universal.UKeyboard
 import gg.essential.universal.wrappers.UPlayer
 import gg.essential.vigilance.gui.SettingsGui
 import me.kbrewster.eventbus.Subscribe
+import tech.thatgravyboat.craftify.config.Config
 import tech.thatgravyboat.craftify.services.SpotifyAPI
 import tech.thatgravyboat.craftify.platform.*
 import tech.thatgravyboat.craftify.services.BaseAPI

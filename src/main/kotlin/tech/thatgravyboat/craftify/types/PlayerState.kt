@@ -37,7 +37,8 @@ data class PlayerState(
     val progress_ms: Long,
     val is_playing: Boolean,
     val item: PlayerItem?,
-    val device: DeviceData?
+    val device: DeviceData?,
+    val currently_playing_type: String?
 ) {
 
     fun hasData() = item != null
@@ -57,4 +58,6 @@ data class PlayerState(
     fun isPlaying() = is_playing
 
     fun getImage() = item?.album?.images?.sortedWith(compareByDescending { it.width })?.first()?.url ?: "https://raw.githubusercontent.com/twitter/twemoji/master/assets/72x72/26d4.png"
+
+    fun isAd() = currently_playing_type == "ad"
 }

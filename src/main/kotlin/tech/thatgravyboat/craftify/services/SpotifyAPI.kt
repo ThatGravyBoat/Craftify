@@ -8,10 +8,10 @@ import gg.essential.universal.UChat
 import gg.essential.universal.utils.MCClickEventAction
 import gg.essential.universal.wrappers.message.UTextComponent
 import org.apache.commons.io.IOUtils
-import tech.thatgravyboat.craftify.Config
 import tech.thatgravyboat.craftify.api.Http
 import tech.thatgravyboat.craftify.api.MethodType
 import tech.thatgravyboat.craftify.api.Paths
+import tech.thatgravyboat.craftify.config.Config
 import tech.thatgravyboat.craftify.types.PlayerState
 import tech.thatgravyboat.craftify.ui.Player
 import tech.thatgravyboat.craftify.ui.enums.copying.LinkingMode
@@ -83,6 +83,12 @@ object SpotifyAPI : BaseAPI {
                 e.printStackTrace()
                 pollError()
                 null
+            }
+
+            lastState?.let { state ->
+                if (state.isAd()) {
+                    lastState = createBisectAd(state)
+                }
             }
 
             errorCount = 0

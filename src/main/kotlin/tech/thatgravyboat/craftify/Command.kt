@@ -4,6 +4,9 @@ import gg.essential.api.commands.Command
 import gg.essential.api.commands.DefaultHandler
 import gg.essential.api.commands.SubCommand
 import gg.essential.api.utils.GuiUtil
+import gg.essential.api.utils.WebUtil
+import tech.thatgravyboat.craftify.changelog.ChangeLogScreen
+import tech.thatgravyboat.craftify.config.Config
 import tech.thatgravyboat.craftify.themes.ThemeConfig
 import tech.thatgravyboat.craftify.themes.library.LibraryScreen
 import tech.thatgravyboat.craftify.themes.library.LibraryStorage
@@ -50,6 +53,13 @@ object Command : Command("craftify") {
             Initializer.getAPI()?.setVolume(volume.get().coerceIn(0, 100), true)
         } else {
             GuiUtil.open(VolumeScreen())
+        }
+    }
+
+    @SubCommand("changelog")
+    fun changelog() {
+        WebUtil.fetchString("https://raw.githubusercontent.com/ThatGravyBoat/craftify-data/main/changelog.md")?.let {
+            GuiUtil.open(ChangeLogScreen(it))
         }
     }
 }

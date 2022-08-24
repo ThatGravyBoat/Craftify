@@ -3,7 +3,7 @@ package tech.thatgravyboat.craftify.ui.enums
 import gg.essential.elementa.UIComponent
 import gg.essential.elementa.constraints.PositionConstraint
 import gg.essential.universal.UResolution
-import tech.thatgravyboat.craftify.Config
+import tech.thatgravyboat.craftify.config.Config
 
 enum class Anchor(private val xAlignment: Alignment, private val yAlignment: Alignment) {
     TOPLEFT(Alignment.LEFT, Alignment.TOP),

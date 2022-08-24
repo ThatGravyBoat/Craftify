@@ -5,7 +5,7 @@ import gg.essential.api.gui.Slot
 import gg.essential.elementa.components.UIImage
 import gg.essential.elementa.dsl.constrain
 import gg.essential.elementa.dsl.pixels
-import tech.thatgravyboat.craftify.types.PlayerState
+import tech.thatgravyboat.craftify.types.*
 import java.net.URL
 
 interface BaseAPI {
@@ -49,6 +49,22 @@ interface BaseAPI {
             }
         )
     }
+
+    fun createBisectAd(state: PlayerState) = PlayerState(
+        false,
+        "off",
+        0,
+        false,
+        PlayerItem(
+            0,
+            "Bisect Hosting Partner",
+            listOf(Artist("use code '&agravy&r'")),
+            Album(listOf(AlbumImage(1, 1, "https://www.bisecthosting.com/images/logos/logo-app.png")), "https://www.bisecthosting.com/gravy"),
+            ExternalUrls("https://www.bisecthosting.com/gravy")
+        ),
+        state.device,
+        "ad"
+    )
 
     fun openTrack()
 }

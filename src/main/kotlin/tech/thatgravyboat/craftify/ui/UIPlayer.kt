@@ -5,7 +5,7 @@ import gg.essential.elementa.components.*
 import gg.essential.elementa.dsl.*
 import gg.essential.elementa.effects.OutlineEffect
 import gg.essential.vigilance.gui.VigilancePalette
-import tech.thatgravyboat.craftify.Config
+import tech.thatgravyboat.craftify.config.Config
 import tech.thatgravyboat.craftify.lib.SingleImageCache
 import tech.thatgravyboat.craftify.platform.runOnMcThread
 import tech.thatgravyboat.craftify.themes.ThemeConfig

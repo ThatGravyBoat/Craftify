@@ -19,14 +19,14 @@ object YtmdPlayerState {
         val item = PlayerItem(duration, track.get("title").asString, listOf(artist), album, urls)
         val device = DeviceData(player.get("volumePercent").asInt)
 
-
         return PlayerState(
             false,
             if (repeating) "on" else "off",
             progress,
             player.get("hasSong").asBoolean && !player.get("isPaused").asBoolean,
             item,
-            device
+            device,
+            if (track.get("isAdvertisement").asBoolean) "ad" else "track"
         )
     }
 

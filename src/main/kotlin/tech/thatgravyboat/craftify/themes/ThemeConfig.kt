@@ -222,6 +222,22 @@ object ThemeConfig : Vigilant(
     )
     var externalIcon: String = "https://i.imgur.com/qQs0WHt.png"
 
+    @Property(
+        type = PropertyType.TEXT,
+        name = "Volume Control",
+        category = "Theme",
+        subcategory = "Icons"
+    )
+    var volumeIcon: String = "https://i.imgur.com/RNfbruf.png"
+
+    @Property(
+        type = PropertyType.TEXT,
+        name = "Position Editor",
+        category = "Theme",
+        subcategory = "Icons"
+    )
+    var positionEditorIcon: String = "https://i.imgur.com/XZWUSSe.png"
+
     init {
         initialize()
         registerListener("progressRadius") { _: Float -> Player.updateTheme() }

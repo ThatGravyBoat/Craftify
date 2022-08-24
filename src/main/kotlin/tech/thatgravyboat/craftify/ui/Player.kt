@@ -13,7 +13,7 @@ import gg.essential.universal.ChatColor
 import gg.essential.universal.UChat
 import gg.essential.universal.UMatrixStack
 import gg.essential.universal.UMouse
-import tech.thatgravyboat.craftify.Config
+import tech.thatgravyboat.craftify.config.Config
 import tech.thatgravyboat.craftify.Initializer
 import tech.thatgravyboat.craftify.platform.MouseClickEvent
 import tech.thatgravyboat.craftify.themes.library.ScreenshotScreen
@@ -106,6 +106,7 @@ object Player {
     }
 
     private fun canRender(): Boolean {
+        if (GuiUtil.getOpenedScreen() is PositionEditorScreen) return false
         val renderType = RenderType.values()[Config.renderType].canRender(GuiUtil.getOpenedScreen())
         val displayMode = DisplayMode.values()[Config.displayMode].canDisplay(Initializer.getAPI()?.getState())
         return (GuiUtil.getOpenedScreen() is ScreenshotScreen || (renderType && displayMode)) && Config.modMode != 0

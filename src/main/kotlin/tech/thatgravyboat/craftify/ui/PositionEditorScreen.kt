@@ -8,7 +8,7 @@ import gg.essential.elementa.dsl.constrain
 import gg.essential.elementa.dsl.pixels
 import gg.essential.universal.UResolution
 import gg.essential.vigilance.gui.VigilancePalette
-import tech.thatgravyboat.craftify.Config
+import tech.thatgravyboat.craftify.config.Config
 import tech.thatgravyboat.craftify.ui.enums.Anchor
 
 class PositionEditorScreen : WindowScreen(ElementaVersion.V1) {

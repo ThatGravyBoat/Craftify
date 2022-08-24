@@ -28,6 +28,8 @@ data class Theme(
     val nextIcon: String = "https://i.imgur.com/4L2322Q.png",
     val repeatIcon: String = "https://i.imgur.com/C8h1RBc.png",
     val externalIcon: String = "https://i.imgur.com/qQs0WHt.png",
+    val volumeIcon: String = "https://i.imgur.com/RNfbruf.png",
+    val positionEditorIcon: String = "https://i.imgur.com/XZWUSSe.png",
 ) {
     fun getData(): String = GSON.toJson(this)
 
@@ -52,6 +54,8 @@ data class Theme(
         ThemeConfig.previousIcon = this.previousIcon
         ThemeConfig.nextIcon = this.nextIcon
         ThemeConfig.externalIcon = this.externalIcon
+        ThemeConfig.volumeIcon = this.volumeIcon
+        ThemeConfig.positionEditorIcon = this.positionEditorIcon
         ThemeConfig.markDirty()
         ThemeConfig.writeData()
         Player.updateTheme()
@@ -86,6 +90,8 @@ data class Theme(
                 ThemeConfig.nextIcon,
                 ThemeConfig.repeatIcon,
                 ThemeConfig.externalIcon,
+                ThemeConfig.volumeIcon,
+                ThemeConfig.positionEditorIcon,
             )
         }
     }
