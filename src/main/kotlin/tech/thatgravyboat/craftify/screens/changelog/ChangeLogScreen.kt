@@ -1,4 +1,4 @@
-package tech.thatgravyboat.craftify.changelog
+package tech.thatgravyboat.craftify.screens.changelog
 
 import gg.essential.elementa.ElementaVersion
 import gg.essential.elementa.WindowScreen

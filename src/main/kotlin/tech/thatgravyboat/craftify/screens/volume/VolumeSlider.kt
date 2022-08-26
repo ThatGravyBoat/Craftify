@@ -1,4 +1,4 @@
-package tech.thatgravyboat.craftify.volume
+package tech.thatgravyboat.craftify.screens.volume
 
 import gg.essential.elementa.components.UIBlock
 import gg.essential.elementa.components.UIContainer

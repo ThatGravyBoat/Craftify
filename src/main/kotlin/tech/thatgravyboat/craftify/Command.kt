@@ -5,14 +5,14 @@ import gg.essential.api.commands.DefaultHandler
 import gg.essential.api.commands.SubCommand
 import gg.essential.api.utils.GuiUtil
 import gg.essential.api.utils.WebUtil
-import tech.thatgravyboat.craftify.changelog.ChangeLogScreen
 import tech.thatgravyboat.craftify.config.Config
+import tech.thatgravyboat.craftify.screens.changelog.ChangeLogScreen
 import tech.thatgravyboat.craftify.themes.ThemeConfig
 import tech.thatgravyboat.craftify.themes.library.LibraryScreen
 import tech.thatgravyboat.craftify.themes.library.LibraryStorage
 import tech.thatgravyboat.craftify.themes.library.ScreenshotScreen
 import tech.thatgravyboat.craftify.ui.PositionEditorScreen
-import tech.thatgravyboat.craftify.volume.VolumeScreen
+import tech.thatgravyboat.craftify.screens.volume.VolumeScreen
 import java.util.*
 
 object Command : Command("craftify") {

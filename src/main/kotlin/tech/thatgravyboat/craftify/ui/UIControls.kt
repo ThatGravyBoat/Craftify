@@ -7,7 +7,7 @@ import tech.thatgravyboat.craftify.config.Config
 import tech.thatgravyboat.craftify.Initializer
 import tech.thatgravyboat.craftify.themes.ThemeConfig
 import tech.thatgravyboat.craftify.types.PlayerState
-import tech.thatgravyboat.craftify.volume.VolumeScreen
+import tech.thatgravyboat.craftify.screens.volume.VolumeScreen
 import java.net.URL
 
 class UIControls : UIContainer() {
