@@ -48,10 +48,6 @@ val shade: Configuration by configurations.creating {
     configurations.implementation.get().extendsFrom(this)
 }
 
-val shadeMod: Configuration by configurations.creating {
-    configurations.modImplementation.get().extendsFrom(this)
-}
-
 dependencies {
     if (platform.isFabric) {
         val fabricApiVersion: String by project
@@ -60,9 +56,7 @@ dependencies {
         modImplementation("net.fabricmc.fabric-api:fabric-api:$fabricApiVersion")
         modImplementation("net.fabricmc:fabric-language-kotlin:$fabricLanguageKotlinVersion")
         modImplementation("com.terraformersmc:modmenu:$modMenuVersion")
-        shadeMod("gg.essential:loader-fabric:1.0.0") {
-            isTransitive = false
-        }
+        "include"("gg.essential:loader-fabric:1.0.0")
     } else {
         shade ("gg.essential:loader-launchwrapper:1.1.3") {
             isTransitive = false
@@ -122,7 +116,7 @@ tasks {
     }
     named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar") {
         archiveClassifier.set("dev")
-        configurations = listOf(shade, shadeMod)
+        configurations = listOf(shade)
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     }
     remapJar {

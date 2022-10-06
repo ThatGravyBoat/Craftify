@@ -13,9 +13,6 @@
     "issues": "https://github.com/ThatGravyBoat/Craftify/issues"
   },
   "entrypoints": {
-    "preLaunch": [
-      "gg.essential.loader.stage0.EssentialSetupPreLaunch"
-    ],
     "client": [
       {
         "adapter": "kotlin",
