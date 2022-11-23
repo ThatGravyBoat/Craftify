@@ -1,27 +1,19 @@
 package tech.thatgravyboat.craftify.ui
 
-import gg.essential.api.EssentialAPI
-import gg.essential.api.gui.Slot
-import gg.essential.api.utils.GuiUtil
 import gg.essential.elementa.ElementaVersion
-import gg.essential.elementa.components.UIImage
 import gg.essential.elementa.components.Window
 import gg.essential.elementa.dsl.childOf
-import gg.essential.elementa.dsl.constrain
-import gg.essential.elementa.dsl.pixels
-import gg.essential.universal.ChatColor
-import gg.essential.universal.UChat
-import gg.essential.universal.UMatrixStack
-import gg.essential.universal.UMouse
-import tech.thatgravyboat.craftify.config.Config
+import gg.essential.universal.*
 import tech.thatgravyboat.craftify.Initializer
+import tech.thatgravyboat.craftify.config.Config
 import tech.thatgravyboat.craftify.platform.MouseClickEvent
+import tech.thatgravyboat.craftify.services.ServiceHelper
 import tech.thatgravyboat.craftify.themes.library.ScreenshotScreen
-import tech.thatgravyboat.craftify.types.PlayerState
 import tech.thatgravyboat.craftify.ui.enums.Anchor
-import tech.thatgravyboat.craftify.ui.enums.displaying.DisplayMode
-import tech.thatgravyboat.craftify.ui.enums.rendering.RenderType
-import java.net.URL
+import tech.thatgravyboat.craftify.ui.enums.DisplayMode
+import tech.thatgravyboat.craftify.ui.enums.RenderType
+import tech.thatgravyboat.craftify.utils.EssentialApiHelper
+import tech.thatgravyboat.jukebox.api.state.State
 
 object Player {
 
@@ -30,7 +22,6 @@ object Player {
 
     private var isPlaying = false
     private var tempHide = false
-    private var lastSong = ""
 
     private fun checkAndInitPlayer() {
         if (player == null) {
@@ -59,35 +50,31 @@ object Player {
         player?.clientStop()
     }
 
-    fun updatePlayer(state: PlayerState) {
-        player?.updateState(state)
-        isPlaying = state.isPlaying()
-        if (lastSong != state.getTitle() && state.isPlaying() && state.hasData()) {
-            if (Config.announceNewSong == 1) {
-                UChat.chat(
-                    "${ChatColor.GREEN}Craftify > ${ChatColor.GRAY}" +
-                        "Now Playing: ${ChatColor.AQUA}${state.getTitle()} by ${state.getArtists()}"
-                )
-            }
-            if (Config.announceNewSong == 2) {
-                EssentialAPI.getNotifications().push(
-                    title = "Craftify",
-                    message = "Now Playing: \n${state.getTitle()}",
-                    configure = {
-                        if (Config.announcementRendering != 0) {
-                            this.withCustomComponent(
-                                if (Config.announcementRendering == 1) Slot.PREVIEW else Slot.ACTION,
-                                UIImage.ofURL(URL(state.getImage())).constrain {
-                                    width = 25.pixels()
-                                    height = 25.pixels()
-                                }
-                            )
-                        }
-                    }
-                )
-            }
+    fun announceSong(state: State) {
+        if (Config.announceNewSong == 1) {
+            UChat.chat(
+                "${ChatColor.GREEN}Craftify > ${ChatColor.GRAY}" +
+                        "Now Playing: ${ChatColor.AQUA}${state.song.title} by ${state.song.artists.joinToString(", ")}"
+            )
         }
-        lastSong = state.getTitle()
+        if (Config.announceNewSong == 2) {
+            EssentialApiHelper.sendNotification(
+                "Craftify",
+                "Now Playing: \n${state.song.title}",
+                if (Config.announcementRendering != 0) state.song.cover else null,
+                Config.announcementRendering == 1
+            )
+        }
+    }
+
+    fun updatePlayer(state: State) {
+        if (state.song.type.isAd()) {
+            player?.updateState(ServiceHelper.createBisectAd(state))
+            isPlaying = false
+        } else {
+            player?.updateState(state)
+            isPlaying = state.isPlaying
+        }
     }
 
     fun changePosition(position: Anchor) {
@@ -106,10 +93,10 @@ object Player {
     }
 
     private fun canRender(): Boolean {
-        if (GuiUtil.getOpenedScreen() is PositionEditorScreen) return false
-        val renderType = RenderType.values()[Config.renderType].canRender(GuiUtil.getOpenedScreen())
+        if (UScreen.currentScreen is PositionEditorScreen) return false
+        val renderType = RenderType.values()[Config.renderType].canRender(UScreen.currentScreen)
         val displayMode = DisplayMode.values()[Config.displayMode].canDisplay(Initializer.getAPI()?.getState())
-        return (GuiUtil.getOpenedScreen() is ScreenshotScreen || (renderType && displayMode)) && Config.modMode != 0
+        return (UScreen.currentScreen is ScreenshotScreen || (renderType && displayMode)) && Config.modMode != 0
     }
 
     // XY values taken from GuiScreen go there if anything screws up.

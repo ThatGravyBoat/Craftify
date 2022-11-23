@@ -1,4 +1,4 @@
-package tech.thatgravyboat.craftify.lib
+package tech.thatgravyboat.craftify.utils
 
 import gg.essential.elementa.components.image.ImageCache
 import java.awt.image.BufferedImage

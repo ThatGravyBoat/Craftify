@@ -1,11 +1,11 @@
-package tech.thatgravyboat.craftify.ui.enums.rendering
+package tech.thatgravyboat.craftify.ui.enums
 
 import gg.essential.universal.utils.MCScreen
 import tech.thatgravyboat.craftify.platform.MCChatMenu
 import tech.thatgravyboat.craftify.platform.MCEscMenu
 import tech.thatgravyboat.craftify.platform.MCInventoryMenu
 
-enum class RenderType : RenderCheck {
+enum class RenderType {
     ESC_ONLY {
         override fun canRender(gui: MCScreen?): Boolean {
             return gui is MCEscMenu
@@ -35,4 +35,8 @@ enum class RenderType : RenderCheck {
             return gui is MCInventoryMenu
         }
     };
+
+    open fun canRender(gui: MCScreen?): Boolean {
+        throw NotImplementedError()
+    }
 }

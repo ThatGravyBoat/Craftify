@@ -15,7 +15,7 @@ import java.awt.Color
  * A copy of Slider from vigilance with an onValueChanged listener and changed design.
  */
 class VolumeSlider(initialValue: Float) : UIContainer() {
-    private var percentage = initialValue
+    private var percentage = initialValue.coerceIn(0f..1f)
     private var onValueChange: (Float) -> Unit = {}
     private var onValueChanged: (Float) -> Unit = {}
     private var dragging = false

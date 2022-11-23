@@ -1,17 +1,20 @@
 package tech.thatgravyboat.craftify.ui
 
-import gg.essential.api.utils.GuiUtil
-import gg.essential.elementa.components.*
+import gg.essential.elementa.components.UIBlock
+import gg.essential.elementa.components.UIContainer
+import gg.essential.elementa.components.UIImage
+import gg.essential.elementa.components.UIWrappedText
 import gg.essential.elementa.dsl.*
 import gg.essential.elementa.effects.OutlineEffect
+import gg.essential.universal.UScreen
 import gg.essential.vigilance.gui.VigilancePalette
 import tech.thatgravyboat.craftify.config.Config
-import tech.thatgravyboat.craftify.lib.SingleImageCache
 import tech.thatgravyboat.craftify.platform.runOnMcThread
 import tech.thatgravyboat.craftify.themes.ThemeConfig
-import tech.thatgravyboat.craftify.types.PlayerState
 import tech.thatgravyboat.craftify.ui.constraints.ConfigColorConstraint
 import tech.thatgravyboat.craftify.ui.enums.Anchor
+import tech.thatgravyboat.craftify.utils.SingleImageCache
+import tech.thatgravyboat.jukebox.api.state.State
 import java.net.URL
 
 class UIPlayer : UIBlock(ConfigColorConstraint("background")) {
@@ -90,19 +93,19 @@ class UIPlayer : UIBlock(ConfigColorConstraint("background")) {
         progress.tempStop()
     }
 
-    fun updateState(state: PlayerState) {
+    fun updateState(state: State) {
         runOnMcThread {
-            progress.updateTime(state.getTime(), state.getEndTime())
-            artist.setText(state.getArtists())
-            title.updateText(state.getTitle())
+            progress.updateTime(state.songState.progress, state.songState.duration)
+            artist.setText(state.song.artists.joinToString(", "))
+            title.updateText(state.song.title)
             controls.updateState(state)
 
             try {
-                if (imageUrl != state.getImage()) {
-                    imageUrl = state.getImage()
+                if (imageUrl != state.song.cover && state.song.cover.isNotEmpty()) {
+                    imageUrl = state.song.cover
                     image.clearChildren()
                     image.addChild(
-                        UIImage.ofURL(URL(state.getImage()), SingleImageCache).constrain {
+                        UIImage.ofURL(URL(state.song.cover), SingleImageCache).constrain {
                             width = 100.percent()
                             height = 100.percent()
                         }
@@ -120,6 +123,6 @@ class UIPlayer : UIBlock(ConfigColorConstraint("background")) {
     }
 
     override fun isHovered(): Boolean {
-        return GuiUtil.getOpenedScreen() != null && super.isHovered()
+        return UScreen.currentScreen != null && super.isHovered()
     }
 }

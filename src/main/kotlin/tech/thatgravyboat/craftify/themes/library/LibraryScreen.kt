@@ -67,7 +67,7 @@ class LibraryScreen : WindowScreen(version = ElementaVersion.V1, newGuiScale = G
         height = 100.percent() - 30.pixels()
     } childOf container
 
-    var info: UIThemeInfo? = null
+    private var info: UIThemeInfo? = null
 
     val themes by ScrollComponent("No Themes Found").constrain {
         y = RelativeConstraint() boundTo titleBar

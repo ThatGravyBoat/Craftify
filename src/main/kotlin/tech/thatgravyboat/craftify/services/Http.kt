@@ -1,4 +1,4 @@
-package tech.thatgravyboat.craftify.api
+package tech.thatgravyboat.craftify.services
 
 import java.io.IOException
 import java.io.InputStream
@@ -28,23 +28,20 @@ object Http {
         )
     }.socketFactory
 
-    fun call(path: Paths, auth: String, body: String? = null, params: Map<String, String>? = null): Response? {
-        if (path.requiresBody && body == null) throw IllegalArgumentException("Body is required for $path")
-        if (path.requireParams && params == null) throw IllegalArgumentException("Parameters are required for $path")
+    fun post(url: String, auth: String? = null, body: String? = null, contentType: String? = null): Response? {
         return try {
-            val formattedParams = params?.map { (key, value) -> "$key=$value" }?.joinToString("&")
-            call(path.url + (formattedParams?.let { "?$it" } ?: ""), path.methodType, auth, body)
+            call(url, auth, body, contentType)
         } catch (e: Exception) {
             null
         }
     }
 
     @Throws(IOException::class)
-    fun call(url: String, method: MethodType, auth: String? = null, body: String? = null, contentType: String? = null): Response {
+    fun call(url: String, auth: String? = null, body: String? = null, contentType: String? = null): Response {
         val connection = URL(url).openConnection() as HttpURLConnection
         if (connection is HttpsURLConnection) connection.sslSocketFactory = sslFactory
         val bytes: ByteArray? = body?.toByteArray(StandardCharsets.UTF_8)
-        connection.requestMethod = method.name
+        connection.requestMethod = "POST"
         connection.useCaches = true
         connection.addRequestProperty("User-Agent", "Mozilla/4.76 (Craftify)")
         contentType?.let { connection.addRequestProperty("Content-Type", it) }

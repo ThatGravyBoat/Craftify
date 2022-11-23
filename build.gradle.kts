@@ -42,6 +42,7 @@ loom {
 repositories {
     maven("https://maven.terraformersmc.com/releases/")
     maven("https://repo.essential.gg/repository/maven-public/")
+    maven("https://maven.resourcefulbees.com/repository/thatgravyboat/")
 }
 
 val shade: Configuration by configurations.creating {
@@ -63,9 +64,18 @@ dependencies {
         }
     }
     compileOnly("gg.essential:essential-$platform:4166+ge3c5b9d02")
-    shade("com.github.KevinPriv:keventbus:c52e0a2") {
-        isTransitive = false
+    shade("com.github.KevinPriv:keventbus:c52e0a2") { isTransitive = false }
+    shade("io.ktor:ktor-client-core-jvm:2.1.0") {
+        exclude("org.jetbrains.kotlinx")
+        exclude("org.jetbrains.kotlin")
+        exclude("org.slf4j")
     }
+    shade("io.ktor:ktor-client-cio-jvm:2.1.0") {
+        exclude("org.jetbrains.kotlinx")
+        exclude("org.jetbrains.kotlin")
+        exclude("org.slf4j")
+    }
+    shade("tech.thatgravyboat:jukebox-jvm:1.0-20220928.153228-14") { isTransitive = false }
 }
 
 tasks.processResources {

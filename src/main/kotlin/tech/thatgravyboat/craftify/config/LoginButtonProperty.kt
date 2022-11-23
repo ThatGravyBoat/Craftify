@@ -15,8 +15,8 @@ import gg.essential.vigilance.gui.ExpandingClickEffect
 import gg.essential.vigilance.gui.VigilancePalette
 import gg.essential.vigilance.gui.settings.SettingComponent
 import gg.essential.vigilance.utils.onLeftClick
+import tech.thatgravyboat.craftify.Initializer
 import tech.thatgravyboat.craftify.server.LoginServer
-import tech.thatgravyboat.craftify.services.YtmdAPI
 
 class LoginButtonProperty: PropertyInfo() {
 
@@ -24,8 +24,8 @@ class LoginButtonProperty: PropertyInfo() {
         return LoginComponent("Login", {
             if (Config.modMode == 1) {
                 LoginServer.createServer()
-            } else if (Config.modMode == 2) {
-                YtmdAPI.restartPoller()
+            } else if (Config.modMode != 1) {
+                Initializer.getAPI()?.restart()
             }
         },
         {

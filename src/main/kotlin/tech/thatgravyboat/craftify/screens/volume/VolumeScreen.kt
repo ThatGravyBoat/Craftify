@@ -18,7 +18,7 @@ class VolumeScreen : WindowScreen(version = ElementaVersion.V1, restoreCurrentGu
     private var lastVolume: Float = getVolume()
 
     private fun getVolume(): Float {
-        return Initializer.getAPI()?.getState()?.device?.volume_percent?.toFloat()?.div(100f) ?: 0.25f
+        return (Initializer.getAPI()?.getState()?.player?.volume?.toFloat()?.div(100f) ?: 0.25f).coerceIn(0f..1f)
     }
 
     private val container by UIContainer().constrain {

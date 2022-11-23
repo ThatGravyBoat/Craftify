@@ -1,13 +1,14 @@
 package tech.thatgravyboat.craftify.themes
 
-import gg.essential.api.utils.GuiUtil
 import gg.essential.universal.UDesktop
+import gg.essential.universal.UScreen
 import gg.essential.vigilance.Vigilant
 import gg.essential.vigilance.data.Property
 import gg.essential.vigilance.data.PropertyData
 import gg.essential.vigilance.data.PropertyType
 import gg.essential.vigilance.data.SortingBehavior
 import tech.thatgravyboat.craftify.ui.Player
+import tech.thatgravyboat.craftify.utils.EssentialApiHelper
 import java.awt.Color
 import java.io.File
 
@@ -48,7 +49,7 @@ object ThemeConfig : Vigilant(
         } catch (ignored: Exception) {
             // Don't do anything if fails.
         }
-        ThemeConfig.gui()?.let { GuiUtil.open(it) }
+        ThemeConfig.gui()?.let { EssentialApiHelper.openScreen(it) }
     }
 
     @Property(
@@ -60,7 +61,7 @@ object ThemeConfig : Vigilant(
     )
     fun reset() {
         Theme().setConfig()
-        ThemeConfig.gui()?.let { GuiUtil.open(it) }
+        ThemeConfig.gui()?.let { EssentialApiHelper.openScreen(it) }
     }
 
     @Property(

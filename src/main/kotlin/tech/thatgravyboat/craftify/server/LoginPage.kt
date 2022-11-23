@@ -3,10 +3,10 @@ package tech.thatgravyboat.craftify.server
 import com.sun.net.httpserver.HttpExchange
 import com.sun.net.httpserver.HttpHandler
 
-class LoginPage : HttpHandler {
+class LoginPage(private val file: String) : HttpHandler {
 
     override fun handle(exchange: HttpExchange?) {
-        val loginPage = this.javaClass.classLoader.getResourceAsStream("login.html")
+        val loginPage = this.javaClass.classLoader.getResourceAsStream("${file}.html")
         val data: ByteArray
         val length: Long
         if (loginPage == null) {

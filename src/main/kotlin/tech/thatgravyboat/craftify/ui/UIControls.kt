@@ -1,13 +1,21 @@
 package tech.thatgravyboat.craftify.ui
 
-import gg.essential.api.utils.GuiUtil
 import gg.essential.elementa.components.UIContainer
 import gg.essential.elementa.dsl.*
-import tech.thatgravyboat.craftify.config.Config
+import gg.essential.universal.ChatColor
+import gg.essential.universal.UChat
+import gg.essential.universal.UScreen
+import gg.essential.universal.utils.MCClickEventAction
+import gg.essential.universal.wrappers.message.UTextComponent
 import tech.thatgravyboat.craftify.Initializer
-import tech.thatgravyboat.craftify.themes.ThemeConfig
-import tech.thatgravyboat.craftify.types.PlayerState
+import tech.thatgravyboat.craftify.config.Config
 import tech.thatgravyboat.craftify.screens.volume.VolumeScreen
+import tech.thatgravyboat.craftify.themes.ThemeConfig
+import tech.thatgravyboat.craftify.ui.enums.LinkingMode
+import tech.thatgravyboat.craftify.utils.EssentialApiHelper
+import tech.thatgravyboat.jukebox.api.state.RepeatState
+import tech.thatgravyboat.jukebox.api.state.State
+import java.net.URI
 import java.net.URL
 
 class UIControls : UIContainer() {
@@ -23,28 +31,34 @@ class UIControls : UIContainer() {
     private val position = "https://i.imgur.com/XZWUSSe.png"
     private val settings = "https://i.imgur.com/Nd4gQzY.png"
 
-    private val positionButton = UIButton(URL(position), URL(position), click = { GuiUtil.open(PositionEditorScreen()) }).constrain {
+    private val positionButton = UIButton(URL(position), URL(position), click = {
+        EssentialApiHelper.openScreen(PositionEditorScreen())
+        false
+    }).constrain {
         width = 10.pixels()
         height = 10.pixels()
         y = 0.pixels()
         x = 65.pixels() - 48.pixels()
     } childOf this
 
-    private val settingsButton = UIButton(URL(settings), URL(settings), click = { Config.gui()?.let { it1 -> GuiUtil.open(it1) } }).constrain {
+    private val settingsButton = UIButton(URL(settings), URL(settings), click = {
+        Config.gui()?.let { it1 -> EssentialApiHelper.openScreen(it1) }
+        false
+    }).constrain {
         width = 10.pixels()
         height = 10.pixels()
         y = 0.pixels()
         x = 65.pixels() - 36.pixels()
     } childOf this
 
-    private val shuffleButton = UIButton(URL(shuffle), URL(shuffle), true, click = { state -> Initializer.getAPI()?.toggleShuffle(state) }).constrain {
+    private val shuffleButton = UIButton(URL(shuffle), URL(shuffle), true, click = { state -> Initializer.getAPI()?.setShuffle(!state) ?: false }).constrain {
         width = 10.pixels()
         height = 10.pixels()
         y = 0.pixels()
         x = 65.pixels() - 24.pixels()
     } childOf this
 
-    private val prevButton = UIButton(URL(prev), URL(prev), click = { Initializer.getAPI()?.skip(false) }).constrain {
+    private val prevButton = UIButton(URL(prev), URL(prev), click = { Initializer.getAPI()?.prev() ?: false }).constrain {
         width = 10.pixels()
         height = 10.pixels()
         y = 0.pixels()
@@ -52,8 +66,8 @@ class UIControls : UIContainer() {
     } childOf this
 
     private val playButton = UIButton(URL(play), URL(pause), click = { state ->
-        Initializer.getAPI()?.changePlayingState(state)
         Player.stopClient()
+        Initializer.getAPI()?.setPaused(state) ?: false
     }).constrain {
         width = 10.pixels()
         height = 10.pixels()
@@ -61,38 +75,51 @@ class UIControls : UIContainer() {
         x = 65.pixels()
     } childOf this
 
-    private val nextButton = UIButton(URL(next), URL(next), click = { Initializer.getAPI()?.skip(true) }).constrain {
+    private val nextButton = UIButton(URL(next), URL(next), click = { Initializer.getAPI()?.next() ?: false }).constrain {
         width = 10.pixels()
         height = 10.pixels()
         y = 0.pixels()
         x = 65.pixels() + 12.pixels()
     } childOf this
 
-    private val repeatButton = UIButton(URL(repeat), URL(repeat), true, click = { state -> Initializer.getAPI()?.toggleRepeat(state) }).constrain {
+    private val repeatButton = UIButton(URL(repeat), URL(repeat), true, click = { state -> Initializer.getAPI()?.setRepeat(if (state) RepeatState.OFF else RepeatState.SONG) ?: false }).constrain {
         width = 10.pixels()
         height = 10.pixels()
         y = 0.pixels()
         x = 65.pixels() + 24.pixels()
     } childOf this
 
-    private val externalButton = UIButton(URL(external), URL(external), click = { Initializer.getAPI()?.openTrack() }).constrain {
+    private val externalButton = UIButton(URL(external), URL(external), click = {
+        Initializer.getAPI()?.getState()?.let {
+            val linkingMode = LinkingMode.values()[Config.linkMode]
+            if (!linkingMode.copy(URI(it.song.url))) {
+                val component = UTextComponent("${ChatColor.GREEN}Craftify > ${ChatColor.GRAY} $it")
+                component.setClick(MCClickEventAction.OPEN_URL, it.song.url)
+                UChat.chat(component)
+            }
+        }
+        false
+    }).constrain {
         width = 10.pixels()
         height = 10.pixels()
         y = 0.pixels()
         x = 65.pixels() + 36.pixels()
     } childOf this
 
-    private val volumeButton = UIButton(URL(volume), URL(volume), click = { GuiUtil.open(VolumeScreen()) }).constrain {
+    private val volumeButton = UIButton(URL(volume), URL(volume), click = {
+        EssentialApiHelper.openScreen(VolumeScreen())
+        false
+    }).constrain {
         width = 10.pixels()
         height = 10.pixels()
         y = 0.pixels()
         x = 65.pixels() + 48.pixels()
     } childOf this
 
-    fun updateState(state: PlayerState) {
-        repeatButton.updateState(state.isRepeating())
-        shuffleButton.updateState(state.isShuffling())
-        playButton.updateState(state.isPlaying())
+    fun updateState(state: State) {
+        repeatButton.updateState(state.player.repeat != RepeatState.OFF)
+        shuffleButton.updateState(state.isShuffling)
+        playButton.updateState(state.isPlaying)
     }
 
     fun updateTheme() {

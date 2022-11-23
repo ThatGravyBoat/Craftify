@@ -1,18 +1,22 @@
 package tech.thatgravyboat.craftify
 
-import gg.essential.api.utils.GuiUtil
-import gg.essential.api.utils.Multithreading
 import gg.essential.universal.UChat
 import gg.essential.universal.UKeyboard
+import gg.essential.universal.UScreen
 import gg.essential.universal.wrappers.UPlayer
 import gg.essential.vigilance.gui.SettingsGui
 import me.kbrewster.eventbus.Subscribe
 import tech.thatgravyboat.craftify.config.Config
-import tech.thatgravyboat.craftify.services.SpotifyAPI
 import tech.thatgravyboat.craftify.platform.*
-import tech.thatgravyboat.craftify.services.BaseAPI
-import tech.thatgravyboat.craftify.services.YtmdAPI
+import tech.thatgravyboat.craftify.services.ServiceHelper
+import tech.thatgravyboat.craftify.services.ServiceHelper.setup
 import tech.thatgravyboat.craftify.ui.Player
+import tech.thatgravyboat.craftify.utils.EssentialApiHelper
+import tech.thatgravyboat.jukebox.api.service.BaseService
+import tech.thatgravyboat.jukebox.api.service.Service
+import tech.thatgravyboat.jukebox.impl.apple.AppleService
+import tech.thatgravyboat.jukebox.impl.spotify.SpotifyService
+import tech.thatgravyboat.jukebox.impl.youtube.YoutubeService
 
 object Initializer {
 
@@ -23,20 +27,25 @@ object Initializer {
 
     private var inited = false
 
-    private var api: BaseAPI? = null
+    private var api: BaseService? = null
 
     fun init() {
         //#if MODERN==0
         tech.thatgravyboat.cosmetics.Cosmetics.initialize()
         //#endif
-        Config
         if (Config.modMode == 1) {
-            api = SpotifyAPI
+            api = SpotifyService(Config.token).also(ServiceHelper::setupSpotify)
         }
         if (Config.modMode == 2) {
-            api = YtmdAPI
+            api = YoutubeService(Config.ytmdPassword)
         }
-        api?.startPoller()
+        if (Config.modMode == 3) {
+            api = AppleService()
+        }
+        api?.start()
+
+        api?.setup()
+
         skipForward.register()
         skipPrevious.register()
         togglePlaying.register()
@@ -67,18 +76,18 @@ object Initializer {
             UChat.chat("")
         }
         if (isPressed(skipForward)) {
-            Multithreading.runAsync {
-                api?.skip(true)
+            EssentialApiHelper.async {
+                api?.move(true)
             }
         }
         if (isPressed(skipPrevious)) {
-            Multithreading.runAsync {
-                api?.skip(false)
+            EssentialApiHelper.async {
+                api?.move(false)
             }
         }
         if (isPressed(togglePlaying)) {
-            Multithreading.runAsync {
-                api?.changePlayingState(!Player.isPlaying())
+            EssentialApiHelper.async {
+                api?.setPaused(Player.isPlaying())
                 Player.stopClient()
             }
         }
@@ -100,22 +109,29 @@ object Initializer {
 
     @Subscribe
     fun onGuiClose(event: ScreenOpenEvent) {
-        if (event.gui == null && GuiUtil.getOpenedScreen() is SettingsGui) {
+        if (event.gui == null && UScreen.currentScreen is SettingsGui) {
             Player.updateTheme()
-            if (Config.modMode == 0) api?.stopPoller()
-            if (api == SpotifyAPI && Config.modMode == 2) {
-                SpotifyAPI.stopPoller()
-                api = YtmdAPI
+            if (Config.modMode == 0) api?.stop()
+            if (api !is AppleService && Config.modMode == 3) {
+                api?.stop()
+                api = AppleService()
+                api?.setup()
             }
-            if (api == YtmdAPI && Config.modMode == 1) {
-                YtmdAPI.stopPoller()
-                api = SpotifyAPI
+            if (api !is YoutubeService && Config.modMode == 2) {
+                api?.stop()
+                api = YoutubeService(Config.ytmdPassword)
+                api?.setup()
             }
-            if (Config.modMode != 0) api?.restartPoller()
+            if (api !is SpotifyService && Config.modMode == 1) {
+                api?.stop()
+                api = SpotifyService(Config.token).also(ServiceHelper::setupSpotify)
+                api?.setup()
+            }
+            if (Config.modMode != 0) api?.restart()
         }
     }
 
-    fun getAPI(): BaseAPI? {
+    fun getAPI(): Service? {
         return api
     }
 }

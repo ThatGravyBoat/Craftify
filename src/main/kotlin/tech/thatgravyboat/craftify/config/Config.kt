@@ -1,15 +1,13 @@
 package tech.thatgravyboat.craftify.config
 
-import gg.essential.api.utils.GuiUtil
-import gg.essential.universal.UDesktop
 import gg.essential.vigilance.Vigilant
 import gg.essential.vigilance.data.Property
 import gg.essential.vigilance.data.PropertyType
 import tech.thatgravyboat.craftify.themes.ThemeConfig
 import tech.thatgravyboat.craftify.ui.Player
 import tech.thatgravyboat.craftify.ui.enums.Anchor
+import tech.thatgravyboat.craftify.utils.EssentialApiHelper
 import java.io.File
-import java.net.URI
 
 @Suppress("unused")
 object Config : Vigilant(File("./config/craftify.toml")) {
@@ -29,7 +27,8 @@ object Config : Vigilant(File("./config/craftify.toml")) {
         options = [
             "Disabled",
             "Spotify",
-            "YT Music Desktop App"
+            "YT Music Desktop App",
+            "Cider (Apple Music)"
         ],
         category = "General",
         description = "Where you would like the mod to get its information from."
@@ -58,9 +57,36 @@ object Config : Vigilant(File("./config/craftify.toml")) {
     )
     fun themeConfig() {
         ThemeConfig.gui()?.let {
-            GuiUtil.open(it)
+            EssentialApiHelper.openScreen(it)
         }
     }
+
+    @Property(
+        hidden = true,
+        type = PropertyType.SWITCH,
+        name = "Send the packets",
+        category = "General",
+        description = "Do not turn on unless told otherwise by ThatGravyBoat"
+    )
+    var thisIsForTestingPacketsDoNotTurnOn = false
+
+    @Property(
+        hidden = true,
+        type = PropertyType.SWITCH,
+        name = "Send Songs To Servers",
+        category = "General",
+        description = "Send the song you're listening to the server you are currently on when it changes."
+    )
+    var sendPackets = false
+
+    @Property(
+        hidden = true,
+        type = PropertyType.PARAGRAPH,
+        name = "Allowed Servers",
+        category = "General",
+        description = "The servers you are allowed to send packets to. (Separate with newlines)\n§5Note: If left blank all servers will be allowed.\n§5Will allow all LAN servers if packets enabled."
+    )
+    var allowedServers = "your.server.here"
 
     @Property(
         type = PropertyType.SELECTOR,
@@ -172,7 +198,7 @@ object Config : Vigilant(File("./config/craftify.toml")) {
         category = "Login",
         customPropertyInfo = LoginButtonProperty::class
     )
-    var login: Any? = null
+    var login: Any? = "login"
 
     @Property(
         type = PropertyType.TEXT,
@@ -204,22 +230,22 @@ object Config : Vigilant(File("./config/craftify.toml")) {
 
     @Property(type = PropertyType.BUTTON, "Discord", category = "General", subcategory = "Self Promotion", placeholder = "Visit")
     fun discord() {
-        UDesktop.browse(URI("https://discord.gg/jRhkYFmpCa"))
+        EssentialApiHelper.openUrl("https://discord.gg/jRhkYFmpCa")
     }
 
     @Property(type = PropertyType.BUTTON, "Patreon", category = "General", subcategory = "Self Promotion", placeholder = "Visit")
     fun patreon() {
-        UDesktop.browse(URI("https://patreon.com/thatgravyboat"))
+        EssentialApiHelper.openUrl("https://patreon.com/thatgravyboat")
     }
 
     @Property(type = PropertyType.BUTTON, "Twitter", category = "General", subcategory = "Self Promotion", placeholder = "Visit")
     fun twitter() {
-        UDesktop.browse(URI("https://twitter.com/ThatGravyBoat"))
+        EssentialApiHelper.openUrl("https://twitter.com/ThatGravyBoat")
     }
 
     @Property(type = PropertyType.BUTTON, "YouTube", category = "General", subcategory = "Self Promotion", placeholder = "Visit")
     fun rickroll() {
-        UDesktop.browse(URI("https://www.youtube.com/watch?v=dQw4w9WgXcQ"))
+        EssentialApiHelper.openUrl("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
     }
 
     init {

@@ -1,6 +1,5 @@
 package tech.thatgravyboat.craftify.ui
 
-import gg.essential.api.utils.Multithreading
 import gg.essential.elementa.UIComponent
 import gg.essential.elementa.components.UIContainer
 import gg.essential.elementa.components.UIImage
@@ -9,7 +8,7 @@ import gg.essential.elementa.dsl.percent
 import tech.thatgravyboat.craftify.themes.ThemeConfig
 import java.net.URL
 
-class UIButton(private var original: URL, private var clicked: URL, private val color: Boolean = false, click: (UIComponent.(state: Boolean) -> Unit)? = null) : UIContainer() {
+class UIButton(private var original: URL, private var clicked: URL, private val color: Boolean = false, click: (UIComponent.(state: Boolean) -> Boolean)? = null) : UIContainer() {
 
     private var state = false
 
@@ -18,9 +17,8 @@ class UIButton(private var original: URL, private var clicked: URL, private val 
     init {
         onMouseClick { event ->
             if (event.mouseButton == 0) {
-                updateStateWithHover(!state)
-                if (click != null) {
-                    Multithreading.runAsync { click(this, state) }
+                if (click != null && click(this, state)) {
+                    updateStateWithHover(!state)
                 }
             }
         }
@@ -65,7 +63,12 @@ class UIButton(private var original: URL, private var clicked: URL, private val 
     private fun updateImage(click: URL, og: URL) {
         clicked = click
         original = og
-        this.removeChild(icon)
+        try {
+            this.removeChild(icon)
+        } catch (e: Exception) {
+            // Ignores an error that occurs when the button is removed from the screen when there are no children
+            // Tried to fix by checking if children are empty but that returns false but when is removed says length is 0.
+        }
         icon = createButtonImageFromUrl(if (state) clicked else original)
         this.addChild(icon)
     }

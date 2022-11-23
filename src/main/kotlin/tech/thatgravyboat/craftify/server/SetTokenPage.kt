@@ -2,16 +2,14 @@ package tech.thatgravyboat.craftify.server
 
 import com.sun.net.httpserver.HttpExchange
 import com.sun.net.httpserver.HttpHandler
-import tech.thatgravyboat.craftify.services.SpotifyAPI
+import tech.thatgravyboat.craftify.services.ServiceHelper
 
 class SetTokenPage : HttpHandler {
 
     override fun handle(exchange: HttpExchange?) {
         exchange?.let {
             val code = it.requestURI.query
-            code?.let {
-                SpotifyAPI.login("auth", code)
-            }
+            code?.let { ServiceHelper.loginToSpotify("auth", code) }
             it.sendResponseHeaders(if (code == null) 400 else 200, 0)
             it.close()
             if (code == null) return

@@ -1,6 +1,5 @@
 package tech.thatgravyboat.craftify.ui
 
-import gg.essential.api.utils.Multithreading
 import gg.essential.elementa.components.UIRoundedRectangle
 import gg.essential.elementa.components.UIText
 import gg.essential.elementa.constraints.animation.Animations
@@ -8,6 +7,8 @@ import gg.essential.elementa.dsl.*
 import tech.thatgravyboat.craftify.Initializer
 import tech.thatgravyboat.craftify.themes.ThemeConfig
 import tech.thatgravyboat.craftify.ui.constraints.ConfigColorConstraint
+import tech.thatgravyboat.craftify.utils.EssentialApiHelper
+import tech.thatgravyboat.jukebox.impl.apple.AppleService
 import java.util.concurrent.ScheduledFuture
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicInteger
@@ -17,20 +18,20 @@ class UIProgressBar : UIRoundedRectangle(ThemeConfig.progressRadius) {
 
     private var stop: Boolean = false
     private var timer: AtomicInteger = AtomicInteger(0)
-    private val timerUpdater: ScheduledFuture<*>
     private var end: Int = 1
+    private var start: Int = 1
 
     init {
         constrain {
             color = ConfigColorConstraint("progress_background")
         }
 
-        timerUpdater = Multithreading.schedule({
-            if (!stop && Initializer.getAPI()?.getState()?.is_playing == true && timer.get() < end) {
+        EssentialApiHelper.schedule(1, 1, TimeUnit.SECONDS) {
+            if (!stop && Initializer.getAPI()?.getState()?.isPlaying == true && timer.get() < end) {
                 timer.incrementAndGet()
                 update()
             }
-        }, 1, 1, TimeUnit.SECONDS)
+        }
     }
 
     private val bar = UIRoundedRectangle(ThemeConfig.progressRadius).constrain {
@@ -61,11 +62,13 @@ class UIProgressBar : UIRoundedRectangle(ThemeConfig.progressRadius) {
         stop = false
         timer.set(start)
         this.end = end
+        this.start = start
         update()
     }
 
     private fun update() {
-        val start = timer.get()
+        //TODO Fix this because more services will likely move to websockets
+        val start = if (Initializer.getAPI() !is AppleService) timer.get() else this.start
         if (start == 0) {
             bar.setWidth(0.percent())
         } else {

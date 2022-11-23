@@ -33,11 +33,13 @@ class ChangeLogScreen(markdown: String) : WindowScreen(version = ElementaVersion
         height = 100.percent()
     } childOf container
 
-    private val rightDivider by UIBlock(VigilancePalette.getDivider()).constrain {
-        x = SiblingConstraint() boundTo container
-        width = 1.pixel()
-        height = 100.percent()
-    } childOf container
+    init {
+        UIBlock(VigilancePalette.getDivider()).constrain {
+            x = SiblingConstraint() boundTo container
+            width = 1.pixel()
+            height = 100.percent()
+        } childOf container
+    }
 
     private val titleBar by UIBlock(VigilancePalette.getLightBackground()).constrain {
         width = 100.percent()
