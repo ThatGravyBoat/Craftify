@@ -6,12 +6,14 @@ plugins {
 }
 
 preprocess {
-    "1.19-fabric"(11900, "yarn") {
-        "1.18.1-fabric"(11801, "yarn") {
-            "1.17.1-fabric"(11701, "yarn") {
-                "1.17.1-forge"(11701, "srg") {
-                    "1.12.2-forge"(11202, "srg") {
-                        "1.8.9-forge"(10809, "srg", file("versions/1.12.2-1.8.9.txt"))
+    "1.19.3-fabric"(11903, "yarn") {
+        "1.19-fabric"(11900, "yarn") {
+            "1.18.1-fabric"(11801, "yarn") {
+                "1.17.1-fabric"(11701, "yarn") {
+                    "1.17.1-forge"(11701, "srg") {
+                        "1.12.2-forge"(11202, "srg") {
+                            "1.8.9-forge"(10809, "srg", file("versions/1.12.2-1.8.9.txt"))
+                        }
                     }
                 }
             }

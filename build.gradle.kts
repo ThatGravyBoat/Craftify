@@ -53,6 +53,7 @@ dependencies {
     val elementa_version: String by project
     val vigilance_version: String by project
     val universal_version: String by project
+    val essential_version: String? by project
     if (platform.isFabric) {
         val fabricApiVersion: String by project
         val fabricLanguageKotlinVersion: String by project
@@ -79,7 +80,7 @@ dependencies {
         exclude("org.jetbrains.kotlin")
         exclude("org.slf4j")
     }
-    compileOnly("gg.essential:essential-$platform:4166+ge3c5b9d02")
+    compileOnly("gg.essential:essential-${essential_version ?: platform}:4166+ge3c5b9d02")
     shade("tech.thatgravyboat:jukebox-jvm:1.0-20230103.052609-15") {
         isTransitive = false
     }
