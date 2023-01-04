@@ -4,7 +4,6 @@ import gg.essential.elementa.components.UIContainer
 import gg.essential.elementa.dsl.*
 import gg.essential.universal.ChatColor
 import gg.essential.universal.UChat
-import gg.essential.universal.UScreen
 import gg.essential.universal.utils.MCClickEventAction
 import gg.essential.universal.wrappers.message.UTextComponent
 import tech.thatgravyboat.craftify.Initializer
@@ -12,7 +11,7 @@ import tech.thatgravyboat.craftify.config.Config
 import tech.thatgravyboat.craftify.screens.volume.VolumeScreen
 import tech.thatgravyboat.craftify.themes.ThemeConfig
 import tech.thatgravyboat.craftify.ui.enums.LinkingMode
-import tech.thatgravyboat.craftify.utils.EssentialApiHelper
+import tech.thatgravyboat.craftify.utils.Utils
 import tech.thatgravyboat.jukebox.api.state.RepeatState
 import tech.thatgravyboat.jukebox.api.state.State
 import java.net.URI
@@ -32,7 +31,7 @@ class UIControls : UIContainer() {
     private val settings = "https://i.imgur.com/Nd4gQzY.png"
 
     private val positionButton = UIButton(URL(position), URL(position), click = {
-        EssentialApiHelper.openScreen(PositionEditorScreen())
+        Utils.openScreen(PositionEditorScreen())
         false
     }).constrain {
         width = 10.pixels()
@@ -42,7 +41,7 @@ class UIControls : UIContainer() {
     } childOf this
 
     private val settingsButton = UIButton(URL(settings), URL(settings), click = {
-        Config.gui()?.let { it1 -> EssentialApiHelper.openScreen(it1) }
+        Config.gui()?.let { it1 -> Utils.openScreen(it1) }
         false
     }).constrain {
         width = 10.pixels()
@@ -107,7 +106,7 @@ class UIControls : UIContainer() {
     } childOf this
 
     private val volumeButton = UIButton(URL(volume), URL(volume), click = {
-        EssentialApiHelper.openScreen(VolumeScreen())
+        Utils.openScreen(VolumeScreen())
         false
     }).constrain {
         width = 10.pixels()

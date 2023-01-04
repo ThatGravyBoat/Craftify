@@ -6,7 +6,7 @@ import gg.essential.vigilance.data.PropertyType
 import tech.thatgravyboat.craftify.themes.ThemeConfig
 import tech.thatgravyboat.craftify.ui.Player
 import tech.thatgravyboat.craftify.ui.enums.Anchor
-import tech.thatgravyboat.craftify.utils.EssentialApiHelper
+import tech.thatgravyboat.craftify.utils.Utils
 import java.io.File
 
 @Suppress("unused")
@@ -57,9 +57,18 @@ object Config : Vigilant(File("./config/craftify.toml")) {
     )
     fun themeConfig() {
         ThemeConfig.gui()?.let {
-            EssentialApiHelper.openScreen(it)
+            Utils.openScreen(it)
         }
     }
+
+    @Property(
+        hidden = true,
+        type = PropertyType.SWITCH,
+        name = "Send the Essential packets",
+        category = "General",
+        description = "Do not turn on unless told otherwise by ThatGravyBoat"
+    )
+    var thisIsForTestingEssentialPacketsDoNotTurnOn = false
 
     @Property(
         hidden = true,
@@ -193,7 +202,7 @@ object Config : Vigilant(File("./config/craftify.toml")) {
     @Property(
         type = PropertyType.CUSTOM,
         name = "Login Button",
-        description = "Click to login in if you haven't already. This will open a web browser where you will have 120s to accept and login.\n&cNote: ONLY FOR SPOTIFY! On YT this just refreshes the session.",
+        description = "You change to choose a Mod Mode first in General. Click to login in if you haven't already. This will open a web browser where you will have 120s to accept and login.\n&cNote: ONLY FOR SPOTIFY! On YT this just refreshes the session.",
         placeholder = "Login",
         category = "Login",
         customPropertyInfo = LoginButtonProperty::class
@@ -230,22 +239,22 @@ object Config : Vigilant(File("./config/craftify.toml")) {
 
     @Property(type = PropertyType.BUTTON, "Discord", category = "General", subcategory = "Self Promotion", placeholder = "Visit")
     fun discord() {
-        EssentialApiHelper.openUrl("https://discord.gg/jRhkYFmpCa")
+        Utils.openUrl("https://discord.gg/jRhkYFmpCa")
     }
 
     @Property(type = PropertyType.BUTTON, "Patreon", category = "General", subcategory = "Self Promotion", placeholder = "Visit")
     fun patreon() {
-        EssentialApiHelper.openUrl("https://patreon.com/thatgravyboat")
+        Utils.openUrl("https://patreon.com/thatgravyboat")
     }
 
     @Property(type = PropertyType.BUTTON, "Twitter", category = "General", subcategory = "Self Promotion", placeholder = "Visit")
     fun twitter() {
-        EssentialApiHelper.openUrl("https://twitter.com/ThatGravyBoat")
+        Utils.openUrl("https://twitter.com/ThatGravyBoat")
     }
 
     @Property(type = PropertyType.BUTTON, "YouTube", category = "General", subcategory = "Self Promotion", placeholder = "Visit")
     fun rickroll() {
-        EssentialApiHelper.openUrl("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
+        Utils.openUrl("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
     }
 
     init {

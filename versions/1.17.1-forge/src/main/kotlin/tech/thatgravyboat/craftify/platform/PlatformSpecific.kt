@@ -30,3 +30,7 @@ fun runOnMcThread(block: () -> Unit) {
 fun isGuiHidden(): Boolean {
     return !Minecraft.renderNames()
 }
+
+fun registerCommand(name: String, commands: Map<String, Runnable>) {
+    //DO NOTHING
+}

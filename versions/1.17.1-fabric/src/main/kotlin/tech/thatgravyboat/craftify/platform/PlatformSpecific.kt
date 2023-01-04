@@ -1,5 +1,6 @@
 package tech.thatgravyboat.craftify.platform
 
+import net.fabricmc.fabric.api.client.command.v1.ClientCommandManager
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.util.InputUtil
 
@@ -28,4 +29,12 @@ fun runOnMcThread(block: () -> Unit) {
 
 fun isGuiHidden(): Boolean {
     return !MinecraftClient.isHudEnabled()
+}
+
+fun registerCommand(name: String, commands: Map<String, Runnable>) {
+    var command = ClientCommandManager.literal(name).executes { commands[""]?.run(); 1 }
+    for (entry in commands.filter { it.key != "" }) {
+        command = command.then(ClientCommandManager.literal(entry.key).executes { entry.value.run(); 1 })
+    }
+    ClientCommandManager.DISPATCHER.register(command)
 }

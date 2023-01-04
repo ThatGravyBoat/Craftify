@@ -5,6 +5,8 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 object EventHandler {
 
     init {
-        ClientTickEvents.START_CLIENT_TICK.register { eventBus.post(TickEvent()) }
+        ClientTickEvents.END_CLIENT_TICK.register {
+            Events.TICK.post(Unit)
+        }
     }
 }

@@ -24,7 +24,7 @@ class LoginButtonProperty: PropertyInfo() {
         return LoginComponent("Login", {
             if (Config.modMode == 1) {
                 LoginServer.createServer()
-            } else if (Config.modMode != 1) {
+            } else {
                 Initializer.getAPI()?.restart()
             }
         },
@@ -42,7 +42,7 @@ class LoginComponent(placeholder: String, private val callback: () -> Unit, priv
         width = ChildBasedSizeConstraint() + 14.pixels
         height = ChildBasedSizeConstraint() + 8.pixels
         color = SuppliedColoredConstraint {
-            return@SuppliedColoredConstraint if (canClick.invoke()) VigilancePalette.getButton() else VigilancePalette.getDisabled()
+            if (canClick.invoke()) VigilancePalette.getButton() else VigilancePalette.getDisabled()
         }
     } childOf this
 
@@ -62,7 +62,7 @@ class LoginComponent(placeholder: String, private val callback: () -> Unit, priv
             width = width.coerceAtMost(300.pixels)
             height = 10.pixels
             color = SuppliedColoredConstraint {
-                return@SuppliedColoredConstraint if (canClick.invoke()) VigilancePalette.getText() else VigilancePalette.getTextDisabled()
+                if (canClick.invoke()) VigilancePalette.getText() else VigilancePalette.getTextDisabled()
             }
         } childOf container
 

@@ -1,9 +1,5 @@
 package tech.thatgravyboat.craftify
 
-import gg.essential.api.commands.Command
-import gg.essential.api.commands.DefaultHandler
-import gg.essential.api.commands.SubCommand
-import gg.essential.api.utils.WebUtil
 import tech.thatgravyboat.craftify.config.Config
 import tech.thatgravyboat.craftify.screens.changelog.ChangeLogScreen
 import tech.thatgravyboat.craftify.screens.volume.VolumeScreen
@@ -12,54 +8,54 @@ import tech.thatgravyboat.craftify.themes.library.LibraryScreen
 import tech.thatgravyboat.craftify.themes.library.LibraryStorage
 import tech.thatgravyboat.craftify.themes.library.ScreenshotScreen
 import tech.thatgravyboat.craftify.ui.PositionEditorScreen
-import tech.thatgravyboat.craftify.utils.EssentialApiHelper
-import java.util.*
+import tech.thatgravyboat.craftify.utils.Utils
 
-object Command : Command("craftify") {
+object Command {
 
-    @DefaultHandler
-    fun handle() {
-        Config.gui()?.let { EssentialApiHelper.openScreen(it) }
+    val command = "craftify"
+
+    val commands = mapOf(
+        "" to Runnable { handle() },
+        "theme" to Runnable { theme() },
+        "library" to Runnable { library() },
+        "screenshot" to Runnable { screenshot() },
+        "refresh" to Runnable { refresh() },
+        "position" to Runnable { position() },
+        "volume" to Runnable { volume() },
+        "changelog" to Runnable { changelog() },
+    )
+
+    private fun handle() {
+        Config.gui()?.let(Utils::openScreen)
     }
 
-    @SubCommand("theme")
-    fun theme() {
-        ThemeConfig.gui()?.let { EssentialApiHelper.openScreen(it) }
+    private fun theme() {
+        ThemeConfig.gui()?.let(Utils::openScreen)
     }
 
-    @SubCommand("library")
-    fun library() {
-        EssentialApiHelper.openScreen(LibraryScreen())
+    private fun library() {
+        Utils.openScreen(LibraryScreen())
     }
 
-    @SubCommand("screenshot")
-    fun screenshot() {
-        EssentialApiHelper.openScreen(ScreenshotScreen)
+    private fun screenshot() {
+        Utils.openScreen(ScreenshotScreen)
     }
 
-    @SubCommand("refresh")
-    fun refresh() {
+    private fun refresh() {
         LibraryStorage.refresh()
     }
 
-    @SubCommand("position")
-    fun position() {
-        EssentialApiHelper.openScreen(PositionEditorScreen())
+    private fun position() {
+        Utils.openScreen(PositionEditorScreen())
     }
 
-    @SubCommand("volume")
-    fun setVolume(volume: Optional<Int>) {
-        if (volume.isPresent) {
-            Initializer.getAPI()?.setVolume(volume.get().coerceIn(0, 100), true)
-        } else {
-            EssentialApiHelper.openScreen(VolumeScreen())
-        }
+    private fun volume() {
+        Utils.openScreen(VolumeScreen())
     }
 
-    @SubCommand("changelog")
-    fun changelog() {
-        WebUtil.fetchString("https://raw.githubusercontent.com/ThatGravyBoat/craftify-data/main/changelog.md")?.let {
-            EssentialApiHelper.openScreen(ChangeLogScreen(it))
+    private fun changelog() {
+        Utils.fetchString("https://raw.githubusercontent.com/ThatGravyBoat/craftify-data/main/changelog.md")?.let {
+            Utils.openScreen(ChangeLogScreen(it))
         }
     }
 }

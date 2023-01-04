@@ -5,7 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.util.UUIDTypeAdapter;
-import gg.essential.api.utils.WebUtil;
+import tech.thatgravyboat.craftify.utils.Utils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,7 +21,7 @@ public class FlagCosmetics {
     private final Flag defaultFlag;
 
     public FlagCosmetics(String url) {
-        String rep = WebUtil.fetchString(url);
+        String rep = Utils.INSTANCE.fetchString(url);
         JsonObject json = GSON.fromJson(rep, JsonObject.class);
 
         JsonElement icons = json.get("icons");

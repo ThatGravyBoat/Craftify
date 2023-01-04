@@ -4,7 +4,7 @@ import com.google.gson.GsonBuilder
 import tech.thatgravyboat.craftify.themes.ColorSerializer
 import tech.thatgravyboat.craftify.themes.Theme
 import tech.thatgravyboat.craftify.themes.UrlSerializer
-import tech.thatgravyboat.craftify.utils.EssentialApiHelper
+import tech.thatgravyboat.craftify.utils.Utils
 import java.awt.Color
 import java.net.URL
 
@@ -51,7 +51,7 @@ object LibraryStorage {
 
     private fun download() {
         try {
-            val fromJson = GSON.fromJson(EssentialApiHelper.fetchString(JSON_URL), Array<LibraryTheme>::class.java)
+            val fromJson = GSON.fromJson(Utils.fetchString(JSON_URL), Array<LibraryTheme>::class.java)
             for (libraryTheme in fromJson) {
                 storage[libraryTheme.id] = libraryTheme
             }

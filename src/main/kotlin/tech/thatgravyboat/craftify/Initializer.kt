@@ -2,18 +2,20 @@ package tech.thatgravyboat.craftify
 
 import gg.essential.universal.UChat
 import gg.essential.universal.UKeyboard
+import gg.essential.universal.UMatrixStack
 import gg.essential.universal.UScreen
+import gg.essential.universal.utils.MCScreen
 import gg.essential.universal.wrappers.UPlayer
 import gg.essential.vigilance.gui.SettingsGui
-import me.kbrewster.eventbus.Subscribe
 import tech.thatgravyboat.craftify.config.Config
 import tech.thatgravyboat.craftify.platform.*
 import tech.thatgravyboat.craftify.services.ServiceHelper
 import tech.thatgravyboat.craftify.services.ServiceHelper.setup
 import tech.thatgravyboat.craftify.ui.Player
-import tech.thatgravyboat.craftify.utils.EssentialApiHelper
+import tech.thatgravyboat.craftify.utils.Utils
 import tech.thatgravyboat.jukebox.api.service.BaseService
 import tech.thatgravyboat.jukebox.api.service.Service
+import tech.thatgravyboat.jukebox.api.service.ServicePhase
 import tech.thatgravyboat.jukebox.impl.apple.AppleService
 import tech.thatgravyboat.jukebox.impl.spotify.SpotifyService
 import tech.thatgravyboat.jukebox.impl.youtube.YoutubeService
@@ -30,6 +32,15 @@ object Initializer {
     private var api: BaseService? = null
 
     fun init() {
+        Utils.checkEssential()
+
+        Events.TICK.register { onTick() }
+        Events.RENDER.register { onRender(it) }
+        Events.MOUSE_CLICKED.register { onMouseClicked(it) }
+        Events.SCREEN_CHANGED.register { onScreenChanged(it) }
+
+
+
         //#if MODERN==0
         tech.thatgravyboat.cosmetics.Cosmetics.initialize()
         //#endif
@@ -51,13 +62,11 @@ object Initializer {
         togglePlaying.register()
         hidePlayer.register()
         EventHandler
-        eventBus.register(this)
     }
 
-    @Subscribe
-    fun onFirstLoad(event: TickEvent) {
+    private fun onTick() {
         if (!inited) {
-            Command.register()
+            registerCommand(Command.command, Command.commands)
             inited = true
         }
         if (Config.firstTime && UPlayer.hasPlayer()) {
@@ -76,17 +85,17 @@ object Initializer {
             UChat.chat("")
         }
         if (isPressed(skipForward)) {
-            EssentialApiHelper.async {
+            Utils.async {
                 api?.move(true)
             }
         }
         if (isPressed(skipPrevious)) {
-            EssentialApiHelper.async {
+            Utils.async {
                 api?.move(false)
             }
         }
         if (isPressed(togglePlaying)) {
-            EssentialApiHelper.async {
+            Utils.async {
                 api?.setPaused(Player.isPlaying())
                 Player.stopClient()
             }
@@ -94,40 +103,43 @@ object Initializer {
         if (isPressed(hidePlayer)) {
             Player.toggleHiding()
         }
+        Utils.getOpenScreen()?.let {
+            UScreen.displayScreen(it)
+        }
     }
 
-    @Subscribe
-    fun onRender(event: RenderEvent) {
+    private fun onRender(matrix: UMatrixStack) {
         if (isGuiHidden()) return
-        Player.onRender(event.matrixStack)
+        Player.onRender(matrix)
     }
 
-    @Subscribe
-    fun onMouseClicked(mouseEvent: MouseClickEvent) {
-        Player.onMouseClicked(mouseEvent)
+    private fun onMouseClicked(button: Int): Boolean {
+        return Player.onMouseClicked(button)
     }
 
-    @Subscribe
-    fun onGuiClose(event: ScreenOpenEvent) {
-        if (event.gui == null && UScreen.currentScreen is SettingsGui) {
+    private fun onScreenChanged(screen: MCScreen?) {
+        if (screen == null && UScreen.currentScreen is SettingsGui) {
             Player.updateTheme()
-            if (Config.modMode == 0) api?.stop()
+            if (Config.modMode == 0) {
+                api?.stop()
+                api = null
+            }
             if (api !is AppleService && Config.modMode == 3) {
                 api?.stop()
                 api = AppleService()
-                api?.setup()
             }
             if (api !is YoutubeService && Config.modMode == 2) {
                 api?.stop()
                 api = YoutubeService(Config.ytmdPassword)
-                api?.setup()
             }
             if (api !is SpotifyService && Config.modMode == 1) {
                 api?.stop()
                 api = SpotifyService(Config.token).also(ServiceHelper::setupSpotify)
+            }
+            if (api?.getPhase() == ServicePhase.STOPPED) {
+                api?.start()
                 api?.setup()
             }
-            if (Config.modMode != 0) api?.restart()
         }
     }
 

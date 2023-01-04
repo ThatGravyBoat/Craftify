@@ -10,7 +10,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent
     name = "Craftify",
     modid = "craftify",
     version = "1.0.0",
-    modLanguageAdapter = "gg.essential.api.utils.KotlinAdapter"
+    modLanguageAdapter = "tech.thatgravyboat.craftify.platform.KotlinLanguageAdapter"
 )
 //#endif
 object Craftify {

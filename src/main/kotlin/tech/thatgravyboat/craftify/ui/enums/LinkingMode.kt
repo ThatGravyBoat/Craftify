@@ -1,12 +1,12 @@
 package tech.thatgravyboat.craftify.ui.enums
 
 import gg.essential.universal.UDesktop
-import tech.thatgravyboat.craftify.utils.EssentialApiHelper
+import tech.thatgravyboat.craftify.utils.Utils
 import java.net.URI
 
 enum class LinkingMode {
     OPEN {
-        override fun copy(url: URI) = EssentialApiHelper.browse(url.toString())
+        override fun copy(url: URI) = Utils.browse(url.toString())
     },
 
     COPY {

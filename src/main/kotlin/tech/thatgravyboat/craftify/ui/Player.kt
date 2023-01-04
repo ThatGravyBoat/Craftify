@@ -6,13 +6,13 @@ import gg.essential.elementa.dsl.childOf
 import gg.essential.universal.*
 import tech.thatgravyboat.craftify.Initializer
 import tech.thatgravyboat.craftify.config.Config
-import tech.thatgravyboat.craftify.platform.MouseClickEvent
 import tech.thatgravyboat.craftify.services.ServiceHelper
 import tech.thatgravyboat.craftify.themes.library.ScreenshotScreen
 import tech.thatgravyboat.craftify.ui.enums.Anchor
 import tech.thatgravyboat.craftify.ui.enums.DisplayMode
 import tech.thatgravyboat.craftify.ui.enums.RenderType
-import tech.thatgravyboat.craftify.utils.EssentialApiHelper
+import tech.thatgravyboat.craftify.utils.EssentialUtils
+import tech.thatgravyboat.craftify.utils.Utils
 import tech.thatgravyboat.jukebox.api.state.State
 
 object Player {
@@ -57,8 +57,8 @@ object Player {
                         "Now Playing: ${ChatColor.AQUA}${state.song.title} by ${state.song.artists.joinToString(", ")}"
             )
         }
-        if (Config.announceNewSong == 2) {
-            EssentialApiHelper.sendNotification(
+        if (Config.announceNewSong == 2 && Utils.isEssentialInstalled()) {
+            EssentialUtils.sendNotification(
                 "Craftify",
                 "Now Playing: \n${state.song.title}",
                 if (Config.announcementRendering != 0) state.song.cover else null,
@@ -100,12 +100,13 @@ object Player {
     }
 
     // XY values taken from GuiScreen go there if anything screws up.
-    fun onMouseClicked(event: MouseClickEvent) {
-        if (Config.modMode == 0) return
-        if (tempHide) return
+    fun onMouseClicked(button: Int): Boolean {
+        if (Config.modMode == 0) return false
+        if (tempHide) return false
         if (canRender() && player?.isHovered() == true) {
-            player?.mouseClick(UMouse.Scaled.x, UMouse.Scaled.y, event.button)
-            event.cancelled = true
+            player?.mouseClick(UMouse.Scaled.x, UMouse.Scaled.y, button)
+            return true
         }
+        return false
     }
 }

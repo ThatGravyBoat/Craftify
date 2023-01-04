@@ -50,6 +50,9 @@ val shade: Configuration by configurations.creating {
 }
 
 dependencies {
+    val elementa_version: String by project
+    val vigilance_version: String by project
+    val universal_version: String by project
     if (platform.isFabric) {
         val fabricApiVersion: String by project
         val fabricLanguageKotlinVersion: String by project
@@ -57,14 +60,15 @@ dependencies {
         modImplementation("net.fabricmc.fabric-api:fabric-api:$fabricApiVersion")
         modImplementation("net.fabricmc:fabric-language-kotlin:$fabricLanguageKotlinVersion")
         modImplementation("com.terraformersmc:modmenu:$modMenuVersion")
-        "include"("gg.essential:loader-fabric:1.0.0")
+        modImplementation("include"("gg.essential:elementa-${elementa_version}")!!)
+        modImplementation("include"("gg.essential:vigilance-${vigilance_version}")!!)
+        modImplementation("include"("gg.essential:universalcraft-${universal_version}")!!)
+        runtimeOnly("gg.essential:loader-fabric:1.0.0")
     } else {
-        shade ("gg.essential:loader-launchwrapper:1.1.3") {
+        shade("gg.essential:loader-launchwrapper:1.1.3") {
             isTransitive = false
         }
     }
-    compileOnly("gg.essential:essential-$platform:4166+ge3c5b9d02")
-    shade("com.github.KevinPriv:keventbus:c52e0a2") { isTransitive = false }
     shade("io.ktor:ktor-client-core-jvm:2.1.0") {
         exclude("org.jetbrains.kotlinx")
         exclude("org.jetbrains.kotlin")
@@ -75,7 +79,10 @@ dependencies {
         exclude("org.jetbrains.kotlin")
         exclude("org.slf4j")
     }
-    shade("tech.thatgravyboat:jukebox-jvm:1.0-20220928.153228-14") { isTransitive = false }
+    compileOnly("gg.essential:essential-$platform:4166+ge3c5b9d02")
+    shade("tech.thatgravyboat:jukebox-jvm:1.0-20230103.052609-15") {
+        isTransitive = false
+    }
 }
 
 tasks.processResources {
@@ -134,13 +141,17 @@ tasks {
         archiveClassifier.set("")
     }
     jar {
-        manifest {
-            attributes(mapOf(
-                "ModSide" to "CLIENT",
-                "TweakOrder" to "0",
-                "TweakClass" to "gg.essential.loader.stage0.EssentialSetupTweaker",
-                "ForceLoadAsMod" to true
-            ))
+        if (project.platform.isLegacyForge) {
+            manifest {
+                attributes(
+                    mapOf(
+                        "ModSide" to "CLIENT",
+                        "TweakOrder" to "0",
+                        "TweakClass" to "gg.essential.loader.stage0.EssentialSetupTweaker",
+                        "ForceLoadAsMod" to true
+                    )
+                )
+            }
         }
         dependsOn(shadowJar)
         archiveClassifier.set("")

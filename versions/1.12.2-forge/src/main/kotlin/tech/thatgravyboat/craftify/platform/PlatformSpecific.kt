@@ -4,7 +4,8 @@ import gg.essential.universal.UKeyboard
 import net.minecraft.client.Minecraft
 import net.minecraft.command.CommandBase
 import net.minecraft.command.ICommandSender
-import net.minecraft.util.BlockPos
+import net.minecraft.server.MinecraftServer
+import net.minecraft.util.math.BlockPos
 import net.minecraftforge.client.ClientCommandHandler
 import net.minecraftforge.fml.client.registry.ClientRegistry
 
@@ -41,11 +42,11 @@ fun registerCommand(name: String, commands: Map<String, Runnable>) {
 
 class SimpleCommand(private val name: String, private val default: Runnable, private val commands: Map<String, Runnable>): CommandBase() {
 
-    override fun getCommandName() = name
+    override fun getName() = name
 
-    override fun getCommandUsage(sender: ICommandSender) = "/$name"
+    override fun getUsage(sender: ICommandSender) = "/$name"
 
-    override fun processCommand(sender: ICommandSender, args: Array<out String>) {
+    override fun execute(server: MinecraftServer, sender: ICommandSender, args: Array<out String>) {
         if (args.isEmpty()) {
             default.run()
         } else {
@@ -53,15 +54,7 @@ class SimpleCommand(private val name: String, private val default: Runnable, pri
         }
     }
 
-    override fun canCommandSenderUseCommand(sender: ICommandSender) = true
+    override fun checkPermission(server: MinecraftServer, sender: ICommandSender) = true
 
-    override fun addTabCompletionOptions(sender: ICommandSender, args: Array<out String>, pos: BlockPos): MutableList<String> {
-        if (args.size == 1) {
-            val arg = args[0]
-            return commands.keys.filter { it.startsWith(arg) }.toMutableList()
-        } else if (args.isEmpty()) {
-            return commands.keys.toMutableList()
-        }
-        return mutableListOf()
-    }
+    override fun getTabCompletions(server: MinecraftServer, sender: ICommandSender, args: Array<out String>, targetPos: BlockPos?) = if (args.isEmpty()) commands.keys.toMutableList() else mutableListOf()
 }

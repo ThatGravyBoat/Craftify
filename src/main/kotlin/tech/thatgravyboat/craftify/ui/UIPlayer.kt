@@ -103,13 +103,15 @@ class UIPlayer : UIBlock(ConfigColorConstraint("background")) {
             try {
                 if (imageUrl != state.song.cover && state.song.cover.isNotEmpty()) {
                     imageUrl = state.song.cover
-                    image.clearChildren()
-                    image.addChild(
-                        UIImage.ofURL(URL(state.song.cover), SingleImageCache).constrain {
-                            width = 100.percent()
-                            height = 100.percent()
-                        }
-                    )
+                    synchronized(image.children) {
+                        image.clearChildren()
+                        image.addChild(
+                            UIImage.ofURL(URL(state.song.cover), SingleImageCache).constrain {
+                                width = 100.percent()
+                                height = 100.percent()
+                            }
+                        )
+                    }
                 }
             } catch (ignored: Exception) {
                 // Ignoring exception due that it would be that Spotify sent a broken url.

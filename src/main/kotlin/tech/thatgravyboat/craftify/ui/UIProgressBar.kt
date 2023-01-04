@@ -7,9 +7,8 @@ import gg.essential.elementa.dsl.*
 import tech.thatgravyboat.craftify.Initializer
 import tech.thatgravyboat.craftify.themes.ThemeConfig
 import tech.thatgravyboat.craftify.ui.constraints.ConfigColorConstraint
-import tech.thatgravyboat.craftify.utils.EssentialApiHelper
-import tech.thatgravyboat.jukebox.impl.apple.AppleService
-import java.util.concurrent.ScheduledFuture
+import tech.thatgravyboat.craftify.utils.Utils
+import tech.thatgravyboat.jukebox.api.service.ServiceType
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.math.floor
@@ -26,7 +25,7 @@ class UIProgressBar : UIRoundedRectangle(ThemeConfig.progressRadius) {
             color = ConfigColorConstraint("progress_background")
         }
 
-        EssentialApiHelper.schedule(1, 1, TimeUnit.SECONDS) {
+        Utils.schedule(1, 1, TimeUnit.SECONDS) {
             if (!stop && Initializer.getAPI()?.getState()?.isPlaying == true && timer.get() < end) {
                 timer.incrementAndGet()
                 update()
@@ -67,8 +66,7 @@ class UIProgressBar : UIRoundedRectangle(ThemeConfig.progressRadius) {
     }
 
     private fun update() {
-        //TODO Fix this because more services will likely move to websockets
-        val start = if (Initializer.getAPI() !is AppleService) timer.get() else this.start
+        val start = if ((Initializer.getAPI()?.getServiceType() ?: ServiceType.UNKNOWN) != ServiceType.WEBSOCKET) timer.get() else this.start
         if (start == 0) {
             bar.setWidth(0.percent())
         } else {

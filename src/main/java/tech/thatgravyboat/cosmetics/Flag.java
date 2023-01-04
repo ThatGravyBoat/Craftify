@@ -1,10 +1,9 @@
 //#if MODERN==0
 package tech.thatgravyboat.cosmetics;
 
-import gg.essential.api.utils.Multithreading;
-import gg.essential.api.utils.WebUtil;
 import gg.essential.universal.UGraphics;
 import gg.essential.universal.utils.ReleasedDynamicTexture;
+import tech.thatgravyboat.craftify.utils.Utils;
 
 import javax.imageio.ImageIO;
 import java.io.File;
@@ -52,10 +51,10 @@ public class Flag {
     }
 
     private void startDownload(File cache) {
-        future = Multithreading.INSTANCE.submit(() -> {
+        future = Utils.INSTANCE.submit(() -> {
             try {
                 cache.getParentFile().mkdirs();
-                WebUtil.downloadToFile(url, cache, "Mozilla/4.76 (Gravy Cosmetics)");
+                Utils.INSTANCE.downloadToFile(url, cache);
             } catch (Exception e) {
                 errored = true;
             }

@@ -22,17 +22,17 @@ class PositionEditorScreen : WindowScreen(ElementaVersion.V1) {
         this.setX(Anchor.values()[Config.anchorPoint].getX(this))
         this.setY(Anchor.values()[Config.anchorPoint].getY(this))
     }.onMouseClick {
-        clickPos =
-            if (it.relativeX < 0 || it.relativeY < 0 || it.relativeX > getWidth() || it.relativeY > getHeight()) {
-                null
-            } else {
-                it.relativeX to it.relativeY
-            }
+        if (it.relativeX < 0 || it.relativeY < 0 || it.relativeX > getWidth() || it.relativeY > getHeight()) {
+            clickPos = null
+        } else {
+            clickPos = it.relativeX to it.relativeY
+        }
     }.onMouseRelease {
         clickPos = null
     }.onMouseDrag { mouseX, mouseY, button ->
-        if (clickPos == null)
+        if (clickPos == null) {
             return@onMouseDrag
+        }
 
         if (button == 0) {
             this@onMouseDrag.constrain {

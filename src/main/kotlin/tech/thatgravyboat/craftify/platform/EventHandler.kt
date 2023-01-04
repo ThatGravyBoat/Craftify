@@ -15,28 +15,26 @@ object EventHandler {
     @SubscribeEvent
     fun onFirstLoad(event: net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent) {
         if (event.phase == net.minecraftforge.fml.common.gameevent.TickEvent.Phase.START) return
-        eventBus.post(TickEvent())
+        Events.TICK.post(Unit)
     }
 
     @SubscribeEvent
     fun onRender(event: net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent) {
         if (event.phase == net.minecraftforge.fml.common.gameevent.TickEvent.Phase.START) return
-        eventBus.post(RenderEvent(UMatrixStack.Compat.get()))
+        Events.RENDER.post(UMatrixStack.Compat.get())
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     fun onMouseClicked(mouseEvent: net.minecraftforge.client.event.GuiScreenEvent.MouseInputEvent.Pre) {
         val shouldContinue = org.lwjgl.input.Mouse.getEventButtonState()
         val button = org.lwjgl.input.Mouse.getEventButton()
-        if (shouldContinue) {
-            val event = MouseClickEvent(button)
-            eventBus.post(event)
-            if (event.cancelled) mouseEvent.isCanceled = true
+        if (shouldContinue && Events.MOUSE_CLICKED.post(button)) {
+            mouseEvent.isCanceled = true
         }
     }
 
     @SubscribeEvent
     fun onGuiClose(event: GuiOpenEvent) {
-        eventBus.post(ScreenOpenEvent(event.gui))
+        Events.SCREEN_CHANGED.post(event.gui)
     }
 }
