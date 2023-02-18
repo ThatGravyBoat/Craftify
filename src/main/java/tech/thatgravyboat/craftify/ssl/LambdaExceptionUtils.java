@@ -1,4 +1,3 @@
-//#if MODERN==0
 /*
  * Taken from: https://github.com/McModLauncher/securejarhandler/blob/main/src/main/java/cpw/mods/util/LambdaExceptionUtils.java
  * License: MIT
@@ -51,4 +50,3 @@ public class LambdaExceptionUtils {
         R apply(T t) throws E;
     }
 }
-//#endif
