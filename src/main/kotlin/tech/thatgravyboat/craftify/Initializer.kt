@@ -10,12 +10,13 @@ import gg.essential.vigilance.gui.SettingsGui
 import tech.thatgravyboat.craftify.config.Config
 import tech.thatgravyboat.craftify.platform.*
 import tech.thatgravyboat.craftify.services.ServiceHelper
+import tech.thatgravyboat.craftify.services.ServiceHelper.close
 import tech.thatgravyboat.craftify.services.ServiceHelper.setup
 import tech.thatgravyboat.craftify.ui.Player
+import tech.thatgravyboat.craftify.ssl.FixSSL
 import tech.thatgravyboat.craftify.utils.Utils
 import tech.thatgravyboat.jukebox.api.service.BaseService
 import tech.thatgravyboat.jukebox.api.service.Service
-import tech.thatgravyboat.jukebox.api.service.ServicePhase
 import tech.thatgravyboat.jukebox.impl.apple.AppleService
 import tech.thatgravyboat.jukebox.impl.spotify.SpotifyService
 import tech.thatgravyboat.jukebox.impl.youtube.YoutubeService
@@ -32,14 +33,15 @@ object Initializer {
     private var api: BaseService? = null
 
     fun init() {
+        //#if MODERN==0
+        FixSSL.fixup()
+        //#endif
         Utils.checkEssential()
 
         Events.TICK.register { onTick() }
         Events.RENDER.register { onRender(it) }
         Events.MOUSE_CLICKED.register { onMouseClicked(it) }
         Events.SCREEN_CHANGED.register { onScreenChanged(it) }
-
-
 
         //#if MODERN==0
         tech.thatgravyboat.cosmetics.Cosmetics.initialize()
@@ -122,21 +124,27 @@ object Initializer {
             Player.updateTheme()
             if (Config.modMode == 0) {
                 api?.stop()
+                api?.close()
                 api = null
             }
             if (api !is AppleService && Config.modMode == 3) {
                 api?.stop()
+                api?.close()
                 api = AppleService()
+                api?.start()
+                api?.setup()
             }
             if (api !is YoutubeService && Config.modMode == 2) {
                 api?.stop()
+                api?.close()
                 api = YoutubeService(Config.ytmdPassword)
+                api?.start()
+                api?.setup()
             }
             if (api !is SpotifyService && Config.modMode == 1) {
                 api?.stop()
+                api?.close()
                 api = SpotifyService(Config.token).also(ServiceHelper::setupSpotify)
-            }
-            if (api?.getPhase() == ServicePhase.STOPPED) {
                 api?.start()
                 api?.setup()
             }

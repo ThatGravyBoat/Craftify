@@ -81,7 +81,7 @@ dependencies {
         exclude("org.slf4j")
     }
     compileOnly("gg.essential:essential-${essential_version ?: platform}:4166+ge3c5b9d02")
-    shade("tech.thatgravyboat:jukebox-jvm:1.0-20230103.052609-15") {
+    shade("tech.thatgravyboat:jukebox-jvm:1.0-20230218.182519-16") {
         isTransitive = false
     }
 }

@@ -5,6 +5,7 @@ import tech.thatgravyboat.craftify.platform.network.PacketHandler
 import tech.thatgravyboat.craftify.platform.network.writeCollection
 import tech.thatgravyboat.craftify.platform.network.writeString
 import tech.thatgravyboat.jukebox.api.events.EventType
+import tech.thatgravyboat.jukebox.api.events.callbacks.SongChangeEvent
 import tech.thatgravyboat.jukebox.api.service.BaseService
 import tech.thatgravyboat.jukebox.api.state.State
 
@@ -12,12 +13,18 @@ object ServerAddonHelper {
 
     private const val PACKET_ID = "music:song"
 
-    fun setupServerAddon(service: BaseService) {
-        service.registerListener(EventType.SONG_CHANGE) { event ->
-            if (event.state.isPlaying && !event.state.song.type.isAd()) {
-                sendSong(event.state)
-            }
+    private val songUpdate: (SongChangeEvent) -> Unit = {
+        if (it.state.isPlaying && !it.state.song.type.isAd()) {
+            sendSong(it.state)
         }
+    }
+
+    fun setupServerAddon(service: BaseService) {
+        service.registerListener(EventType.SONG_CHANGE, songUpdate)
+    }
+
+    fun closeServerAddon(service: BaseService) {
+        service.unregisterListener(EventType.SONG_CHANGE, songUpdate)
     }
 
     private fun sendSong(state: State) {

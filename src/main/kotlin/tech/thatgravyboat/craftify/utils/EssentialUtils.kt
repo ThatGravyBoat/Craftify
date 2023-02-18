@@ -7,10 +7,20 @@ import gg.essential.elementa.dsl.constrain
 import gg.essential.elementa.dsl.pixels
 import gg.essential.elementa.dsl.width
 import tech.thatgravyboat.jukebox.api.events.EventType
+import tech.thatgravyboat.jukebox.api.events.callbacks.SongChangeEvent
 import tech.thatgravyboat.jukebox.api.service.BaseService
 import java.net.URL
 
 object EssentialUtils {
+
+    private val songChange: (SongChangeEvent) -> Unit = { event ->
+        if (event.state.isPlaying && !event.state.song.type.isAd()) {
+            val text = event.state.song.title
+            val truncatedText = splitText(text)
+            val newText = "♪ ${truncatedText}${if (truncatedText.length == text.length) "" else "..."} ♪"
+            setServerHostText(newText)
+        }
+    }
 
     fun sendNotification(title: String, message: String, image: String? = null, preview: Boolean = true) {
         EssentialAPI.getNotifications().push(
@@ -31,14 +41,11 @@ object EssentialUtils {
     }
 
     fun setupServerAddon(service: BaseService) {
-        service.registerListener(EventType.SONG_CHANGE) { event ->
-            if (event.state.isPlaying && !event.state.song.type.isAd()) {
-                val text = event.state.song.title
-                val truncatedText = splitText(text)
-                val newText = "♪ ${truncatedText}${if (truncatedText.length == text.length) "" else "..."} ♪"
-                setServerHostText(newText)
-            }
-        }
+        service.registerListener(EventType.SONG_CHANGE, songChange)
+    }
+
+    fun closeServerAddon(service: BaseService) {
+        service.unregisterListener(EventType.SONG_CHANGE, songChange)
     }
 
     private fun setServerHostText(text: String) {

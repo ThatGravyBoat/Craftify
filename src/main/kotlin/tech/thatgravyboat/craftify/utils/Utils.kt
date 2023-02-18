@@ -6,6 +6,7 @@ import gg.essential.universal.UScreen
 import gg.essential.universal.utils.MCScreen
 import org.apache.commons.io.FileUtils
 import org.apache.commons.io.IOUtils
+import tech.thatgravyboat.craftify.ssl.FixSSL
 import java.io.File
 import java.io.IOException
 import java.io.InputStream
@@ -15,6 +16,7 @@ import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets
 import java.util.concurrent.*
 import java.util.concurrent.atomic.AtomicInteger
+import javax.net.ssl.HttpsURLConnection
 
 object Utils {
 
@@ -29,7 +31,7 @@ object Utils {
     }
 
     private var executor = ThreadPoolExecutor(10, 30, 0L, TimeUnit.SECONDS, LinkedBlockingQueue()) { target: Runnable? ->
-        Thread(target, String.format("Craftify %s", counter.incrementAndGet()))
+        Thread(target, "Craftify ${counter.incrementAndGet()}")
     }
 
     /**
@@ -61,7 +63,7 @@ object Utils {
         executor.execute(runnable)
     }
 
-    fun post(url: String, auth: String? = null, body: String? = null, contentType: String? = null): Response? {
+    fun login(url: String, auth: String? = null, body: String? = null, contentType: String? = null): Response? {
         return try {
             val bytes: ByteArray? = body?.toByteArray(StandardCharsets.UTF_8)
             return setupUrl(url, method = "POST") {
@@ -111,6 +113,9 @@ object Utils {
         connection.readTimeout = 15000
         connection.connectTimeout = 15000
         connection.doOutput = true
+        if (connection is HttpsURLConnection && FixSSL.context != null) {
+            connection.sslSocketFactory = FixSSL.context!!.socketFactory
+        }
         setup(connection)
         if (connection.responseCode / 100 != 2) {
             return Response(connection.errorStream, connection.responseCode)

@@ -12,6 +12,9 @@ import tech.thatgravyboat.craftify.utils.EssentialUtils
 import tech.thatgravyboat.craftify.utils.ServerAddonHelper
 import tech.thatgravyboat.craftify.utils.Utils
 import tech.thatgravyboat.jukebox.api.events.EventType
+import tech.thatgravyboat.jukebox.api.events.callbacks.SongChangeEvent
+import tech.thatgravyboat.jukebox.api.events.callbacks.UpdateEvent
+import tech.thatgravyboat.jukebox.api.events.callbacks.VolumeChangeEvent
 import tech.thatgravyboat.jukebox.api.service.BaseService
 import tech.thatgravyboat.jukebox.api.state.PlayingType
 import tech.thatgravyboat.jukebox.api.state.Song
@@ -27,21 +30,35 @@ object ServiceHelper {
     private val GSON = Gson()
     private var lastFailedLogin = 0L
 
+    private val songUpdate: (UpdateEvent) -> Unit = { Player.updatePlayer(it.state) }
+    private val songChange: (SongChangeEvent) -> Unit = { Player.announceSong(it.state) }
+    private val volumeChange: (VolumeChangeEvent) -> Unit = {
+        if (it.shouldNotify && Utils.isEssentialInstalled()) {
+            showVolumeNotification(it.volume)
+        }
+    }
+
     fun BaseService.setup() {
-        registerListener(EventType.UPDATE) {
-            Player.updatePlayer(it.state)
-        }
-        registerListener(EventType.SONG_CHANGE) {
-            Player.announceSong(it.state)
-        }
-        registerListener(EventType.VOLUME_CHANGE) {
-            if (it.shouldNotify && Utils.isEssentialInstalled()) showVolumeNotification(it.volume)
-        }
+        registerListener(EventType.UPDATE, songUpdate)
+        registerListener(EventType.SONG_CHANGE, songChange)
+        registerListener(EventType.VOLUME_CHANGE, volumeChange)
         if (Config.thisIsForTestingPacketsDoNotTurnOn) {
             ServerAddonHelper.setupServerAddon(this)
         }
         if (Config.thisIsForTestingEssentialPacketsDoNotTurnOn && Utils.isEssentialInstalled()) {
             EssentialUtils.setupServerAddon(this)
+        }
+    }
+
+    fun BaseService.close() {
+        unregisterListener(EventType.UPDATE, songUpdate)
+        unregisterListener(EventType.SONG_CHANGE, songChange)
+        unregisterListener(EventType.VOLUME_CHANGE, volumeChange)
+        if (Config.thisIsForTestingPacketsDoNotTurnOn) {
+            ServerAddonHelper.closeServerAddon(this)
+        }
+        if (Config.thisIsForTestingEssentialPacketsDoNotTurnOn && Utils.isEssentialInstalled()) {
+            EssentialUtils.closeServerAddon(this)
         }
     }
 
@@ -63,7 +80,7 @@ object ServiceHelper {
         var failed = false
         var reason = "Unknown error"
         try {
-            Utils.post("$AUTH_API?type=$type&code=$code")?.let { response ->
+            Utils.login("$AUTH_API?type=$type&code=$code")?.let { response ->
                 val data = try { GSON.fromJson(IOUtils.toString(response.inputStream, StandardCharsets.UTF_8), JsonObject::class.java) } catch (e: Exception) { null }
                 if (response.success()) {
                     if (data?.get("success")?.asBoolean == true) {
