@@ -122,6 +122,15 @@ class UIPlayer : UIBlock(ConfigColorConstraint("background")) {
     fun updateTheme() {
         progress.updateTheme()
         controls.updateTheme()
+        if (ThemeConfig.hideImage) {
+            this.removeChild(image)
+            info.setX(5.pixel())
+            this.setWidth(105.pixel())
+        } else {
+            this.addChild(image)
+            info.setX(50.pixel())
+            this.setWidth(150.pixel())
+        }
     }
 
     override fun isHovered(): Boolean {

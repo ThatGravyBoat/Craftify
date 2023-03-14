@@ -18,6 +18,7 @@ import tech.thatgravyboat.craftify.utils.Utils
 import tech.thatgravyboat.jukebox.api.service.BaseService
 import tech.thatgravyboat.jukebox.api.service.Service
 import tech.thatgravyboat.jukebox.impl.apple.AppleService
+import tech.thatgravyboat.jukebox.impl.foobar.FoobarService
 import tech.thatgravyboat.jukebox.impl.spotify.SpotifyService
 import tech.thatgravyboat.jukebox.impl.youtube.YoutubeService
 
@@ -54,6 +55,9 @@ object Initializer {
         }
         if (Config.modMode == 3) {
             api = AppleService()
+        }
+        if (Config.modMode == 4) {
+            api = FoobarService(Config.servicePort)
         }
         api?.start()
 
@@ -145,6 +149,13 @@ object Initializer {
                 api?.stop()
                 api?.close()
                 api = SpotifyService(Config.token).also(ServiceHelper::setupSpotify)
+                api?.start()
+                api?.setup()
+            }
+            if (api !is FoobarService && Config.modMode == 4) {
+                api?.stop()
+                api?.close()
+                api = FoobarService(Config.servicePort)
                 api?.start()
                 api?.setup()
             }

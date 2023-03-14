@@ -28,7 +28,8 @@ object Config : Vigilant(File("./config/craftify.toml")) {
             "Disabled",
             "Spotify",
             "YT Music Desktop App",
-            "Cider (Apple Music)"
+            "Cider (Apple Music)",
+            "Beefweb (Foobar2000 & DeaDBeeF)",
         ],
         category = "General",
         description = "Where you would like the mod to get its information from."
@@ -226,6 +227,16 @@ object Config : Vigilant(File("./config/craftify.toml")) {
         category = "Login"
     )
     var ytmdPassword = ""
+
+    @Property(
+        type = PropertyType.NUMBER,
+        min = 0,
+        max = 65535,
+        name = "Service Port",
+        description = "The port to use for certain services. Only for Mod Mode: Beefweb",
+        category = "Login"
+    )
+    var servicePort = 8880
 
     @Property(
         type = PropertyType.TEXT,

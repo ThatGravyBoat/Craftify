@@ -131,6 +131,30 @@ class UIControls : UIContainer() {
         externalButton.updateImage(notNullNotBlankOrElse(ThemeConfig.externalIcon, external))
         volumeButton.updateImage(notNullNotBlankOrElse(ThemeConfig.volumeIcon, volume))
         positionButton.updateImage(notNullNotBlankOrElse(ThemeConfig.positionEditorIcon, position))
+
+        if (ThemeConfig.hideImage) {
+            positionButton.hide(true)
+            volumeButton.hide(true)
+            settingsButton.constraints.x = 42.pixels() - 36.pixels()
+            shuffleButton.constraints.x = 42.pixels() - 24.pixels()
+            prevButton.constraints.x = 42.pixels() - 12.pixels()
+            playButton.constraints.x = 42.pixels()
+            nextButton.constraints.x = 42.pixels() + 12.pixels()
+            repeatButton.constraints.x = 42.pixels() + 24.pixels()
+            externalButton.constraints.x = 42.pixels() + 36.pixels()
+        } else {
+            this.addChild(positionButton)
+            this.addChild(volumeButton)
+            positionButton.constraints.x = 65.pixels() - 48.pixels()
+            settingsButton.constraints.x = 65.pixels() - 36.pixels()
+            shuffleButton.constraints.x = 65.pixels() - 24.pixels()
+            prevButton.constraints.x = 65.pixels() - 12.pixels()
+            playButton.constraints.x = 65.pixels()
+            nextButton.constraints.x = 65.pixels() + 12.pixels()
+            repeatButton.constraints.x = 65.pixels() + 24.pixels()
+            externalButton.constraints.x = 65.pixels() + 36.pixels()
+            volumeButton.constraints.x = 65.pixels() + 48.pixels()
+        }
     }
 
     private fun notNullNotBlankOrElse(input: String?, default: String): String {

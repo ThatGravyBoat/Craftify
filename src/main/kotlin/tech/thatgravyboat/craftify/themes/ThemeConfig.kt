@@ -64,6 +64,13 @@ object ThemeConfig : Vigilant(
     }
 
     @Property(
+        type = PropertyType.SWITCH,
+        name = "Hide Image",
+        category = "Theme"
+    )
+    var hideImage = false
+
+    @Property(
         type = PropertyType.COLOR,
         name = "Border Color",
         category = "Theme"

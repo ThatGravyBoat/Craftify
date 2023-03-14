@@ -9,6 +9,7 @@ import gg.essential.elementa.dsl.pixels
 import gg.essential.universal.UResolution
 import gg.essential.vigilance.gui.VigilancePalette
 import tech.thatgravyboat.craftify.config.Config
+import tech.thatgravyboat.craftify.themes.ThemeConfig
 import tech.thatgravyboat.craftify.ui.enums.Anchor
 
 class PositionEditorScreen : WindowScreen(ElementaVersion.V1) {
@@ -17,7 +18,7 @@ class PositionEditorScreen : WindowScreen(ElementaVersion.V1) {
 
     private val box = UIBlock(VigilancePalette.getHighlight()).constrain {
         height = 50.pixels()
-        width = 150.pixels()
+        width = if (ThemeConfig.hideImage) 105.pixels() else 150.pixels()
     }.apply {
         this.setX(Anchor.values()[Config.anchorPoint].getX(this))
         this.setY(Anchor.values()[Config.anchorPoint].getY(this))
@@ -36,7 +37,7 @@ class PositionEditorScreen : WindowScreen(ElementaVersion.V1) {
 
         if (button == 0) {
             this@onMouseDrag.constrain {
-                x = ((this@onMouseDrag.getLeft() + mouseX - clickPos!!.first).coerceIn(0f, UResolution.scaledWidth - 150f)).pixels()
+                x = ((this@onMouseDrag.getLeft() + mouseX - clickPos!!.first).coerceIn(0f, UResolution.scaledWidth - if (ThemeConfig.hideImage) 105f else 150f)).pixels()
                 y = ((this@onMouseDrag.getTop() + mouseY - clickPos!!.second).coerceIn(0f, UResolution.scaledHeight - 50f)).pixels()
             }
         }
