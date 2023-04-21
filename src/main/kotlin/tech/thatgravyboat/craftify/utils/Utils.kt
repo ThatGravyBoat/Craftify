@@ -165,6 +165,10 @@ object Utils {
         }
     }
 
+    fun String.clearFormatting(): String {
+        return this.replace("&([0-9a-fk-or])".toRegex(), "&&r$1")
+    }
+
     fun isEssentialInstalled() = isEssentialInstalled
 
     internal fun checkEssential() {

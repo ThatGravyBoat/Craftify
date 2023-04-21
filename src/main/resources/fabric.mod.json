@@ -3,12 +3,12 @@
   "id": "${id}",
   "name": "${name}",
   "version": "${version}",
-  "description": "Spotify in minecraft!",
+  "description": "Music controls in minecraft!",
   "authors": [
     "ThatGravyBoat"
   ],
   "contact": {
-    "homepage": "https://www.curseforge.com/minecraft/mc-mods/craftify",
+    "homepage": "https://modrinth.com/mod/craftify",
     "sources": "https://github.com/ThatGravyBoat/Craftify",
     "issues": "https://github.com/ThatGravyBoat/Craftify/issues"
   },

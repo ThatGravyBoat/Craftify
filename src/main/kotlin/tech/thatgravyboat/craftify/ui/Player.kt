@@ -6,7 +6,7 @@ import gg.essential.elementa.dsl.childOf
 import gg.essential.universal.*
 import tech.thatgravyboat.craftify.Initializer
 import tech.thatgravyboat.craftify.config.Config
-import tech.thatgravyboat.craftify.services.ServiceHelper
+import tech.thatgravyboat.craftify.services.AdManager
 import tech.thatgravyboat.craftify.themes.library.ScreenshotScreen
 import tech.thatgravyboat.craftify.ui.enums.Anchor
 import tech.thatgravyboat.craftify.ui.enums.DisplayMode
@@ -50,7 +50,8 @@ object Player {
         player?.clientStop()
     }
 
-    fun announceSong(state: State) {
+    fun changeSong(state: State) {
+        AdManager.changeAd()
         if (Config.announceNewSong == 1) {
             UChat.chat(
                 "${ChatColor.GREEN}Craftify > ${ChatColor.GRAY}" +
@@ -69,7 +70,7 @@ object Player {
 
     fun updatePlayer(state: State) {
         if (state.song.type.isAd()) {
-            player?.updateState(ServiceHelper.createBisectAd(state))
+            player?.updateState(AdManager.getAdState(state))
             isPlaying = false
         } else {
             player?.updateState(state)

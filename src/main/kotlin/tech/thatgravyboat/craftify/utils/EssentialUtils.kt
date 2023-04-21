@@ -6,10 +6,12 @@ import gg.essential.elementa.components.UIImage
 import gg.essential.elementa.dsl.constrain
 import gg.essential.elementa.dsl.pixels
 import gg.essential.elementa.dsl.width
+import tech.thatgravyboat.craftify.ui.EmptyImageProvider
 import tech.thatgravyboat.jukebox.api.events.EventType
 import tech.thatgravyboat.jukebox.api.events.callbacks.SongChangeEvent
 import tech.thatgravyboat.jukebox.api.service.BaseService
 import java.net.URL
+import java.util.concurrent.CompletableFuture
 
 object EssentialUtils {
 
@@ -27,15 +29,24 @@ object EssentialUtils {
             title = title,
             message = message,
             configure = {
-                image?.let {
-                    this.withCustomComponent(
-                        if (preview) Slot.PREVIEW else Slot.ACTION,
-                        UIImage.ofURL(URL(it)).constrain {
-                            width = 25.pixels()
-                            height = 25.pixels()
+                try {
+                    if (!image.isNullOrBlank()) {
+                        image.let {
+                            val url = URL(it)
+                            this.withCustomComponent(
+                                if (preview) Slot.PREVIEW else Slot.ACTION,
+                                UIImage(CompletableFuture.supplyAsync {
+                                    return@supplyAsync SingleImageCache[url] ?: UIImage.get(url).also { img ->
+                                        SingleImageCache[url] = img
+                                    }
+                                }, EmptyImageProvider, EmptyImageProvider).constrain {
+                                    width = 25.pixels()
+                                    height = 25.pixels()
+                                }
+                            )
                         }
-                    )
-                }
+                    }
+                }catch (_: Exception) { }
             }
         )
     }

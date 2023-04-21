@@ -34,6 +34,12 @@ enum class RenderType {
         override fun canRender(gui: MCScreen?): Boolean {
             return gui is MCInventoryMenu
         }
+    },
+
+    ESC_INVENTORY {
+        override fun canRender(gui: MCScreen?): Boolean {
+            return gui is MCEscMenu || gui is MCInventoryMenu
+        }
     };
 
     open fun canRender(gui: MCScreen?): Boolean {

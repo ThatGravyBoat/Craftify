@@ -16,10 +16,6 @@ import tech.thatgravyboat.jukebox.api.events.callbacks.SongChangeEvent
 import tech.thatgravyboat.jukebox.api.events.callbacks.UpdateEvent
 import tech.thatgravyboat.jukebox.api.events.callbacks.VolumeChangeEvent
 import tech.thatgravyboat.jukebox.api.service.BaseService
-import tech.thatgravyboat.jukebox.api.state.PlayingType
-import tech.thatgravyboat.jukebox.api.state.Song
-import tech.thatgravyboat.jukebox.api.state.SongState
-import tech.thatgravyboat.jukebox.api.state.State
 import tech.thatgravyboat.jukebox.impl.spotify.SpotifyService
 import java.nio.charset.StandardCharsets
 
@@ -31,7 +27,7 @@ object ServiceHelper {
     private var lastFailedLogin = 0L
 
     private val songUpdate: (UpdateEvent) -> Unit = { Player.updatePlayer(it.state) }
-    private val songChange: (SongChangeEvent) -> Unit = { Player.announceSong(it.state) }
+    private val songChange: (SongChangeEvent) -> Unit = { Player.changeSong(it.state) }
     private val volumeChange: (VolumeChangeEvent) -> Unit = {
         if (it.shouldNotify && Utils.isEssentialInstalled()) {
             showVolumeNotification(it.volume)
@@ -140,16 +136,4 @@ object ServiceHelper {
             image = image,
         )
     }
-
-    fun createBisectAd(state: State) = State(
-        state.player,
-        Song(
-            "Bisect Hosting Partner",
-            listOf("use code '&agravy&r'"),
-            "https://www.bisecthosting.com/images/logos/logo-app.png",
-            "https://www.bisecthosting.com/gravy",
-            PlayingType.AD
-        ),
-        SongState(0, 0, false)
-    )
 }

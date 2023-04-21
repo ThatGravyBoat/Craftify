@@ -40,9 +40,9 @@ loom {
 }
 
 repositories {
+    maven("https://maven.resourcefulbees.com/repository/thatgravyboat/")
     maven("https://maven.terraformersmc.com/releases/")
     maven("https://repo.essential.gg/repository/maven-public/")
-    maven("https://maven.resourcefulbees.com/repository/thatgravyboat/")
 }
 
 val shade: Configuration by configurations.creating {
@@ -81,7 +81,7 @@ dependencies {
         exclude("org.slf4j")
     }
     compileOnly("gg.essential:essential-${essential_version ?: platform}:4166+ge3c5b9d02")
-    shade("tech.thatgravyboat:jukebox-jvm:1.0-20230314.190357-17") {
+    shade("tech.thatgravyboat:jukebox-jvm:1.0-20230420.221839-22") {
         isTransitive = false
     }
 }

@@ -14,8 +14,10 @@ import tech.thatgravyboat.craftify.themes.ThemeConfig
 import tech.thatgravyboat.craftify.ui.constraints.ConfigColorConstraint
 import tech.thatgravyboat.craftify.ui.enums.Anchor
 import tech.thatgravyboat.craftify.utils.SingleImageCache
+import tech.thatgravyboat.craftify.utils.Utils.clearFormatting
 import tech.thatgravyboat.jukebox.api.state.State
 import java.net.URL
+import java.util.concurrent.CompletableFuture
 
 class UIPlayer : UIBlock(ConfigColorConstraint("background")) {
 
@@ -96,7 +98,8 @@ class UIPlayer : UIBlock(ConfigColorConstraint("background")) {
     fun updateState(state: State) {
         runOnMcThread {
             progress.updateTime(state.songState.progress, state.songState.duration)
-            artist.setText(state.song.artists.joinToString(", "))
+            val artistText = state.song.artists.subList(0, state.song.artists.size.coerceAtMost(3)).joinToString(", ")
+            artist.setText(artistText.clearFormatting())
             title.updateText(state.song.title)
             controls.updateState(state)
 
@@ -104,9 +107,14 @@ class UIPlayer : UIBlock(ConfigColorConstraint("background")) {
                 if (imageUrl != state.song.cover && state.song.cover.isNotEmpty()) {
                     imageUrl = state.song.cover
                     synchronized(image.children) {
+                        val url = URL(state.song.cover)
                         image.clearChildren()
                         image.addChild(
-                            UIImage.ofURL(URL(state.song.cover), SingleImageCache).constrain {
+                            UIImage(CompletableFuture.supplyAsync {
+                                return@supplyAsync SingleImageCache[url] ?: UIImage.get(url).also {
+                                    SingleImageCache[url] = it
+                                }
+                            }, EmptyImageProvider, EmptyImageProvider).constrain {
                                 width = 100.percent()
                                 height = 100.percent()
                             }

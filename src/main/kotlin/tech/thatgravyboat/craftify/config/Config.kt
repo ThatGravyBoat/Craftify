@@ -145,7 +145,8 @@ object Config : Vigilant(File("./config/craftify.toml")) {
             "In Game Only",
             "Non Intrusive",
             "Always",
-            "Inventory Only"
+            "Inventory Only",
+            "Esc. and Inv. Menu"
         ],
         name = "Render Type",
         description = "How/When the song with display.",

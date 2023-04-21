@@ -57,7 +57,7 @@ object Initializer {
             api = AppleService()
         }
         if (Config.modMode == 4) {
-            api = FoobarService(Config.servicePort)
+            api = FoobarService(Config.servicePort, true)
         }
         api?.start()
 
@@ -155,7 +155,7 @@ object Initializer {
             if (api !is FoobarService && Config.modMode == 4) {
                 api?.stop()
                 api?.close()
-                api = FoobarService(Config.servicePort)
+                api = FoobarService(Config.servicePort, true)
                 api?.start()
                 api?.setup()
             }
