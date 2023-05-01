@@ -53,7 +53,7 @@ class ChangeLogScreen(markdown: String) : WindowScreen(version = ElementaVersion
         } childOf titleBar
     }
 
-    private val content by UIContainer().constrain {
+    private val content by ScrollComponent().constrain {
         x = RelativeConstraint() boundTo leftDivider
         y = RelativeConstraint() boundTo titleBar
         width = 100.percent()
