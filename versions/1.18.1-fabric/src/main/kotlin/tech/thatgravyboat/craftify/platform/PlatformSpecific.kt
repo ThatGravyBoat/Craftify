@@ -1,5 +1,6 @@
 package tech.thatgravyboat.craftify.platform
 
+import gg.essential.elementa.ElementaVersion
 import net.fabricmc.fabric.api.client.command.v1.ClientCommandManager
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
 import net.minecraft.client.MinecraftClient
@@ -8,6 +9,7 @@ import net.minecraft.client.util.InputUtil
 typealias MCKeyBinding = net.minecraft.client.option.KeyBinding
 typealias MCEscMenu = net.minecraft.client.gui.screen.GameMenuScreen
 typealias MCInventoryMenu = net.minecraft.client.gui.screen.ingame.InventoryScreen
+typealias MCCreativeMenu = net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen
 typealias MCChatMenu = net.minecraft.client.gui.screen.ChatScreen
 
 fun registerKeybinding(name: String, category: String, type: UKeybind.Type, code: Int): MCKeyBinding {
@@ -30,6 +32,18 @@ fun runOnMcThread(block: () -> Unit) {
 
 fun isGuiHidden(): Boolean {
     return !MinecraftClient.isHudEnabled()
+}
+
+fun isDebugGuiOpened(): Boolean {
+    return MinecraftClient.getInstance().options.debugEnabled
+}
+
+fun isTabOpened(): Boolean {
+    val mc = MinecraftClient.getInstance()
+    return mc.player?.let { player ->
+        val obj = player.world.scoreboard.getObjectiveForSlot(0)
+        return mc.options.keyPlayerList.isPressed && (!mc.isIntegratedServerRunning || player.networkHandler.playerList.size > 1 || obj != null)
+    } ?: false
 }
 
 fun registerCommand(name: String, commands: Map<String, Runnable>) {

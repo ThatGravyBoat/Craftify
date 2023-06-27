@@ -5,7 +5,6 @@ import tech.thatgravyboat.craftify.screens.changelog.ChangeLogScreen
 import tech.thatgravyboat.craftify.screens.volume.VolumeScreen
 import tech.thatgravyboat.craftify.themes.ThemeConfig
 import tech.thatgravyboat.craftify.themes.library.LibraryScreen
-import tech.thatgravyboat.craftify.themes.library.LibraryStorage
 import tech.thatgravyboat.craftify.themes.library.ScreenshotScreen
 import tech.thatgravyboat.craftify.ui.PositionEditorScreen
 import tech.thatgravyboat.craftify.utils.Utils
@@ -19,7 +18,7 @@ object Command {
         "theme" to Runnable { theme() },
         "library" to Runnable { library() },
         "screenshot" to Runnable { screenshot() },
-        "refresh" to Runnable { refresh() },
+        "restart" to Runnable { restart() },
         "position" to Runnable { position() },
         "volume" to Runnable { volume() },
         "changelog" to Runnable { changelog() },
@@ -41,8 +40,8 @@ object Command {
         Utils.openScreen(ScreenshotScreen)
     }
 
-    private fun refresh() {
-        LibraryStorage.refresh()
+    private fun restart() {
+        Initializer.reloadService()
     }
 
     private fun position() {

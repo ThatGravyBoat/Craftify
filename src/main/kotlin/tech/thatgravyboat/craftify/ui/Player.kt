@@ -17,7 +17,7 @@ import tech.thatgravyboat.jukebox.api.state.State
 
 object Player {
 
-    private val window = Window(version = ElementaVersion.V1)
+    private val window = Window(version = ElementaVersion.V2)
     private var player: UIPlayer? = null
 
     private var isPlaying = false

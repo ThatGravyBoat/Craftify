@@ -10,7 +10,6 @@
 
 package tech.thatgravyboat.craftify.ssl;
 
-import javax.annotation.Nullable;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
 import java.io.IOException;
@@ -49,7 +48,6 @@ import static tech.thatgravyboat.craftify.ssl.LambdaExceptionUtils.rethrowFuncti
  */
 public class FixSSL {
 
-    @Nullable
     public static SSLContext context = null;
 
     public static void fixup() {

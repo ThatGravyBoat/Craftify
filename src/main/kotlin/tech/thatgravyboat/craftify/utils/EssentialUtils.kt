@@ -1,11 +1,13 @@
 package tech.thatgravyboat.craftify.utils
 
+//#if FABRIC==0
 import gg.essential.api.EssentialAPI
 import gg.essential.api.gui.Slot
 import gg.essential.elementa.components.UIImage
 import gg.essential.elementa.dsl.constrain
 import gg.essential.elementa.dsl.pixels
 import gg.essential.elementa.dsl.width
+//#endif
 import tech.thatgravyboat.craftify.ui.EmptyImageProvider
 import tech.thatgravyboat.jukebox.api.events.EventType
 import tech.thatgravyboat.jukebox.api.events.callbacks.SongChangeEvent
@@ -15,6 +17,7 @@ import java.util.concurrent.CompletableFuture
 
 object EssentialUtils {
 
+    //#if FABRIC==0
     private val songChange: (SongChangeEvent) -> Unit = { event ->
         if (event.state.isPlaying && !event.state.song.type.isAd()) {
             val text = event.state.song.title
@@ -23,8 +26,10 @@ object EssentialUtils {
             setServerHostText(newText)
         }
     }
+    //#endif
 
     fun sendNotification(title: String, message: String, image: String? = null, preview: Boolean = true) {
+        //#if FABRIC==0
         EssentialAPI.getNotifications().push(
             title = title,
             message = message,
@@ -49,16 +54,22 @@ object EssentialUtils {
                 }catch (_: Exception) { }
             }
         )
+        //#endif
     }
 
     fun setupServerAddon(service: BaseService) {
+        //#if FABRIC==0
         service.registerListener(EventType.SONG_CHANGE, songChange)
+        //#endif
     }
 
     fun closeServerAddon(service: BaseService) {
+        //#if FABRIC==0
         service.unregisterListener(EventType.SONG_CHANGE, songChange)
+        //#endif
     }
 
+    //#if FABRIC==0
     private fun setServerHostText(text: String) {
         if (EssentialAPI.getOnboardingData().hasDeniedEssentialTOS()) return
         if (!EssentialAPI.getConfig().essentialFull) return
@@ -85,4 +96,5 @@ object EssentialUtils {
         }
         return text.substring(0, index)
     }
+    //#endif
 }

@@ -7,7 +7,7 @@ import gg.essential.elementa.dsl.childOf
 import gg.essential.elementa.dsl.constrain
 import gg.essential.elementa.dsl.percent
 
-object ScreenshotScreen : WindowScreen(ElementaVersion.V1) {
+object ScreenshotScreen : WindowScreen(ElementaVersion.V2) {
 
     init {
         UIBlock().constrain {

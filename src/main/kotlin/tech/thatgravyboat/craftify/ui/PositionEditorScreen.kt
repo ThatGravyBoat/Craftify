@@ -12,7 +12,7 @@ import tech.thatgravyboat.craftify.config.Config
 import tech.thatgravyboat.craftify.themes.ThemeConfig
 import tech.thatgravyboat.craftify.ui.enums.Anchor
 
-class PositionEditorScreen : WindowScreen(ElementaVersion.V1) {
+class PositionEditorScreen : WindowScreen(ElementaVersion.V2) {
 
     private var clickPos: Pair<Float, Float>? = null
 

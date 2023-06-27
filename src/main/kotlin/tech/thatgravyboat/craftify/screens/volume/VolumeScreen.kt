@@ -12,7 +12,7 @@ import tech.thatgravyboat.craftify.Initializer
 import java.awt.Color
 import java.net.URL
 
-class VolumeScreen : WindowScreen(version = ElementaVersion.V1, restoreCurrentGuiOnClose = true) {
+class VolumeScreen : WindowScreen(version = ElementaVersion.V2, restoreCurrentGuiOnClose = true) {
 
     private var volume: Float = getVolume()
     private var lastVolume: Float = getVolume()

@@ -10,7 +10,7 @@ import gg.essential.elementa.dsl.*
 import gg.essential.universal.GuiScale
 import gg.essential.vigilance.gui.VigilancePalette
 
-class LibraryScreen : WindowScreen(version = ElementaVersion.V1, newGuiScale = GuiScale.scaleForScreenSize().ordinal, restoreCurrentGuiOnClose = true) {
+class LibraryScreen : WindowScreen(version = ElementaVersion.V2, newGuiScale = GuiScale.scaleForScreenSize().ordinal, restoreCurrentGuiOnClose = true) {
 
     private var selectedId = "default"
 

@@ -24,7 +24,7 @@
     ]
   },
   "mixins": [
-    "mixins.${id}.json"
+    "mixins.craftify.json"
   ],
   "license": "All Rights Reserved",
   "environment": "client",

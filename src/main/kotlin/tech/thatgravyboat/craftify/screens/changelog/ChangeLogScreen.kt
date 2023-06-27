@@ -11,7 +11,7 @@ import gg.essential.elementa.markdown.MarkdownComponent
 import gg.essential.universal.GuiScale
 import gg.essential.vigilance.gui.VigilancePalette
 
-class ChangeLogScreen(markdown: String) : WindowScreen(version = ElementaVersion.V1, newGuiScale = GuiScale.scaleForScreenSize().ordinal, restoreCurrentGuiOnClose = true) {
+class ChangeLogScreen(markdown: String) : WindowScreen(version = ElementaVersion.V2, newGuiScale = GuiScale.scaleForScreenSize().ordinal, restoreCurrentGuiOnClose = true) {
 
     init {
         UIBlock(VigilancePalette.getBackground()).constrain {

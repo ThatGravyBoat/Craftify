@@ -31,11 +31,11 @@ base {
 tasks.compileKotlin.setJvmDefault(if (platform.mcVersion >= 11400) "all" else "all-compatibility")
 loom.noServerRunConfigs()
 loom {
-    if (project.platform.isLegacyForge) {
-        launchConfigs.named("client") {
-            arg("--tweakClass", "gg.essential.loader.stage0.EssentialSetupTweaker")
-        }
-    }
+//    if (project.platform.isLegacyForge) {
+//        launchConfigs.named("client") {
+//            arg("--tweakClass", "gg.essential.loader.stage0.EssentialSetupTweaker")
+//        }
+//    }
     mixin.defaultRefmapName.set("mixins.${mod_id}.refmap.json")
 }
 
@@ -64,8 +64,9 @@ dependencies {
         modImplementation("include"("gg.essential:elementa-${elementa_version}")!!)
         modImplementation("include"("gg.essential:vigilance-${vigilance_version}")!!)
         modImplementation("include"("gg.essential:universalcraft-${universal_version}")!!)
-        runtimeOnly("gg.essential:loader-fabric:1.0.0")
+//        runtimeOnly("gg.essential:loader-fabric:1.0.0")
     } else {
+        compileOnly("gg.essential:essential-${essential_version ?: platform}")
         shade("gg.essential:loader-launchwrapper:1.1.3") {
             isTransitive = false
         }
@@ -80,8 +81,7 @@ dependencies {
         exclude("org.jetbrains.kotlin")
         exclude("org.slf4j")
     }
-    compileOnly("gg.essential:essential-${essential_version ?: platform}:4166+ge3c5b9d02")
-    shade("tech.thatgravyboat:jukebox-jvm:1.0-20230501.082941-23") {
+    shade("tech.thatgravyboat:jukebox-jvm:1.0-20230507.112340-25") {
         isTransitive = false
     }
 }

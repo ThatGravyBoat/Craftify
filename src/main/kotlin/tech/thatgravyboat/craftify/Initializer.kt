@@ -27,7 +27,7 @@ object Initializer {
     private val skipForward = UKeybind("Skip Forward", "Craftify", UKeybind.Type.KEYBOARD, UKeyboard.KEY_NONE)
     private val skipPrevious = UKeybind("Skip Previous", "Craftify", UKeybind.Type.KEYBOARD, UKeyboard.KEY_NONE)
     private val togglePlaying = UKeybind("Toggle Playing", "Craftify", UKeybind.Type.KEYBOARD, UKeyboard.KEY_NONE)
-    private val hidePlayer = UKeybind("Toggle Spotify HUD", "Craftify", UKeybind.Type.KEYBOARD, UKeyboard.KEY_NONE)
+    private val hidePlayer = UKeybind("Toggle Craftify HUD", "Craftify", UKeybind.Type.KEYBOARD, UKeyboard.KEY_NONE)
 
     private var inited = false
 
@@ -47,21 +47,7 @@ object Initializer {
         //#if MODERN==0
         tech.thatgravyboat.cosmetics.Cosmetics.initialize()
         //#endif
-        if (Config.modMode == 1) {
-            api = SpotifyService(Config.token).also(ServiceHelper::setupSpotify)
-        }
-        if (Config.modMode == 2) {
-            api = YoutubeService(Config.ytmdPassword)
-        }
-        if (Config.modMode == 3) {
-            api = AppleService()
-        }
-        if (Config.modMode == 4) {
-            api = FoobarService(Config.servicePort, true)
-        }
-        api?.start()
-
-        api?.setup()
+        reloadService()
 
         skipForward.register()
         skipPrevious.register()
@@ -160,6 +146,25 @@ object Initializer {
                 api?.setup()
             }
         }
+    }
+
+    fun reloadService() {
+        api?.stop()
+        api?.close()
+        if (Config.modMode == 1) {
+            api = SpotifyService(Config.token).also(ServiceHelper::setupSpotify)
+        }
+        if (Config.modMode == 2) {
+            api = YoutubeService(Config.ytmdPassword)
+        }
+        if (Config.modMode == 3) {
+            api = AppleService()
+        }
+        if (Config.modMode == 4) {
+            api = FoobarService(Config.servicePort, true)
+        }
+        api?.start()
+        api?.setup()
     }
 
     fun getAPI(): Service? {

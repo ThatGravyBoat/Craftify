@@ -1,9 +1,11 @@
 package tech.thatgravyboat.craftify.platform
 
+import gg.essential.elementa.ElementaVersion
 import gg.essential.universal.UKeyboard
 import net.minecraft.client.Minecraft
 import net.minecraft.command.CommandBase
 import net.minecraft.command.ICommandSender
+import net.minecraft.scoreboard.ScoreObjective
 import net.minecraft.util.BlockPos
 import net.minecraftforge.client.ClientCommandHandler
 import net.minecraftforge.fml.client.registry.ClientRegistry
@@ -11,6 +13,7 @@ import net.minecraftforge.fml.client.registry.ClientRegistry
 typealias MCKeyBinding = net.minecraft.client.settings.KeyBinding
 typealias MCEscMenu = net.minecraft.client.gui.GuiIngameMenu
 typealias MCInventoryMenu = net.minecraft.client.gui.inventory.GuiInventory
+typealias MCCreativeMenu = net.minecraft.client.gui.inventory.GuiContainerCreative
 typealias MCChatMenu = net.minecraft.client.gui.GuiChat
 
 fun registerKeybinding(name: String, category: String, type: UKeybind.Type, code: Int): MCKeyBinding {
@@ -29,6 +32,17 @@ fun runOnMcThread(block: () -> Unit) {
 
 fun isGuiHidden(): Boolean {
     return !Minecraft.isGuiEnabled()
+}
+
+fun isDebugGuiOpened(): Boolean {
+    return Minecraft.getMinecraft().gameSettings.showDebugInfo
+}
+
+fun isTabOpened(): Boolean {
+    val mc = Minecraft.getMinecraft()
+    val handler = mc.thePlayer.sendQueue
+    val obj: ScoreObjective? = mc.theWorld.scoreboard.getObjectiveInDisplaySlot(0)
+    return mc.gameSettings.keyBindPlayerList.isKeyDown && (!mc.isIntegratedServerRunning || handler.playerInfoMap.size > 1 || obj != null)
 }
 
 fun registerCommand(name: String, commands: Map<String, Runnable>) {

@@ -146,7 +146,8 @@ object Config : Vigilant(File("./config/craftify.toml")) {
             "Non Intrusive",
             "Always",
             "Inventory Only",
-            "Esc. and Inv. Menu"
+            "Esc. and Inv. Menu",
+            "Tab Overlay"
         ],
         name = "Render Type",
         description = "How/When the song with display.",
