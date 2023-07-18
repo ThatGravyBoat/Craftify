@@ -39,11 +39,9 @@ After Craftify and your software of choice are installed, pick one of the links 
 
 ### Cider
 
-- I don't have an Apple ID, can someone else provide instructions? I'll update the pull request.
+- I don't have an Apple ID or a mac, can someone else provide instructions? I'll update the pull request.
 
 ### Foobar2000
-
-- instructions very incomplete
 
 - Download [Beefweb](https://github.com/hyperblast/beefweb/releases/latest) (__foo__\_beefweb-x.x-x86_64.__fb2k-component__)
 
