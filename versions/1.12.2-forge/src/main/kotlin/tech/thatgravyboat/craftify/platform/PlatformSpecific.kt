@@ -41,8 +41,11 @@ fun isDebugGuiOpened(): Boolean {
 
 fun isTabOpened(): Boolean {
     val mc = Minecraft.getMinecraft()
-    val handler = mc.player.connection
-    val obj: ScoreObjective? = mc.world.scoreboard.getObjectiveInDisplaySlot(0)
+    val player = mc.player ?: return false
+    val handler = player.connection ?: return false
+    val world = mc.world ?: return false
+    val scoreboard = world.scoreboard ?: return false
+    val obj: ScoreObjective? = scoreboard.getObjectiveInDisplaySlot(0)
     return mc.gameSettings.keyBindPlayerList.isKeyDown && (!mc.isIntegratedServerRunning || handler.playerInfoMap.size > 1 || obj != null)
 }
 

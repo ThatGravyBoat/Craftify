@@ -40,8 +40,11 @@ fun isDebugGuiOpened(): Boolean {
 
 fun isTabOpened(): Boolean {
     val mc = Minecraft.getMinecraft()
-    val handler = mc.thePlayer.sendQueue
-    val obj: ScoreObjective? = mc.theWorld.scoreboard.getObjectiveInDisplaySlot(0)
+    val player = mc.thePlayer ?: return false
+    val handler = player.sendQueue ?: return false
+    val world = mc.theWorld ?: return false
+    val scoreboard = world.scoreboard ?: return false
+    val obj: ScoreObjective? = scoreboard.getObjectiveInDisplaySlot(0)
     return mc.gameSettings.keyBindPlayerList.isKeyDown && (!mc.isIntegratedServerRunning || handler.playerInfoMap.size > 1 || obj != null)
 }
 
