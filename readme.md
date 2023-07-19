@@ -39,7 +39,14 @@ After Craftify and your software of choice are installed, pick one of the links 
 
 ### Cider
 
-- I don't have an Apple ID or a mac, can someone else provide instructions? I'll update the pull request.
+- Open Cider
+
+- Open Minecraft (With craftify installed!)
+
+- Go to Craftify's settings by going into a world and running /craftify
+  - or if you use ModMenu, you can go to the settings by clicking on the mod in ModMenu and clicking the sliders icon.
+
+- Change the mod mode to Cider, and you should be set!
 
 ### Foobar2000
 
