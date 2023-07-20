@@ -18,7 +18,7 @@ After Craftify and your software of choice are installed, pick one of the links 
 - [Foobar2000](#foobar2000)
 - [Spotify](#spotify)
 
-### Spotify
+### Spotify 
 
 - Download, install, and run the latest Spotify client
 
