@@ -25,7 +25,7 @@ After Craftify and your software of choice are installed, pick one of the links 
 - Go to Craftify's settings by going into a world and running /craftify
   - or if you use ModMenu, you can go to the settings by clicking on the mod in ModMenu and clicking the sliders icon.
 
-- Change the mod mode to Cider
+- Change the mod mode to Spotify
   
 - Go to the login tab and click Login
 
