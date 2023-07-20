@@ -20,6 +20,10 @@ After Craftify and your software of choice are installed, pick one of the links 
 
 ### Spotify
 
+- Download, install, and run the latest Spotify client
+
+- Log in to Spotify
+
 - Open Minecraft (With craftify installed!)
 
 - Go to Craftify's settings by going into a world and running /craftify
