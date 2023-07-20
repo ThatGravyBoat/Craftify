@@ -15,7 +15,21 @@ After Craftify and your software of choice are installed, pick one of the links 
 - [YTMD](#ytmd)  
 - [Cider](#cider)  
 - [DeaDBeeF](#deadbeef)  
-- [Foobar2000](#foobar2000)  
+- [Foobar2000](#foobar2000)
+- [Spotify](#spotify)
+
+### Spotify
+
+- Open Minecraft (With craftify installed!)
+
+- Go to Craftify's settings by going into a world and running /craftify
+  - or if you use ModMenu, you can go to the settings by clicking on the mod in ModMenu and clicking the sliders icon.
+
+- Change the mod mode to Cider
+  
+- Go to the login tab and click Login
+
+- Log in to your spotify account on the page that pops up, and you should be set!
 
 ### YTMD
 
