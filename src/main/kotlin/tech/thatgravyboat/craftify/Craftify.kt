@@ -7,9 +7,9 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent
 
 //#if MODERN==0
 @Mod(
-    name = "Craftify",
-    modid = "craftify",
-    version = "1.0.0",
+    name = "@NAME@",
+    modid = "@ID@",
+    version = "@VER@",
     modLanguageAdapter = "tech.thatgravyboat.craftify.platform.KotlinLanguageAdapter"
 )
 //#endif
