@@ -132,7 +132,7 @@ class UIControls : UIContainer() {
         }
 
         println("DEBUG UPDATE ${ThemeConfig.showVolumeButton}")
-        if(ThemeConfig.showVolumeButton && (ThemeConfig.hideImage && activeButtons < 7)) {
+        if(ThemeConfig.showVolumeButton && (!ThemeConfig.hideImage || activeButtons < 7)) {
             volumeButton.updateImage(notNullNotBlankOrElse(ThemeConfig.volumeIcon, volume))
             volumeButton.unhide()
             activeButtons++
@@ -140,7 +140,7 @@ class UIControls : UIContainer() {
             volumeButton.hide(true)
         }
 
-        if (ThemeConfig.showPositionEditorButton && (ThemeConfig.hideImage && activeButtons < 7)) {
+        if (ThemeConfig.showPositionEditorButton && (!ThemeConfig.hideImage || activeButtons < 7)) {
             positionButton.updateImage(notNullNotBlankOrElse(ThemeConfig.positionEditorIcon, position))
             positionButton.unhide()
         } else  {
