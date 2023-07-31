@@ -131,7 +131,6 @@ class UIControls : UIContainer() {
             playButton.hide(true)
         }
 
-        println("DEBUG UPDATE ${ThemeConfig.showVolumeButton}")
         if(ThemeConfig.showVolumeButton && (!ThemeConfig.hideImage || activeButtons < 7)) {
             volumeButton.updateImage(notNullNotBlankOrElse(ThemeConfig.volumeIcon, volume))
             volumeButton.unhide()
