@@ -193,9 +193,9 @@ object Config : Vigilant(File("./config/craftify.toml")) {
             type = PropertyType.TEXT,
             name = "Announcement Message",
             category = "General",
-            description = "Format for the announcement message (chat message)"
+            description = "Format for the announcement message (chat message). \${song} will be replaced with the songname and \${artists} will be replaced by the artists"
     )
-    var announcementMessage = "&aCraftify > &7Now Playing: &b%SONG% by %ARTISTS%"
+    var announcementMessage = "&aCraftify > &7Now Playing: &b\${song} by \${artists}"
 
     @Property(
         type = PropertyType.SELECTOR,

@@ -55,8 +55,8 @@ object Player {
         if (Config.announceNewSong == 1) {
             UChat.chat(
                 Config.announcementMessage
-                        .replace("%SONG%", state.song.title)
-                        .replace("%ARTISTS%", state.song.artists.joinToString( ","))
+                        .replace("\${song}", state.song.title)
+                        .replace("\${artists}", state.song.artists.joinToString( ","))
             )
         }
         if (Config.announceNewSong == 2 && Utils.isEssentialInstalled()) {

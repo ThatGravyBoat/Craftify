@@ -122,39 +122,23 @@ class UIControls : UIContainer() {
         activeButtons = updateButton(nextButton, ThemeConfig.showNextButton, ThemeConfig.nextIcon, next, activeButtons)
         activeButtons = updateButton(repeatButton, ThemeConfig.showRepeatButton, ThemeConfig.repeatIcon, repeat, activeButtons)
         activeButtons = updateButton(externalButton, ThemeConfig.showExternalButton, ThemeConfig.externalIcon, external, activeButtons)
-
-        if (ThemeConfig.showPlayButton) {
-            playButton.updateImage(notNullNotBlankOrElse(ThemeConfig.pauseIcon, pause), notNullNotBlankOrElse(ThemeConfig.playIcon, play))
-            playButton.unhide()
-            activeButtons++
-        } else {
-            playButton.hide(true)
-        }
-
-        if(ThemeConfig.showVolumeButton && (!ThemeConfig.hideImage || activeButtons < 7)) {
-            volumeButton.updateImage(notNullNotBlankOrElse(ThemeConfig.volumeIcon, volume))
-            volumeButton.unhide()
-            activeButtons++
-        } else {
-            volumeButton.hide(true)
-        }
-
-        if (ThemeConfig.showPositionEditorButton && (!ThemeConfig.hideImage || activeButtons < 7)) {
-            positionButton.updateImage(notNullNotBlankOrElse(ThemeConfig.positionEditorIcon, position))
-            positionButton.unhide()
-        } else  {
-            positionButton.hide(true)
-        }
+        activeButtons = updateButton(playButton, ThemeConfig.showPlayButton, ThemeConfig.pauseIcon, pause, activeButtons, ThemeConfig.playIcon, play)
+        activeButtons = updateButton(volumeButton, ThemeConfig.showVolumeButton && (!ThemeConfig.hideImage || activeButtons < 7), ThemeConfig.volumeIcon, volume, activeButtons)
+        activeButtons = updateButton(positionButton, ThemeConfig.showPositionEditorButton && (!ThemeConfig.hideImage || activeButtons < 7), ThemeConfig.positionEditorIcon, position, activeButtons)
     }
 
-    private fun updateButton(button: UIButton, visible: Boolean, image: String, default: String, activeButtons: Int = 0): Int {
+    private fun updateButton(button: UIButton, visible: Boolean, image: String, default: String, activeButtons: Int = 0, ogimage: String? = null, ogdefault: String? = null): Int {
         if (!visible) {
             button.hide(true)
             return activeButtons;
         }
 
         button.unhide()
-        button.updateImage(notNullNotBlankOrElse(image, default))
+        if (ogimage == null || ogdefault == null) {
+            button.updateImage(notNullNotBlankOrElse(image, default))
+        } else {
+            button.updateImage(notNullNotBlankOrElse(image, default), notNullNotBlankOrElse(ogimage, ogdefault))
+        }
         return activeButtons + 1;
     }
 
