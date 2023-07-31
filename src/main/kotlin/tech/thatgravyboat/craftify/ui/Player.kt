@@ -54,8 +54,9 @@ object Player {
         AdManager.changeAd()
         if (Config.announceNewSong == 1) {
             UChat.chat(
-                "${ChatColor.GREEN}Craftify > ${ChatColor.GRAY}" +
-                        "Now Playing: ${ChatColor.AQUA}${state.song.title} by ${state.song.artists.joinToString(", ")}"
+                Config.announcementMessage
+                        .replace("%SONG%", state.song.title)
+                        .replace("%ARTISTS%", state.song.artists.joinToString( ","))
             )
         }
         if (Config.announceNewSong == 2 && Utils.isEssentialInstalled()) {

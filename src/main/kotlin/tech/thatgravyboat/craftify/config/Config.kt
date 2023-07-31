@@ -190,6 +190,14 @@ object Config : Vigilant(File("./config/craftify.toml")) {
     var announceNewSong = 0
 
     @Property(
+            type = PropertyType.TEXT,
+            name = "Announcement Message",
+            category = "General",
+            description = "Format for the announcement message (chat message)"
+    )
+    var announcementMessage = "&aCraftify > &7Now Playing: &b%SONG% by %ARTISTS%"
+
+    @Property(
         type = PropertyType.SELECTOR,
         options = [
             "None",
