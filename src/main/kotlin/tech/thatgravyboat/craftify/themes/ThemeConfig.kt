@@ -174,6 +174,14 @@ object ThemeConfig : Vigilant(
     var settingsIcon: String = "https://i.imgur.com/Nd4gQzY.png"
 
     @Property(
+            type = PropertyType.SWITCH,
+            name = "Show settings button",
+            category = "Theme",
+            subcategory = "Icons"
+    )
+    var showSettingsButton: Boolean = true
+
+    @Property(
         type = PropertyType.TEXT,
         name = "Shuffle",
         category = "Theme",
@@ -182,12 +190,28 @@ object ThemeConfig : Vigilant(
     var shuffleIcon: String = "https://i.imgur.com/W58UJGf.png"
 
     @Property(
+            type = PropertyType.SWITCH,
+            name = "Show shuffle button",
+            category = "Theme",
+            subcategory = "Icons"
+    )
+    var showShuffleButton: Boolean = true
+
+    @Property(
         type = PropertyType.TEXT,
         name = "Previous",
         category = "Theme",
         subcategory = "Icons"
     )
     var previousIcon: String = "https://i.imgur.com/Lb4YYOu.png"
+
+    @Property(
+            type = PropertyType.SWITCH,
+            name = "Show previous button",
+            category = "Theme",
+            subcategory = "Icons"
+    )
+    var showPreviousButton: Boolean = true
 
     @Property(
         type = PropertyType.TEXT,
@@ -206,12 +230,28 @@ object ThemeConfig : Vigilant(
     var playIcon: String = "https://i.imgur.com/9tsZMcO.png"
 
     @Property(
+            type = PropertyType.SWITCH,
+            name = "Show play/pause toggle",
+            category = "Theme",
+            subcategory = "Icons"
+    )
+    var showPlayButton: Boolean = true
+
+    @Property(
         type = PropertyType.TEXT,
         name = "Next",
         category = "Theme",
         subcategory = "Icons"
     )
     var nextIcon: String = "https://i.imgur.com/4L2322Q.png"
+
+    @Property(
+            type = PropertyType.SWITCH,
+            name = "Show next button",
+            category = "Theme",
+            subcategory = "Icons"
+    )
+    var showNextButton: Boolean = true
 
     @Property(
         type = PropertyType.TEXT,
@@ -222,12 +262,28 @@ object ThemeConfig : Vigilant(
     var repeatIcon: String = "https://i.imgur.com/C8h1RBc.png"
 
     @Property(
+            type = PropertyType.SWITCH,
+            name = "Show repeat button",
+            category = "Theme",
+            subcategory = "Icons"
+    )
+    var showRepeatButton: Boolean = true
+
+    @Property(
         type = PropertyType.TEXT,
         name = "External Link",
         category = "Theme",
         subcategory = "Icons"
     )
     var externalIcon: String = "https://i.imgur.com/qQs0WHt.png"
+
+    @Property(
+            type = PropertyType.SWITCH,
+            name = "Show external link button",
+            category = "Theme",
+            subcategory = "Icons"
+    )
+    var showExternalButton: Boolean = true
 
     @Property(
         type = PropertyType.TEXT,
@@ -238,12 +294,28 @@ object ThemeConfig : Vigilant(
     var volumeIcon: String = "https://i.imgur.com/RNfbruf.png"
 
     @Property(
+            type = PropertyType.SWITCH,
+            name = "Show volume control button",
+            category = "Theme",
+            subcategory = "Icons"
+    )
+    var showVolumeButton: Boolean = true
+
+    @Property(
         type = PropertyType.TEXT,
         name = "Position Editor",
         category = "Theme",
         subcategory = "Icons"
     )
     var positionEditorIcon: String = "https://i.imgur.com/XZWUSSe.png"
+
+    @Property(
+            type = PropertyType.SWITCH,
+            name = "Show position editor button",
+            category = "Theme",
+            subcategory = "Icons"
+    )
+    var showPositionEditorButton: Boolean = true
 
     init {
         initialize()

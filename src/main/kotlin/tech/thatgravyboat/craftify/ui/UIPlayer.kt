@@ -4,6 +4,8 @@ import gg.essential.elementa.components.UIBlock
 import gg.essential.elementa.components.UIContainer
 import gg.essential.elementa.components.UIImage
 import gg.essential.elementa.components.UIWrappedText
+import gg.essential.elementa.constraints.CenterConstraint
+import gg.essential.elementa.constraints.ChildBasedSizeConstraint
 import gg.essential.elementa.dsl.*
 import gg.essential.elementa.effects.OutlineEffect
 import gg.essential.universal.UScreen
@@ -50,21 +52,21 @@ class UIPlayer : UIBlock(ConfigColorConstraint("background")) {
 
     private var imageUrl = ""
 
-    private val image = UIBlock(VigilancePalette.getHighlight()).constrain {
+    private val image by UIBlock(VigilancePalette.getHighlight()).constrain {
         height = 40.pixel()
         width = 40.pixel()
         x = 5.pixel()
         y = 5.pixel()
     } childOf this
 
-    private val info = UIContainer().constrain {
+    private val info by UIContainer().constrain {
         width = 95.pixel()
         height = 40.pixel()
         x = 50.pixel()
         y = 5.pixel()
     } childOf this
 
-    private val title = UITextMarquee(text = "Song Title").constrain {
+    private val title by UITextMarquee(text = "Song Title").constrain {
         width = 100.percent()
         height = 10.pixel()
         color = ConfigColorConstraint("title")
@@ -78,17 +80,17 @@ class UIPlayer : UIBlock(ConfigColorConstraint("background")) {
         color = ConfigColorConstraint("artist")
     } childOf info }
 
-    private val progress = UIProgressBar().constrain {
+    private val progress by UIProgressBar().constrain {
         width = 100.percent()
         height = 3.pixel()
         y = 40.pixel() - 3.pixel()
     } childOf info
 
-    private val controls = UIControls().constrain {
-        width = 140.pixels()
+    private val controls by UIControls().constrain {
+        width = ChildBasedSizeConstraint()
         height = 10.pixels()
         y = 50.pixel()
-        x = 5.pixels()
+        x = CenterConstraint()
     }
 
     fun clientStop() {
