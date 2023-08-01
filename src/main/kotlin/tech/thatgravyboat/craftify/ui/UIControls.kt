@@ -1,6 +1,7 @@
 package tech.thatgravyboat.craftify.ui
 
 import gg.essential.elementa.components.UIContainer
+import gg.essential.elementa.constraints.SiblingConstraint
 import gg.essential.elementa.dsl.*
 import gg.essential.universal.ChatColor
 import gg.essential.universal.UChat
@@ -30,65 +31,59 @@ class UIControls : UIContainer() {
     private val position = "https://i.imgur.com/XZWUSSe.png"
     private val settings = "https://i.imgur.com/Nd4gQzY.png"
 
-    private val positionButton = UIButton(URL(position), URL(position), click = {
+    private val positionButton by UIButton(URL(position), URL(position), click = {
         Utils.openScreen(PositionEditorScreen())
         false
     }).constrain {
         width = 10.pixels()
         height = 10.pixels()
-        y = 0.pixels()
-        x = 65.pixels() - 48.pixels()
+        x = SiblingConstraint(padding = 2f)
     } childOf this
 
-    private val settingsButton = UIButton(URL(settings), URL(settings), click = {
+    private val settingsButton by UIButton(URL(settings), URL(settings), click = {
         Config.gui()?.let { it1 -> Utils.openScreen(it1) }
         false
     }).constrain {
         width = 10.pixels()
         height = 10.pixels()
-        y = 0.pixels()
-        x = 65.pixels() - 36.pixels()
+        x = SiblingConstraint(padding = 2f)
     } childOf this
 
-    private val shuffleButton = UIButton(URL(shuffle), URL(shuffle), true, click = { state -> Initializer.getAPI()?.setShuffle(!state) ?: false }).constrain {
+    private val shuffleButton by UIButton(URL(shuffle), URL(shuffle), true, click = { state -> Initializer.getAPI()?.setShuffle(!state) ?: false }).constrain {
         width = 10.pixels()
         height = 10.pixels()
         y = 0.pixels()
-        x = 65.pixels() - 24.pixels()
+        x = SiblingConstraint(padding = 2f)
     } childOf this
 
-    private val prevButton = UIButton(URL(prev), URL(prev), click = { Initializer.getAPI()?.prev() ?: false }).constrain {
+    private val prevButton by UIButton(URL(prev), URL(prev), click = { Initializer.getAPI()?.prev() ?: false }).constrain {
         width = 10.pixels()
         height = 10.pixels()
-        y = 0.pixels()
-        x = 65.pixels() - 12.pixels()
+        x = SiblingConstraint(padding = 2f)
     } childOf this
 
-    private val playButton = UIButton(URL(play), URL(pause), click = { state ->
+    private val playButton by UIButton(URL(play), URL(pause), click = { state ->
         Player.stopClient()
         Initializer.getAPI()?.setPaused(state) ?: false
     }).constrain {
         width = 10.pixels()
         height = 10.pixels()
-        y = 0.pixels()
-        x = 65.pixels()
+        x = SiblingConstraint(padding = 2f)
     } childOf this
 
-    private val nextButton = UIButton(URL(next), URL(next), click = { Initializer.getAPI()?.next() ?: false }).constrain {
+    private val nextButton by UIButton(URL(next), URL(next), click = { Initializer.getAPI()?.next() ?: false }).constrain {
         width = 10.pixels()
         height = 10.pixels()
-        y = 0.pixels()
-        x = 65.pixels() + 12.pixels()
+        x = SiblingConstraint(padding = 2f)
     } childOf this
 
-    private val repeatButton = UIButton(URL(repeat), URL(repeat), true, click = { state -> Initializer.getAPI()?.setRepeat(if (state) RepeatState.OFF else RepeatState.SONG) ?: false }).constrain {
+    private val repeatButton by UIButton(URL(repeat), URL(repeat), true, click = { state -> Initializer.getAPI()?.setRepeat(if (state) RepeatState.OFF else RepeatState.SONG) ?: false }).constrain {
         width = 10.pixels()
         height = 10.pixels()
-        y = 0.pixels()
-        x = 65.pixels() + 24.pixels()
+        x = SiblingConstraint(padding = 2f)
     } childOf this
 
-    private val externalButton = UIButton(URL(external), URL(external), click = {
+    private val externalButton by UIButton(URL(external), URL(external), click = {
         Initializer.getAPI()?.getState()?.let {
             val linkingMode = LinkingMode.values()[Config.linkMode]
             if (!linkingMode.copy(URI(it.song.url))) {
@@ -101,18 +96,16 @@ class UIControls : UIContainer() {
     }).constrain {
         width = 10.pixels()
         height = 10.pixels()
-        y = 0.pixels()
-        x = 65.pixels() + 36.pixels()
+        x = SiblingConstraint(padding = 2f)
     } childOf this
 
-    private val volumeButton = UIButton(URL(volume), URL(volume), click = {
+    private val volumeButton by UIButton(URL(volume), URL(volume), click = {
         Utils.openScreen(VolumeScreen())
         false
     }).constrain {
         width = 10.pixels()
         height = 10.pixels()
-        y = 0.pixels()
-        x = 65.pixels() + 48.pixels()
+        x = SiblingConstraint(padding = 2f)
     } childOf this
 
     fun updateState(state: State) {
@@ -122,39 +115,31 @@ class UIControls : UIContainer() {
     }
 
     fun updateTheme() {
-        settingsButton.updateImage(notNullNotBlankOrElse(ThemeConfig.settingsIcon, settings))
-        shuffleButton.updateImage(notNullNotBlankOrElse(ThemeConfig.shuffleIcon, shuffle))
-        prevButton.updateImage(notNullNotBlankOrElse(ThemeConfig.previousIcon, prev))
-        playButton.updateImage(notNullNotBlankOrElse(ThemeConfig.pauseIcon, pause), notNullNotBlankOrElse(ThemeConfig.playIcon, play))
-        nextButton.updateImage(notNullNotBlankOrElse(ThemeConfig.nextIcon, next))
-        repeatButton.updateImage(notNullNotBlankOrElse(ThemeConfig.repeatIcon, repeat))
-        externalButton.updateImage(notNullNotBlankOrElse(ThemeConfig.externalIcon, external))
-        volumeButton.updateImage(notNullNotBlankOrElse(ThemeConfig.volumeIcon, volume))
-        positionButton.updateImage(notNullNotBlankOrElse(ThemeConfig.positionEditorIcon, position))
 
-        if (ThemeConfig.hideImage) {
-            positionButton.hide(true)
-            volumeButton.hide(true)
-            settingsButton.constraints.x = 42.pixels() - 36.pixels()
-            shuffleButton.constraints.x = 42.pixels() - 24.pixels()
-            prevButton.constraints.x = 42.pixels() - 12.pixels()
-            playButton.constraints.x = 42.pixels()
-            nextButton.constraints.x = 42.pixels() + 12.pixels()
-            repeatButton.constraints.x = 42.pixels() + 24.pixels()
-            externalButton.constraints.x = 42.pixels() + 36.pixels()
-        } else {
-            this.addChild(positionButton)
-            this.addChild(volumeButton)
-            positionButton.constraints.x = 65.pixels() - 48.pixels()
-            settingsButton.constraints.x = 65.pixels() - 36.pixels()
-            shuffleButton.constraints.x = 65.pixels() - 24.pixels()
-            prevButton.constraints.x = 65.pixels() - 12.pixels()
-            playButton.constraints.x = 65.pixels()
-            nextButton.constraints.x = 65.pixels() + 12.pixels()
-            repeatButton.constraints.x = 65.pixels() + 24.pixels()
-            externalButton.constraints.x = 65.pixels() + 36.pixels()
-            volumeButton.constraints.x = 65.pixels() + 48.pixels()
+        var activeButtons = updateButton(settingsButton, ThemeConfig.showSettingsButton, ThemeConfig.settingsIcon, settings)
+        activeButtons = updateButton(shuffleButton, ThemeConfig.showShuffleButton, ThemeConfig.shuffleIcon, shuffle, activeButtons)
+        activeButtons = updateButton(prevButton, ThemeConfig.showPreviousButton, ThemeConfig.previousIcon, prev, activeButtons)
+        activeButtons = updateButton(nextButton, ThemeConfig.showNextButton, ThemeConfig.nextIcon, next, activeButtons)
+        activeButtons = updateButton(repeatButton, ThemeConfig.showRepeatButton, ThemeConfig.repeatIcon, repeat, activeButtons)
+        activeButtons = updateButton(externalButton, ThemeConfig.showExternalButton, ThemeConfig.externalIcon, external, activeButtons)
+        activeButtons = updateButton(playButton, ThemeConfig.showPlayButton, ThemeConfig.pauseIcon, pause, activeButtons, ThemeConfig.playIcon, play)
+        activeButtons = updateButton(volumeButton, ThemeConfig.showVolumeButton && (!ThemeConfig.hideImage || activeButtons < 7), ThemeConfig.volumeIcon, volume, activeButtons)
+        activeButtons = updateButton(positionButton, ThemeConfig.showPositionEditorButton && (!ThemeConfig.hideImage || activeButtons < 7), ThemeConfig.positionEditorIcon, position, activeButtons)
+    }
+
+    private fun updateButton(button: UIButton, visible: Boolean, image: String, default: String, activeButtons: Int = 0, ogimage: String? = null, ogdefault: String? = null): Int {
+        if (!visible) {
+            button.hide(true)
+            return activeButtons;
         }
+
+        button.unhide()
+        if (ogimage == null || ogdefault == null) {
+            button.updateImage(notNullNotBlankOrElse(image, default))
+        } else {
+            button.updateImage(notNullNotBlankOrElse(image, default), notNullNotBlankOrElse(ogimage, ogdefault))
+        }
+        return activeButtons + 1;
     }
 
     private fun notNullNotBlankOrElse(input: String?, default: String): String {
