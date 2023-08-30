@@ -9,6 +9,7 @@ import gg.essential.universal.wrappers.UPlayer
 import gg.essential.vigilance.gui.SettingsGui
 import tech.thatgravyboat.craftify.config.Config
 import tech.thatgravyboat.craftify.platform.*
+import tech.thatgravyboat.craftify.services.update.Updater
 import tech.thatgravyboat.craftify.services.ServiceHelper
 import tech.thatgravyboat.craftify.services.ServiceHelper.close
 import tech.thatgravyboat.craftify.services.ServiceHelper.setup
@@ -38,6 +39,7 @@ object Initializer {
         FixSSL.fixup()
         //#endif
         Utils.checkEssential()
+        Updater.check()
 
         Events.TICK.register { onTick() }
         Events.RENDER.register { onRender(it) }
@@ -75,6 +77,9 @@ object Initializer {
             UChat.chat("\u00A76config you will also get a small cosmetic if you do.")
             UChat.chat("\u00A77----------------------")
             UChat.chat("")
+        }
+        if (Updater.hasUpdate() && UPlayer.hasPlayer()) {
+            Updater.showMessage()
         }
         if (isPressed(skipForward)) {
             Utils.async {

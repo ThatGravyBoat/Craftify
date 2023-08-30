@@ -53,7 +53,7 @@ object Command {
     }
 
     private fun changelog() {
-        Utils.fetchString("https://raw.githubusercontent.com/ThatGravyBoat/craftify-data/main/changelog.md")?.let {
+        Utils.fetchString("https://raw.githubusercontent.com/Craftify-Mod/Data/main/changelog.md")?.let {
             Utils.openScreen(ChangeLogScreen(it))
         }
     }

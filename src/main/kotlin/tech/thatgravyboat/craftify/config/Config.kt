@@ -181,7 +181,7 @@ object Config : Vigilant(File("./config/craftify.toml")) {
         options = [
             "Disable",
             "Chat Message",
-            "Essential Notification"
+            "Essential Notification (<=1.12)"
         ],
         name = "Announce New Song",
         category = "General",

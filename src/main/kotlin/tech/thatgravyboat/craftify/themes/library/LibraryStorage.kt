@@ -15,7 +15,7 @@ object LibraryStorage {
         .registerTypeAdapter(URL::class.java, UrlSerializer)
         .create()
 
-    private const val JSON_URL = "https://raw.githubusercontent.com/ThatGravyBoat/craftify-data/main/themes.json"
+    private const val JSON_URL = "https://raw.githubusercontent.com/Craftify-Mod/Data/main/themes.json"
 
     private var storage: MutableMap<String, LibraryTheme> = mutableMapOf()
 
