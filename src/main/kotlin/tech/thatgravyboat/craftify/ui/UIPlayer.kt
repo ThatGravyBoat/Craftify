@@ -15,6 +15,7 @@ import tech.thatgravyboat.craftify.platform.runOnMcThread
 import tech.thatgravyboat.craftify.themes.ThemeConfig
 import tech.thatgravyboat.craftify.ui.constraints.ConfigColorConstraint
 import tech.thatgravyboat.craftify.ui.enums.Anchor
+import tech.thatgravyboat.craftify.utils.RenderUtils
 import tech.thatgravyboat.craftify.utils.SingleImageCache
 import tech.thatgravyboat.craftify.utils.Utils.clearFormatting
 import tech.thatgravyboat.jukebox.api.state.State
@@ -114,9 +115,9 @@ class UIPlayer : UIBlock(ConfigColorConstraint("background")) {
                         image.clearChildren()
                         image.addChild(
                             UIImage(CompletableFuture.supplyAsync {
-                                return@supplyAsync SingleImageCache[url] ?: UIImage.get(url).let {
-                                    val scale = min(it.width / 40, it.height / 40);
-                                    it.getSubimage(it.width / 2 - 20 * scale, it.height / 2 - 20 * scale, 40 * scale, 40 * scale);
+                                return@supplyAsync SingleImageCache[url] ?: RenderUtils.getImage(url).let {
+                                    val scale = min(it.width / 40, it.height / 40)
+                                    it.getSubimage(it.width / 2 - 20 * scale, it.height / 2 - 20 * scale, 40 * scale, 40 * scale)
                                 }.also {
                                     SingleImageCache[url] = it
                                 }

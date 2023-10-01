@@ -2,6 +2,7 @@ package tech.thatgravyboat.craftify
 
 import tech.thatgravyboat.craftify.config.Config
 import tech.thatgravyboat.craftify.screens.changelog.ChangeLogScreen
+import tech.thatgravyboat.craftify.screens.servers.ServersScreen
 import tech.thatgravyboat.craftify.screens.volume.VolumeScreen
 import tech.thatgravyboat.craftify.themes.ThemeConfig
 import tech.thatgravyboat.craftify.themes.library.LibraryScreen
@@ -11,7 +12,7 @@ import tech.thatgravyboat.craftify.utils.Utils
 
 object Command {
 
-    val command = "craftify"
+    const val command = "craftify"
 
     val commands = mapOf(
         "" to Runnable { handle() },
@@ -22,6 +23,7 @@ object Command {
         "position" to Runnable { position() },
         "volume" to Runnable { volume() },
         "changelog" to Runnable { changelog() },
+        "servers" to Runnable { servers() },
     )
 
     private fun handle() {
@@ -56,5 +58,9 @@ object Command {
         Utils.fetchString("https://raw.githubusercontent.com/Craftify-Mod/Data/main/changelog.md")?.let {
             Utils.openScreen(ChangeLogScreen(it))
         }
+    }
+
+    private fun servers() {
+        Utils.openScreen(ServersScreen())
     }
 }

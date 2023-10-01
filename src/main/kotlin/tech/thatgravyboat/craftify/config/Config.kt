@@ -3,6 +3,7 @@ package tech.thatgravyboat.craftify.config
 import gg.essential.vigilance.Vigilant
 import gg.essential.vigilance.data.Property
 import gg.essential.vigilance.data.PropertyType
+import tech.thatgravyboat.craftify.screens.servers.ServersScreen
 import tech.thatgravyboat.craftify.themes.ThemeConfig
 import tech.thatgravyboat.craftify.ui.Player
 import tech.thatgravyboat.craftify.ui.enums.Anchor
@@ -63,6 +64,34 @@ object Config : Vigilant(File("./config/craftify.toml")) {
     }
 
     @Property(
+        type = PropertyType.SWITCH,
+        name = "Send Songs To Servers",
+        category = "Servers",
+        description = "Send the song you're listening to the allowed server you are currently on when it changes."
+    )
+    var sendPackets = false
+
+    @Property(
+        hidden = true,
+        type = PropertyType.PARAGRAPH,
+        name = "Allowed Servers",
+        category = "Servers",
+        description = "Should only be changed via the servers screen in-game."
+    )
+    var allowedServers = ""
+
+    @Property(
+        type = PropertyType.BUTTON,
+        "Shared Servers",
+        category = "Servers",
+        placeholder = "Open",
+        description = "The server that you allow automatic sharing of your current song to.\nThis allows other mods to get your current song to display it, should not be turned on unless you know a mod uses it."
+    )
+    fun servers() {
+        Utils.openScreen(ServersScreen())
+    }
+
+    @Property(
         hidden = true,
         type = PropertyType.SWITCH,
         name = "Send the Essential packets",
@@ -79,24 +108,6 @@ object Config : Vigilant(File("./config/craftify.toml")) {
         description = "Do not turn on unless told otherwise by ThatGravyBoat"
     )
     var thisIsForTestingPacketsDoNotTurnOn = false
-
-    @Property(
-        hidden = true,
-        type = PropertyType.SWITCH,
-        name = "Send Songs To Servers",
-        category = "General",
-        description = "Send the song you're listening to the server you are currently on when it changes."
-    )
-    var sendPackets = false
-
-    @Property(
-        hidden = true,
-        type = PropertyType.PARAGRAPH,
-        name = "Allowed Servers",
-        category = "General",
-        description = "The servers you are allowed to send packets to. (Separate with newlines)\n§5Note: If left blank all servers will be allowed.\n§5Will allow all LAN servers if packets enabled."
-    )
-    var allowedServers = "your.server.here"
 
     @Property(
         type = PropertyType.SELECTOR,
