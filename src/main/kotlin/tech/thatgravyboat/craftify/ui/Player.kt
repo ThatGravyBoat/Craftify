@@ -56,7 +56,8 @@ object Player {
             UChat.chat(
                 Config.announcementMessage
                         .replace("\${song}", state.song.title)
-                        .replace("\${artists}", state.song.artists.joinToString( ","))
+                        .replace("\${artists}", state.song.artists.joinToString( ", "))
+                        .replace("\${artist}", state.song.artists.getOrElse(0) { "" })
             )
         }
         if (Config.announceNewSong == 2 && Utils.isEssentialInstalled()) {
@@ -70,12 +71,12 @@ object Player {
     }
 
     fun updatePlayer(state: State) {
-        if (state.song.type.isAd()) {
+        isPlaying = if (state.song.type.isAd()) {
             player?.updateState(AdManager.getAdState(state))
-            isPlaying = false
+            false
         } else {
             player?.updateState(state)
-            isPlaying = state.isPlaying
+            state.isPlaying
         }
     }
 
@@ -88,7 +89,7 @@ object Player {
 
     fun onRender(matrix: UMatrixStack) {
         if (tempHide) return
-        if (canRender() && Config.modMode != 0) {
+        if (canRender() && Config.getService() != "disabled") {
             checkAndInitPlayer()
             window.draw(matrix)
         }
@@ -98,12 +99,12 @@ object Player {
         if (UScreen.currentScreen is PositionEditorScreen) return false
         val renderType = RenderType.values()[Config.renderType].canRender(UScreen.currentScreen)
         val displayMode = DisplayMode.values()[Config.displayMode].canDisplay(Initializer.getAPI()?.getState())
-        return (UScreen.currentScreen is ScreenshotScreen || (renderType && displayMode)) && Config.modMode != 0
+        return (UScreen.currentScreen is ScreenshotScreen || (renderType && displayMode)) && Config.getService() != "disabled"
     }
 
     // XY values taken from GuiScreen go there if anything screws up.
     fun onMouseClicked(button: Int): Boolean {
-        if (Config.modMode == 0) return false
+        if (Config.getService() == "disabled") return false
         if (tempHide) return false
         if (canRender() && player?.isHovered() == true) {
             player?.mouseClick(UMouse.Scaled.x, UMouse.Scaled.y, button)

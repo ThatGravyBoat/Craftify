@@ -85,11 +85,39 @@ object ThemeConfig : Vigilant(
     var titleColor: Color = Color.WHITE
 
     @Property(
+        type = PropertyType.SELECTOR,
+        name = "Title Font",
+        category = "Theme",
+        options = [
+            "Vanilla",
+            "Minecraft Vector",
+            "Minecraft Vector Bold",
+            "JetBrains Mono",
+            "Minecraft Five"
+        ]
+    )
+    var titleFont: Int = 0
+
+    @Property(
         type = PropertyType.COLOR,
         name = "Artist Color",
         category = "Theme"
     )
     var artistColor: Color = Color.WHITE
+
+    @Property(
+        type = PropertyType.SELECTOR,
+        name = "Artist Font",
+        category = "Theme",
+        options = [
+            "Vanilla",
+            "Minecraft Vector",
+            "Minecraft Vector Bold",
+            "JetBrains Mono",
+            "Minecraft Five"
+        ]
+    )
+    var artistFont: Int = 0
 
     @Property(
         type = PropertyType.COLOR,
@@ -132,6 +160,21 @@ object ThemeConfig : Vigilant(
         decimalPlaces = 0
     )
     var progressRadius: Float = 3f
+
+    @Property(
+        type = PropertyType.SELECTOR,
+        name = "Font",
+        category = "Theme",
+        subcategory = "Progress Bar",
+        options = [
+            "Vanilla",
+            "Minecraft Vector",
+            "Minecraft Vector Bold",
+            "JetBrains Mono",
+            "Minecraft Five"
+        ]
+    )
+    var progressFont: Int = 0
 
     @Property(
         type = PropertyType.COLOR,

@@ -23,6 +23,7 @@ object ServiceHelper {
 
     private const val AUTH_API: String = "https://craftify.thatgravyboat.tech/api/v1/public/auth"
     private val badTokens = mutableSetOf<String>()
+    private val essentialPackets = System.getProperty("craftify.essentialFakePackets", "false") == "true"
     private val GSON = Gson()
     private var lastFailedLogin = 0L
 
@@ -38,10 +39,10 @@ object ServiceHelper {
         registerListener(EventType.UPDATE, songUpdate)
         registerListener(EventType.SONG_CHANGE, songChange)
         registerListener(EventType.VOLUME_CHANGE, volumeChange)
-        if (Config.thisIsForTestingPacketsDoNotTurnOn) {
+        if (Config.sendPackets) {
             ServerAddonHelper.setupServerAddon(this)
         }
-        if (Config.thisIsForTestingEssentialPacketsDoNotTurnOn && Utils.isEssentialInstalled()) {
+        if (essentialPackets && Utils.isEssentialInstalled()) {
             EssentialUtils.setupServerAddon(this)
         }
     }
@@ -50,10 +51,10 @@ object ServiceHelper {
         unregisterListener(EventType.UPDATE, songUpdate)
         unregisterListener(EventType.SONG_CHANGE, songChange)
         unregisterListener(EventType.VOLUME_CHANGE, volumeChange)
-        if (Config.thisIsForTestingPacketsDoNotTurnOn) {
+        if (Config.sendPackets) {
             ServerAddonHelper.closeServerAddon(this)
         }
-        if (Config.thisIsForTestingEssentialPacketsDoNotTurnOn && Utils.isEssentialInstalled()) {
+        if (essentialPackets && Utils.isEssentialInstalled()) {
             EssentialUtils.closeServerAddon(this)
         }
     }
@@ -85,7 +86,7 @@ object ServiceHelper {
                         if (accessToken != null) {
                             Config.token = accessToken
                             Config.refreshToken = if (type != "refresh" && refreshToken == null) "" else refreshToken ?: Config.refreshToken
-                            Config.modMode = 1
+                            Config.musicService = "spotify"
                             Config.markDirty()
                             Config.writeData()
                         } else {

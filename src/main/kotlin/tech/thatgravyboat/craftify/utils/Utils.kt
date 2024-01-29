@@ -47,13 +47,11 @@ object Utils {
         return temp
     }
 
-    fun schedule(delay: Long, unit: TimeUnit, runnable: Runnable) {
-        scheduler.schedule(runnable, delay, unit)
-    }
+    fun schedule(delay: Long, unit: TimeUnit, runnable: Runnable): ScheduledFuture<*>
+        = scheduler.schedule(runnable, delay, unit)
 
-    fun schedule(start: Long, delay: Long, unit: TimeUnit, runnable: Runnable) {
-        scheduler.scheduleAtFixedRate(runnable, start, delay, unit)
-    }
+    fun schedule(start: Long, delay: Long, unit: TimeUnit, runnable: Runnable): ScheduledFuture<*>
+        = scheduler.scheduleAtFixedRate(runnable, start, delay, unit)
 
     fun submit(runnable: Runnable): Future<*> {
         return executor.submit(runnable)

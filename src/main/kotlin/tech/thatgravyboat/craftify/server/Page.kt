@@ -3,14 +3,14 @@ package tech.thatgravyboat.craftify.server
 import com.sun.net.httpserver.HttpExchange
 import com.sun.net.httpserver.HttpHandler
 
-class LoginPage(private val file: String) : HttpHandler {
+class Page(private val file: String) : HttpHandler {
 
     override fun handle(exchange: HttpExchange?) {
         val loginPage = this.javaClass.classLoader.getResourceAsStream("${file}.html")
         val data: ByteArray
         val length: Long
         if (loginPage == null) {
-            data = "Login Page not found in jar resources. Report to ThatGravyBoat#0001 on discord!".toByteArray()
+            data = "$file Page not found in jar resources. Report to ThatGravyBoat#0001 on discord!".toByteArray()
             length = data.size.toLong()
         } else {
             data = ByteArray(loginPage.available())

@@ -14,6 +14,7 @@ import tech.thatgravyboat.craftify.config.Config
 import tech.thatgravyboat.craftify.platform.runOnMcThread
 import tech.thatgravyboat.craftify.themes.ThemeConfig
 import tech.thatgravyboat.craftify.ui.constraints.ConfigColorConstraint
+import tech.thatgravyboat.craftify.ui.constraints.ThemeFontProvider
 import tech.thatgravyboat.craftify.ui.enums.Anchor
 import tech.thatgravyboat.craftify.utils.RenderUtils
 import tech.thatgravyboat.craftify.utils.SingleImageCache
@@ -72,6 +73,7 @@ class UIPlayer : UIBlock(ConfigColorConstraint("background")) {
         width = 100.percent()
         height = 10.pixel()
         color = ConfigColorConstraint("title")
+        fontProvider = ThemeFontProvider("title")
     } childOf info
 
     private val artist by lazy { UIWrappedText("Artists, here").constrain {
@@ -80,6 +82,7 @@ class UIPlayer : UIBlock(ConfigColorConstraint("background")) {
         y = 12.pixel()
         textScale = 0.5.pixel()
         color = ConfigColorConstraint("artist")
+        fontProvider = ThemeFontProvider("artist")
     } childOf info }
 
     private val progress by UIProgressBar().constrain {

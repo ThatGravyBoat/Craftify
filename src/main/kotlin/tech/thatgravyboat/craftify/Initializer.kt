@@ -22,6 +22,7 @@ import tech.thatgravyboat.jukebox.impl.apple.AppleService
 import tech.thatgravyboat.jukebox.impl.foobar.FoobarService
 import tech.thatgravyboat.jukebox.impl.spotify.SpotifyService
 import tech.thatgravyboat.jukebox.impl.youtube.YoutubeService
+import tech.thatgravyboat.jukebox.impl.youtubev2.YoutubeServiceV2
 
 object Initializer {
 
@@ -117,38 +118,41 @@ object Initializer {
     private fun onScreenChanged(screen: MCScreen?) {
         if (screen == null && UScreen.currentScreen is SettingsGui) {
             Player.updateTheme()
-            if (Config.modMode == 0) {
-                api?.stop()
-                api?.close()
-                api = null
-            }
-            if (api !is AppleService && Config.modMode == 3) {
-                api?.stop()
-                api?.close()
-                api = AppleService()
-                api?.start()
-                api?.setup()
-            }
-            if (api !is YoutubeService && Config.modMode == 2) {
-                api?.stop()
-                api?.close()
-                api = YoutubeService(Config.ytmdPassword)
-                api?.start()
-                api?.setup()
-            }
-            if (api !is SpotifyService && Config.modMode == 1) {
-                api?.stop()
-                api?.close()
-                api = SpotifyService(Config.token).also(ServiceHelper::setupSpotify)
-                api?.start()
-                api?.setup()
-            }
-            if (api !is FoobarService && Config.modMode == 4) {
-                api?.stop()
-                api?.close()
-                api = FoobarService(Config.servicePort, true)
-                api?.start()
-                api?.setup()
+            val service = Config.getService()
+            when {
+                api !is AppleService && service == "cider" -> {
+                    api?.stop()
+                    api?.close()
+                    api = AppleService()
+                    api?.start()
+                    api?.setup()
+                }
+                api !is YoutubeService && service == "ytmd" -> {
+                    api?.stop()
+                    api?.close()
+                    api = YoutubeServiceV2(Config.ytmdToken)
+                    api?.start()
+                    api?.setup()
+                }
+                api !is SpotifyService && service == "spotify" -> {
+                    api?.stop()
+                    api?.close()
+                    api = SpotifyService(Config.token).also(ServiceHelper::setupSpotify)
+                    api?.start()
+                    api?.setup()
+                }
+                api !is FoobarService && service == "beefweb" -> {
+                    api?.stop()
+                    api?.close()
+                    api = FoobarService(Config.servicePort, true)
+                    api?.start()
+                    api?.setup()
+                }
+                service == "disabled" -> {
+                    api?.stop()
+                    api?.close()
+                    api = null
+                }
             }
         }
     }
@@ -156,17 +160,11 @@ object Initializer {
     fun reloadService() {
         api?.stop()
         api?.close()
-        if (Config.modMode == 1) {
-            api = SpotifyService(Config.token).also(ServiceHelper::setupSpotify)
-        }
-        if (Config.modMode == 2) {
-            api = YoutubeService(Config.ytmdPassword)
-        }
-        if (Config.modMode == 3) {
-            api = AppleService()
-        }
-        if (Config.modMode == 4) {
-            api = FoobarService(Config.servicePort, true)
+        when (Config.getService()) {
+            "spotify" -> api = SpotifyService(Config.token).also(ServiceHelper::setupSpotify)
+            "ytmd" -> api = YoutubeServiceV2(Config.ytmdToken)
+            "cider" -> api = AppleService()
+            "beefweb" -> api = FoobarService(Config.servicePort, true)
         }
         api?.start()
         api?.setup()

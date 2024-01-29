@@ -28,7 +28,7 @@
     if (token === undefined) {
         statusBad()
     } else {
-        fetch(`http://localhost:21851/settoken?${token}`, {method: "GET"});
+        fetch(`http://localhost:21851/spotify/token?${token}`, {method: "GET"});
         statusGood()
     }
 

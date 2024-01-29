@@ -7,6 +7,7 @@ import gg.essential.elementa.dsl.*
 import tech.thatgravyboat.craftify.Initializer
 import tech.thatgravyboat.craftify.themes.ThemeConfig
 import tech.thatgravyboat.craftify.ui.constraints.ConfigColorConstraint
+import tech.thatgravyboat.craftify.ui.constraints.ThemeFontProvider
 import tech.thatgravyboat.craftify.utils.Utils
 import tech.thatgravyboat.jukebox.api.service.ServiceType
 import java.util.concurrent.TimeUnit
@@ -43,13 +44,14 @@ class UIProgressBar : UIRoundedRectangle(ThemeConfig.progressRadius) {
         y = (-6).pixel()
         textScale = 0.5.pixel()
         color = ConfigColorConstraint("progress_text")
+        fontProvider = ThemeFontProvider("progress")
     } childOf this }
 
     private val endTime by lazy { UIText("0:00").constrain {
         x = 100.percent() - "0:00".width(0.5f).pixel()
         y = (-6).pixel()
         color = ConfigColorConstraint("progress_text")
-
+        fontProvider = ThemeFontProvider("progress")
         textScale = 0.5.pixel()
     } childOf this }
 

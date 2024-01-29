@@ -20,6 +20,7 @@ blossom {
     replaceToken("@VER@", mod_version)
     replaceToken("@NAME@", mod_name)
     replaceToken("@ID@", mod_id)
+    replaceToken("@DEBUG@", true)
 }
 
 version = mod_version
@@ -81,7 +82,7 @@ dependencies {
         exclude("org.jetbrains.kotlin")
         exclude("org.slf4j")
     }
-    shade("tech.thatgravyboat:jukebox-jvm:1.0-20230507.112340-25") {
+    shade("tech.thatgravyboat:jukebox-jvm:1.0-20231031.095916-26") {
         isTransitive = false
     }
 }

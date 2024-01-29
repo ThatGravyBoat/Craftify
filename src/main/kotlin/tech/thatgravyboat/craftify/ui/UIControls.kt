@@ -130,7 +130,7 @@ class UIControls : UIContainer() {
     private fun updateButton(button: UIButton, visible: Boolean, image: String, default: String, activeButtons: Int = 0, ogimage: String? = null, ogdefault: String? = null): Int {
         if (!visible) {
             button.hide(true)
-            return activeButtons;
+            return activeButtons
         }
 
         button.unhide()
@@ -139,7 +139,7 @@ class UIControls : UIContainer() {
         } else {
             button.updateImage(notNullNotBlankOrElse(image, default), notNullNotBlankOrElse(ogimage, ogdefault))
         }
-        return activeButtons + 1;
+        return activeButtons + 1
     }
 
     private fun notNullNotBlankOrElse(input: String?, default: String): String {

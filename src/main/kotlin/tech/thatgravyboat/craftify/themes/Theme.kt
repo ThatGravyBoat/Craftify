@@ -12,7 +12,9 @@ data class Theme(
     val borderColor: Color = Color(1, 165, 82),
     val progressBar: ProgressBar = ProgressBar(),
     val titleColor: Color = Color.WHITE,
+    val titleFont: Int = 0,
     val artistColor: Color = Color.WHITE,
+    val artistFont: Int = 0,
     val backgroundColor: Color = Color(0, 0, 0, 80),
 
     val controlColor: Color = Color.WHITE,
@@ -35,13 +37,16 @@ data class Theme(
 
     fun setConfig() {
         ThemeConfig.artistColor = this.artistColor
+        ThemeConfig.artistFont = this.artistFont
         ThemeConfig.titleColor = this.titleColor
+        ThemeConfig.titleFont = this.titleFont
         ThemeConfig.backgroundColor = this.backgroundColor
         ThemeConfig.borderColor = this.borderColor
         ThemeConfig.progressColor = this.progressBar.barColor
         ThemeConfig.progressBackgroundColor = this.progressBar.barBackgroundColor
         ThemeConfig.progressRadius = this.progressBar.barRadius
         ThemeConfig.progressNumberColor = this.progressBar.numberColor
+        ThemeConfig.progressFont = this.progressBar.font
         ThemeConfig.controlColor = this.controlColor
         ThemeConfig.hoverControlColor = this.controlHoverColor
         ThemeConfig.selectedControlColor = this.selectedControlColor
@@ -73,10 +78,13 @@ data class Theme(
                     ThemeConfig.progressColor,
                     ThemeConfig.progressBackgroundColor,
                     ThemeConfig.progressRadius,
-                    ThemeConfig.progressNumberColor
+                    ThemeConfig.progressNumberColor,
+                    ThemeConfig.progressFont
                 ),
                 ThemeConfig.titleColor,
+                ThemeConfig.titleFont,
                 ThemeConfig.artistColor,
+                ThemeConfig.artistFont,
                 ThemeConfig.backgroundColor,
                 ThemeConfig.controlColor,
                 ThemeConfig.hoverControlColor,
@@ -101,5 +109,6 @@ data class ProgressBar(
     val barColor: Color = Color(255, 255, 255),
     val barBackgroundColor: Color = Color(50, 50, 50),
     val barRadius: Float = 3f,
-    val numberColor: Color = Color(255, 255, 255)
+    val numberColor: Color = Color(255, 255, 255),
+    val font: Int = 0,
 )

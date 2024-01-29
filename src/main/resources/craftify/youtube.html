@@ -1,0 +1,182 @@
+<html lang="en-us">
+<head>
+    <link rel="stylesheet" type="text/css" href="https://craftify.thatgravyboat.tech/stylesheets/index.css">
+    <link rel="stylesheet" type="text/css" href="https://craftify.thatgravyboat.tech/stylesheets/animated-links.css">
+    <link rel="stylesheet" type="text/css" href="https://craftify.thatgravyboat.tech/stylesheets/navigation.css">
+    <link rel="stylesheet" type="text/css" href="https://craftify.thatgravyboat.tech/stylesheets/404.css">
+    <title>Craftify - Login</title>
+    <link rel="icon" type="image/png" href="https://craftify.thatgravyboat.tech/assets/logo.png">
+</head>
+<style>
+    .info-box {
+        width: calc(50% - 8rem);
+        background-color: #363744;
+        border-radius: 1rem;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        padding: 4rem;
+
+        text-align: center;
+    }
+
+    .info-box > h2 {
+        padding: 0;
+        margin: 0.25rem;
+
+        font-size: 1.5rem;
+        font-weight: normal;
+    }
+
+    .code-box {
+        margin-top: 4rem;
+        background: #484954;
+        padding: 1rem;
+        border-radius: 1rem;
+
+        font-size: 3rem;
+    }
+
+    .button {
+        padding: 1rem;
+        background-color: #1DB954;
+        border-radius: 0.5rem;
+
+        outline: none;
+        border: none;
+
+        font-family:jetbrains mono,monospace;
+        color: white;
+
+        cursor: pointer;
+    }
+
+    .button:hover {
+        background-color: #1DB954B2;
+    }
+</style>
+<body>
+<ul class="nav">
+    <li><a href="https://craftify.thatgravyboat.tech/">Home</a></li>
+    <li><a href="https://craftify.thatgravyboat.tech/coming-soon">Themes</a></li>
+    <li><a href="https://discord.gg/jRhkYFmpCa">Discord</a></li>
+</ul>
+
+<div class="middle" style="flex-direction: column">
+    <div id="loading-box" class="info-box">
+        <h2>Connecting to YouTube Music Desktop...</h2>
+    </div>
+    <div id="login-box" class="info-box" style="display: none">
+        <h2>Enable companion authorization</h2>
+        <p>Do ensure that you have the latest version of YouTube Music Desktop installed</p>
+        <p>Make sure you have in the settings 'Enable Companion Authorization' enabled</p>
+        <p>Afterwards, click the button below to try again</p>
+        <h1></h1>
+        <button class="button" onclick="authorize()">Retry</button>
+    </div>
+    <div id="code-box" class="info-box" style="display: none">
+        <h2>Use this code to confirm</h2>
+        <h2>authorization for 'Craftify'</h2>
+
+        <p>Please return to your app to allow Craftify to connect to YouTube Music Desktop</p>
+        <p>Do ensure that you have the latest version of YouTube Music Desktop installed</p>
+        <p>Also make sure the code below matches the code in the application</p>
+
+        <div class="code-box">
+            <span id="code">0000</span>
+        </div>
+    </div>
+    <div id="success-box" class="info-box" style="display: none">
+        <h2>YouTube Music Desktop has been successfully connected!</h2>
+        <p>This page can now be closed</p>
+    </div>
+    <div id="failed-box" class="info-box" style="display: none">
+        <h2>YouTube Music Desktop could not be connected</h2>
+
+        <p>This is either due to an error or you have denied the connection</p>
+        <h1></h1>
+        <button class="button" onclick="authorize()">Retry</button>
+    </div>
+</div>
+
+<div class="foot">
+    <p>Made with <span class="no-font" style="color: red">&#10084</span> by ThatGravyBoat</p>
+</div>
+<script defer>
+function hideAll() {
+    document.getElementById("loading-box").style.display = "none";
+    document.getElementById("login-box").style.display = "none";
+    document.getElementById("code-box").style.display = "none";
+    document.getElementById("success-box").style.display = "none";
+    document.getElementById("failed-box").style.display = "none";
+}
+
+function showLogin() {
+    hideAll();
+    document.getElementById("login-box").style.display = "";
+}
+
+function sendTokenToMod(token) {
+
+}
+
+function getToken(code) {
+    fetch(`http://localhost:9863/api/v1/auth/request`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: `{
+            "appId": "craftify",
+            "code": "${code}"
+        }`,
+    })
+    .then(res => {
+        hideAll();
+        if (res.status === 200) {
+            res.json().then(data => {
+                fetch(`http://localhost:21851/youtube/token?${data.token}`, {method: "GET"});
+                document.getElementById("success-box").style.display = ""
+            }).catch(() => document.getElementById("failed-box").style.display = "")
+        } else {
+            document.getElementById("failed-box").style.display = "";
+        }
+    }).catch(() => {
+        hideAll();
+        document.getElementById("failed-box").style.display = "";
+    })
+}
+
+function authorize() {
+    fetch(`http://localhost:9863/api/v1/auth/requestcode`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: `{
+            "appId": "craftify",
+            "appName": "Craftify",
+            "appVersion": "1.0.0"
+        }`,
+    })
+    .then(res => {
+        if (res.status === 200) {
+            res.json().then(data => {
+                hideAll();
+                document.getElementById("code").innerText = data.code;
+                document.getElementById("code-box").style.display = "";
+
+                getToken(data.code);
+            }).catch(() => showLogin())
+        } else {
+            showLogin()
+        }
+    }).catch(() => showLogin())
+}
+
+authorize()
+</script>
+</body>
+</html>

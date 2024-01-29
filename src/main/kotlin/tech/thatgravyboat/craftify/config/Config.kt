@@ -10,32 +10,16 @@ import tech.thatgravyboat.craftify.ui.enums.Anchor
 import tech.thatgravyboat.craftify.utils.Utils
 import java.io.File
 
-@Suppress("unused")
 object Config : Vigilant(File("./config/craftify.toml")) {
 
     @Property(
-        type = PropertyType.SWITCH,
-        name = "First Time",
+        type = PropertyType.CUSTOM,
+        name = "Music Service",
+        description = "What service you want to use for fetching the music you're listening to?",
         category = "General",
-        description = "Determines whether to show a startup message.",
-        hidden = true
+        customPropertyInfo = ServiceProperty::class
     )
-    var firstTime = true
-
-    @Property(
-        type = PropertyType.SELECTOR,
-        name = "Mod Mode",
-        options = [
-            "Disabled",
-            "Spotify",
-            "YT Music Desktop App",
-            "Cider (Apple Music)",
-            "Beefweb (Foobar2000 & DeaDBeeF)",
-        ],
-        category = "General",
-        description = "Where you would like the mod to get its information from."
-    )
-    var modMode = 0
+    var musicService: String? = "disabled"
 
     @Property(
         type = PropertyType.SELECTOR,
@@ -71,13 +55,7 @@ object Config : Vigilant(File("./config/craftify.toml")) {
     )
     var sendPackets = false
 
-    @Property(
-        hidden = true,
-        type = PropertyType.PARAGRAPH,
-        name = "Allowed Servers",
-        category = "Servers",
-        description = "Should only be changed via the servers screen in-game."
-    )
+    @Property(hidden = true, type = PropertyType.TEXT, name = "Allowed Servers", category = "Servers")
     var allowedServers = ""
 
     @Property(
@@ -90,24 +68,6 @@ object Config : Vigilant(File("./config/craftify.toml")) {
     fun servers() {
         Utils.openScreen(ServersScreen())
     }
-
-    @Property(
-        hidden = true,
-        type = PropertyType.SWITCH,
-        name = "Send the Essential packets",
-        category = "General",
-        description = "Do not turn on unless told otherwise by ThatGravyBoat"
-    )
-    var thisIsForTestingEssentialPacketsDoNotTurnOn = false
-
-    @Property(
-        hidden = true,
-        type = PropertyType.SWITCH,
-        name = "Send the packets",
-        category = "General",
-        description = "Do not turn on unless told otherwise by ThatGravyBoat"
-    )
-    var thisIsForTestingPacketsDoNotTurnOn = false
 
     @Property(
         type = PropertyType.SELECTOR,
@@ -201,10 +161,16 @@ object Config : Vigilant(File("./config/craftify.toml")) {
     var announceNewSong = 0
 
     @Property(
-            type = PropertyType.TEXT,
-            name = "Announcement Message",
-            category = "General",
-            description = "Format for the announcement message (chat message). \${song} will be replaced with the songname and \${artists} will be replaced by the artists"
+        type = PropertyType.TEXT,
+        name = "Announcement Message",
+        category = "General",
+        description = """
+Format for the announcement message (chat message). 
+Variables:
+- ${'$'}{song} will be replaced with the song name.
+- ${'$'}{artists} will be replaced by the artists.
+- ${'$'}{artist} will be replaced by the first artist.
+"""
     )
     var announcementMessage = "&aCraftify > &7Now Playing: &b\${song} by \${artists}"
 
@@ -221,53 +187,26 @@ object Config : Vigilant(File("./config/craftify.toml")) {
     )
     var announcementRendering = 1
 
-    @Property(
-        type = PropertyType.CUSTOM,
-        name = "Login Button",
-        description = "You change to choose a Mod Mode first in General. Click to login in if you haven't already. This will open a web browser where you will have 120s to accept and login.\n&cNote: ONLY FOR SPOTIFY! On YT this just refreshes the session.",
-        placeholder = "Login",
-        category = "Login",
-        customPropertyInfo = LoginButtonProperty::class
-    )
-    var login: Any? = "login"
-
-    @Property(
-        type = PropertyType.TEXT,
-        protectedText = true,
-        name = "Spotify Login Token",
-        description = "The token to access spotify. You should never need to manually edit this.",
-        category = "Login"
-    )
-    var token = ""
-
-    @Property(
-        type = PropertyType.TEXT,
-        protectedText = true,
-        name = "YTMD Password",
-        description = "The YTMD Password. Only for Mod Mode: YTMD",
-        category = "Login"
-    )
-    var ytmdPassword = ""
-
-    @Property(
-        type = PropertyType.NUMBER,
-        min = 0,
-        max = 65535,
-        name = "Service Port",
-        description = "The port to use for certain services. Only for Mod Mode: Beefweb",
-        category = "Login"
-    )
+    //region Service Settings
+    @Property(type = PropertyType.NUMBER, name = "Service Port", category = "Login", hidden = true)
     var servicePort = 8880
 
-    @Property(
-        type = PropertyType.TEXT,
-        protectedText = true,
-        name = "Refresh Token",
-        description = "The token to reaccess spotify.",
-        category = "Login",
-        hidden = true
-    )
+    @Property(type = PropertyType.SWITCH, name = "First Time", category = "General", hidden = true)
+    var firstTime = true
+
+    @Property(type = PropertyType.TEXT, name = "Spotify Login Token", category = "Login", hidden = true)
+    var token = ""
+
+    @Property(type = PropertyType.TEXT, name = "Refresh Token", category = "Login", hidden = true)
     var refreshToken = ""
+
+    @Property(type = PropertyType.TEXT, name = "ytmd Token", category = "Login", hidden = true)
+    var ytmdToken = ""
+    //endregion
+
+    @Deprecated("Replaced with service")
+    @Property(type = PropertyType.NUMBER, name = "Mod Mode", category = "General", hidden = true)
+    var modMode = 0
 
     @Property(type = PropertyType.BUTTON, "Discord", category = "General", subcategory = "Self Promotion", placeholder = "Visit")
     fun discord() {
@@ -303,9 +242,22 @@ object Config : Vigilant(File("./config/craftify.toml")) {
         }
     }
 
-    fun hasToken() = token.isNotBlank()
-
-    fun hasPassword() = ytmdPassword.isNotBlank()
-
     fun optionalRefresh(): String? = refreshToken.ifBlank { null }
+
+    @Suppress("DEPRECATION")
+    fun getService(): String {
+        if (modMode != -1) {
+            musicService = when (modMode) {
+                1 -> "spotify"
+                2 -> "ytmd"
+                3 -> "cider"
+                4 -> "beefweb"
+                else -> "disabled"
+            }
+            modMode = -1
+            markDirty()
+            writeData()
+        }
+        return musicService ?: "disabled"
+    }
 }
