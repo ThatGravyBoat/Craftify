@@ -29,6 +29,7 @@ private val SERVICES = linkedMapOf(
     "spotify" to "Spotify",
     "ytmd" to "YT Music Desktop App",
     "cider" to "Cider (Apple Music)",
+    "cider2" to "Cider 2 (Apple Music)",
     "beefweb" to "Beefweb (Foobar2000 & DeaDBeeF)",
 )
 
@@ -140,7 +141,7 @@ class ServiceComponent(value: String) : SettingComponent() {
         dropdown.collapse(instantly)
     }
 
-    private fun isDisabled(): Boolean = getSelectedService(dropdown.selectedIndex.get()) == "disabled";
+    private fun isDisabled(): Boolean = getSelectedService(dropdown.selectedIndex.get()) == "disabled"
 
     private fun runWindowOnRender(action: (Window) -> Unit) {
         Window.enqueueRenderOperation {

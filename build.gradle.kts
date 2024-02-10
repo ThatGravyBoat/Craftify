@@ -82,7 +82,7 @@ dependencies {
         exclude("org.jetbrains.kotlin")
         exclude("org.slf4j")
     }
-    shade("tech.thatgravyboat:jukebox-jvm:1.0-20231031.095916-26") {
+    shade("tech.thatgravyboat:jukebox-jvm:1.0-20240210.165022-29") {
         isTransitive = false
     }
 }

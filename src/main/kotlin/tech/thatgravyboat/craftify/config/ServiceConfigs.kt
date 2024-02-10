@@ -131,6 +131,13 @@ object ServiceConfigs {
         ),
     )
 
+    private val CIDER2 = listOf(
+        DividerItem(
+            "Notice",
+            "For Cider 2 to work you need to go to connectivity in Cider settings and enable the WebSockets API and RPC Server."
+        ),
+    )
+
     private val BEEFWEB = listOf(
         PropertyItem(
             PropertyData(
@@ -163,6 +170,7 @@ object ServiceConfigs {
             "spotify" -> SPOTIFY
             "ytmd" -> YOUTUBE
             "cider" -> CIDER
+            "cider2" -> CIDER2
             "beefweb" -> BEEFWEB
             else -> listOf()
         }

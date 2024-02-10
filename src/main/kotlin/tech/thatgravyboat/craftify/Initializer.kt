@@ -19,6 +19,7 @@ import tech.thatgravyboat.craftify.utils.Utils
 import tech.thatgravyboat.jukebox.api.service.BaseService
 import tech.thatgravyboat.jukebox.api.service.Service
 import tech.thatgravyboat.jukebox.impl.apple.AppleService
+import tech.thatgravyboat.jukebox.impl.cider.CiderService
 import tech.thatgravyboat.jukebox.impl.foobar.FoobarService
 import tech.thatgravyboat.jukebox.impl.spotify.SpotifyService
 import tech.thatgravyboat.jukebox.impl.youtube.YoutubeService
@@ -127,6 +128,13 @@ object Initializer {
                     api?.start()
                     api?.setup()
                 }
+                api !is AppleService && service == "cider2" -> {
+                    api?.stop()
+                    api?.close()
+                    api = CiderService()
+                    api?.start()
+                    api?.setup()
+                }
                 api !is YoutubeService && service == "ytmd" -> {
                     api?.stop()
                     api?.close()
@@ -164,6 +172,7 @@ object Initializer {
             "spotify" -> api = SpotifyService(Config.token).also(ServiceHelper::setupSpotify)
             "ytmd" -> api = YoutubeServiceV2(Config.ytmdToken)
             "cider" -> api = AppleService()
+            "cider2" -> api = CiderService()
             "beefweb" -> api = FoobarService(Config.servicePort, true)
         }
         api?.start()
