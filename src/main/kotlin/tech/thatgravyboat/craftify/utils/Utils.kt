@@ -4,9 +4,13 @@ import gg.essential.universal.UChat
 import gg.essential.universal.UDesktop
 import gg.essential.universal.UScreen
 import gg.essential.universal.utils.MCScreen
+import io.ktor.client.*
+import io.ktor.client.engine.cio.*
+import io.ktor.client.plugins.*
 import org.apache.commons.io.FileUtils
 import org.apache.commons.io.IOUtils
 import tech.thatgravyboat.craftify.ssl.FixSSL
+import tech.thatgravyboat.jukebox.utils.Http
 import java.io.File
 import java.io.IOException
 import java.io.InputStream
@@ -14,9 +18,11 @@ import java.net.HttpURLConnection
 import java.net.URL
 import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets
+import java.security.cert.X509Certificate
 import java.util.concurrent.*
 import java.util.concurrent.atomic.AtomicInteger
 import javax.net.ssl.HttpsURLConnection
+import javax.net.ssl.X509TrustManager
 
 object Utils {
 
@@ -32,6 +38,23 @@ object Utils {
 
     private var executor = ThreadPoolExecutor(10, 30, 0L, TimeUnit.SECONDS, LinkedBlockingQueue()) { target: Runnable? ->
         Thread(target, "Craftify ${counter.incrementAndGet()}")
+    }
+
+    fun setupJukeboxHttp() {
+        Http.setClient(HttpClient(CIO) {
+            BrowserUserAgent()
+            install(HttpTimeout)
+            engine {
+                https {
+                    // TODO This is a really bad way to do this but ktor CIO doesnt support socket context
+                    trustManager = object: X509TrustManager {
+                        override fun checkClientTrusted(chain: Array<out X509Certificate>?, authType: String?) {}
+                        override fun checkServerTrusted(chain: Array<out X509Certificate>?, authType: String?) {}
+                        override fun getAcceptedIssuers() = null
+                    }
+                }
+            }
+        })
     }
 
     /**

@@ -9,12 +9,12 @@ import gg.essential.universal.wrappers.UPlayer
 import gg.essential.vigilance.gui.SettingsGui
 import tech.thatgravyboat.craftify.config.Config
 import tech.thatgravyboat.craftify.platform.*
-import tech.thatgravyboat.craftify.services.update.Updater
 import tech.thatgravyboat.craftify.services.ServiceHelper
 import tech.thatgravyboat.craftify.services.ServiceHelper.close
 import tech.thatgravyboat.craftify.services.ServiceHelper.setup
-import tech.thatgravyboat.craftify.ui.Player
+import tech.thatgravyboat.craftify.services.update.Updater
 import tech.thatgravyboat.craftify.ssl.FixSSL
+import tech.thatgravyboat.craftify.ui.Player
 import tech.thatgravyboat.craftify.utils.Utils
 import tech.thatgravyboat.jukebox.api.service.BaseService
 import tech.thatgravyboat.jukebox.api.service.Service
@@ -37,8 +37,10 @@ object Initializer {
     private var api: BaseService? = null
 
     fun init() {
+
         //#if MODERN==0
         FixSSL.fixup()
+        Utils.setupJukeboxHttp()
         //#endif
         Utils.checkEssential()
         Updater.check()
