@@ -5,7 +5,8 @@
   "refmap": "mixins.${id}.refmap.json",
   "mixins": [
     "MinecraftClientMixin",
-    "MouseMixin"
+    "MouseMixin",
+    "GameRendererMixin"
   ],
   "verbose": true
 }

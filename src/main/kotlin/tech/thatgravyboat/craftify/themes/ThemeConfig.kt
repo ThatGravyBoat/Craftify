@@ -214,7 +214,7 @@ object ThemeConfig : Vigilant(
         category = "Theme",
         subcategory = "Icons"
     )
-    var settingsIcon: String = "https://i.imgur.com/Nd4gQzY.png"
+    var settingsIcon: String = "https://files.teamresourceful.com/r/9DzwrP.png"
 
     @Property(
             type = PropertyType.SWITCH,
@@ -230,7 +230,7 @@ object ThemeConfig : Vigilant(
         category = "Theme",
         subcategory = "Icons"
     )
-    var shuffleIcon: String = "https://i.imgur.com/W58UJGf.png"
+    var shuffleIcon: String = "https://files.teamresourceful.com/r/Bl9ZTS.png"
 
     @Property(
             type = PropertyType.SWITCH,
@@ -246,7 +246,7 @@ object ThemeConfig : Vigilant(
         category = "Theme",
         subcategory = "Icons"
     )
-    var previousIcon: String = "https://i.imgur.com/Lb4YYOu.png"
+    var previousIcon: String = "https://files.teamresourceful.com/r/Dr7nH1.png"
 
     @Property(
             type = PropertyType.SWITCH,
@@ -262,7 +262,7 @@ object ThemeConfig : Vigilant(
         category = "Theme",
         subcategory = "Icons"
     )
-    var pauseIcon: String = "https://i.imgur.com/JQdBt2K.png"
+    var pauseIcon: String = "https://files.teamresourceful.com/r/55kubx.png"
 
     @Property(
         type = PropertyType.TEXT,
@@ -270,7 +270,7 @@ object ThemeConfig : Vigilant(
         category = "Theme",
         subcategory = "Icons"
     )
-    var playIcon: String = "https://i.imgur.com/9tsZMcO.png"
+    var playIcon: String = "https://files.teamresourceful.com/r/rlQyJs.png"
 
     @Property(
             type = PropertyType.SWITCH,
@@ -286,7 +286,7 @@ object ThemeConfig : Vigilant(
         category = "Theme",
         subcategory = "Icons"
     )
-    var nextIcon: String = "https://i.imgur.com/4L2322Q.png"
+    var nextIcon: String = "https://files.teamresourceful.com/r/FDIAxt.png"
 
     @Property(
             type = PropertyType.SWITCH,
@@ -302,7 +302,7 @@ object ThemeConfig : Vigilant(
         category = "Theme",
         subcategory = "Icons"
     )
-    var repeatIcon: String = "https://i.imgur.com/C8h1RBc.png"
+    var repeatIcon: String = "https://files.teamresourceful.com/r/4gVqmu.png"
 
     @Property(
             type = PropertyType.SWITCH,
@@ -318,7 +318,7 @@ object ThemeConfig : Vigilant(
         category = "Theme",
         subcategory = "Icons"
     )
-    var externalIcon: String = "https://i.imgur.com/qQs0WHt.png"
+    var externalIcon: String = "https://files.teamresourceful.com/r/7gJ4OY.png"
 
     @Property(
             type = PropertyType.SWITCH,
@@ -334,7 +334,7 @@ object ThemeConfig : Vigilant(
         category = "Theme",
         subcategory = "Icons"
     )
-    var volumeIcon: String = "https://i.imgur.com/RNfbruf.png"
+    var volumeIcon: String = "https://files.teamresourceful.com/r/i7XLC1.png"
 
     @Property(
             type = PropertyType.SWITCH,
@@ -350,7 +350,7 @@ object ThemeConfig : Vigilant(
         category = "Theme",
         subcategory = "Icons"
     )
-    var positionEditorIcon: String = "https://i.imgur.com/XZWUSSe.png"
+    var positionEditorIcon: String = "https://files.teamresourceful.com/r/N3c8xm.png"
 
     @Property(
             type = PropertyType.SWITCH,

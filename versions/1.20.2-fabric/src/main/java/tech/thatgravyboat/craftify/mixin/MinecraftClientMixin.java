@@ -1,4 +1,4 @@
-package java.tech.thatgravyboat.craftify.mixin;
+package tech.thatgravyboat.craftify.mixin;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;

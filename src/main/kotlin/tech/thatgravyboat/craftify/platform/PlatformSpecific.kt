@@ -1,6 +1,5 @@
 package tech.thatgravyboat.craftify.platform
 
-import gg.essential.elementa.ElementaVersion
 import gg.essential.universal.UKeyboard
 import net.minecraft.client.Minecraft
 import net.minecraft.command.CommandBase

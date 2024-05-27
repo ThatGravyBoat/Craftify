@@ -165,6 +165,13 @@ object ServiceConfigs {
         ),
     )
 
+    private val TIDAL = listOf(
+        DividerItem(
+            "Notice",
+            "For Tidal to work you need both web api and playback controls turned on it the app settings."
+        ),
+    )
+
     fun get(service: String?): List<CategoryItem> {
         return when (service) {
             "spotify" -> SPOTIFY
@@ -172,6 +179,7 @@ object ServiceConfigs {
             "cider" -> CIDER
             "cider2" -> CIDER2
             "beefweb" -> BEEFWEB
+            "tidal" -> TIDAL
             else -> listOf()
         }
     }

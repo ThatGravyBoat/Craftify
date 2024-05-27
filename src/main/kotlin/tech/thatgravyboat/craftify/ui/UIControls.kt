@@ -10,9 +10,11 @@ import gg.essential.universal.wrappers.message.UTextComponent
 import tech.thatgravyboat.craftify.Initializer
 import tech.thatgravyboat.craftify.config.Config
 import tech.thatgravyboat.craftify.screens.volume.VolumeScreen
+import tech.thatgravyboat.craftify.services.ServiceHelper
 import tech.thatgravyboat.craftify.themes.ThemeConfig
 import tech.thatgravyboat.craftify.ui.enums.LinkingMode
 import tech.thatgravyboat.craftify.utils.Utils
+import tech.thatgravyboat.jukebox.api.service.ServiceFunction
 import tech.thatgravyboat.jukebox.api.state.RepeatState
 import tech.thatgravyboat.jukebox.api.state.State
 import java.net.URI
@@ -20,16 +22,16 @@ import java.net.URL
 
 class UIControls : UIContainer() {
 
-    private val play = "https://i.imgur.com/JQdBt2K.png"
-    private val pause = "https://i.imgur.com/9tsZMcO.png"
-    private val shuffle = "https://i.imgur.com/W58UJGf.png"
-    private val repeat = "https://i.imgur.com/C8h1RBc.png"
-    private val next = "https://i.imgur.com/4L2322Q.png"
-    private val prev = "https://i.imgur.com/Lb4YYOu.png"
-    private val external = "https://i.imgur.com/qQs0WHt.png"
-    private val volume = "https://i.imgur.com/RNfbruf.png"
-    private val position = "https://i.imgur.com/XZWUSSe.png"
-    private val settings = "https://i.imgur.com/Nd4gQzY.png"
+    private val play = "https://files.teamresourceful.com/r/rlQyJs.png"
+    private val pause = "https://files.teamresourceful.com/r/55kubx.png"
+    private val shuffle = "https://files.teamresourceful.com/r/Bl9ZTS.png"
+    private val repeat = "https://files.teamresourceful.com/r/4gVqmu.png"
+    private val next = "https://files.teamresourceful.com/r/FDIAxt.png"
+    private val prev = "https://files.teamresourceful.com/r/Dr7nH1.png"
+    private val external = "https://files.teamresourceful.com/r/7gJ4OY.png"
+    private val volume = "https://files.teamresourceful.com/r/i7XLC1.png"
+    private val position = "https://files.teamresourceful.com/r/N3c8xm.png"
+    private val settings = "https://files.teamresourceful.com/r/9DzwrP.png"
 
     private val positionButton by UIButton(URL(position), URL(position), click = {
         Utils.openScreen(PositionEditorScreen())
@@ -100,7 +102,11 @@ class UIControls : UIContainer() {
     } childOf this
 
     private val volumeButton by UIButton(URL(volume), URL(volume), click = {
-        Utils.openScreen(VolumeScreen())
+        if (ServiceHelper.doesSupport(ServiceFunction.VOLUME)) {
+            Utils.openScreen(VolumeScreen())
+        } else {
+            UChat.chat("Your currently selected service does not support volume control.")
+        }
         false
     }).constrain {
         width = 10.pixels()

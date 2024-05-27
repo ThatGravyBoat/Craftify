@@ -42,7 +42,7 @@ object LibraryStorage {
                 "default",
                 LibraryTheme(
                     "default", "Default Theme", "ThatGravyBoat",
-                    URL("https://i.imgur.com/JQdBt2K.png"), URL("https://i.imgur.com/oJxN5Tm.png"),
+                    URL("https://files.teamresourceful.com/r/ctWcDL.png"), URL("https://files.teamresourceful.com/r/TeRHEF.png"),
                     "This is the default theme provided by the mod.", Theme()
                 )
             )

@@ -6,6 +6,7 @@ import gg.essential.elementa.components.UIImage
 import gg.essential.elementa.dsl.constrain
 import gg.essential.elementa.dsl.percent
 import tech.thatgravyboat.craftify.themes.ThemeConfig
+import tech.thatgravyboat.craftify.utils.MemoryImageCache
 import java.net.URL
 
 class UIButton(private var original: URL, private var clicked: URL, private val color: Boolean = false, click: (UIComponent.(state: Boolean) -> Boolean)? = null) : UIContainer() {
@@ -74,7 +75,7 @@ class UIButton(private var original: URL, private var clicked: URL, private val 
     }
 
     private fun createButtonImageFromUrl(url: URL): UIImage {
-        return UIImage.ofURL(url).constrain {
+        return UIImage.ofURL(url, MemoryImageCache).constrain {
             height = 100.percent()
             width = 100.percent()
         }

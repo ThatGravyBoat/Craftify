@@ -22,16 +22,16 @@ data class Theme(
     val selectedControlColor: Color = Color(1, 165, 82),
     val selectedControlHoverColor: Color = Color(0, 212, 105),
 
-    val settingIcon: String = "https://i.imgur.com/Nd4gQzY.png",
-    val shuffleIcon: String = "https://i.imgur.com/W58UJGf.png",
-    val previousIcon: String = "https://i.imgur.com/Lb4YYOu.png",
-    val pauseIcon: String = "https://i.imgur.com/9tsZMcO.png",
-    val playIcon: String = "https://i.imgur.com/JQdBt2K.png",
-    val nextIcon: String = "https://i.imgur.com/4L2322Q.png",
-    val repeatIcon: String = "https://i.imgur.com/C8h1RBc.png",
-    val externalIcon: String = "https://i.imgur.com/qQs0WHt.png",
-    val volumeIcon: String = "https://i.imgur.com/RNfbruf.png",
-    val positionEditorIcon: String = "https://i.imgur.com/XZWUSSe.png",
+    val settingIcon: String = "https://files.teamresourceful.com/r/9DzwrP.png",
+    val shuffleIcon: String = "https://files.teamresourceful.com/r/Bl9ZTS.png",
+    val previousIcon: String = "https://files.teamresourceful.com/r/Dr7nH1.png",
+    val pauseIcon: String = "https://files.teamresourceful.com/r/55kubx.png",
+    val playIcon: String = "https://files.teamresourceful.com/r/rlQyJs.png",
+    val nextIcon: String = "https://files.teamresourceful.com/r/FDIAxt.png",
+    val repeatIcon: String = "https://files.teamresourceful.com/r/4gVqmu.png",
+    val externalIcon: String = "https://files.teamresourceful.com/r/7gJ4OY.png",
+    val volumeIcon: String = "https://files.teamresourceful.com/r/i7XLC1.png",
+    val positionEditorIcon: String = "https://files.teamresourceful.com/r/N3c8xm.png",
 ) {
     fun getData(): String = GSON.toJson(this)
 

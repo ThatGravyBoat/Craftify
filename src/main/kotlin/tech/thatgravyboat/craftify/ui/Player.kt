@@ -6,7 +6,7 @@ import gg.essential.elementa.dsl.childOf
 import gg.essential.universal.*
 import tech.thatgravyboat.craftify.Initializer
 import tech.thatgravyboat.craftify.config.Config
-import tech.thatgravyboat.craftify.services.AdManager
+import tech.thatgravyboat.craftify.services.ads.AdManager
 import tech.thatgravyboat.craftify.themes.library.ScreenshotScreen
 import tech.thatgravyboat.craftify.ui.enums.Anchor
 import tech.thatgravyboat.craftify.ui.enums.DisplayMode

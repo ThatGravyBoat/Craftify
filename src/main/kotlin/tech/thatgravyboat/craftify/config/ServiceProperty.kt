@@ -31,6 +31,7 @@ private val SERVICES = linkedMapOf(
     "cider" to "Cider (Apple Music)",
     "cider2" to "Cider 2 (Apple Music)",
     "beefweb" to "Beefweb (Foobar2000 & DeaDBeeF)",
+    "tidal" to "Tidal-HiFi",
 )
 
 private fun getSelectedService(index: Int): String? {

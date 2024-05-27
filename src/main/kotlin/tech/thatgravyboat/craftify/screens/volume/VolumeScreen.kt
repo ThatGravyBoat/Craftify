@@ -79,7 +79,7 @@ class VolumeScreen : WindowScreen(version = ElementaVersion.V2, restoreCurrentGu
             box.removeChild(it)
         }
 
-        icon = UIImage.ofURL(URL(if (volume > 0f) "https://i.imgur.com/1Ay43hi.png" else "https://i.imgur.com/v2a3Z8n.png")).constrain {
+        icon = UIImage.ofURL(URL(if (volume > 0f) "https://images.teamresourceful.com/u/FKSB9b.png" else "https://images.teamresourceful.com/u/cwD8Hn.png")).constrain {
             x = 5.pixels()
             y = 15.pixels()
             width = 12.pixels()

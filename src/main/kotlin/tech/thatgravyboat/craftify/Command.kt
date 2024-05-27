@@ -1,14 +1,17 @@
 package tech.thatgravyboat.craftify
 
+import gg.essential.universal.UChat
 import tech.thatgravyboat.craftify.config.Config
 import tech.thatgravyboat.craftify.screens.changelog.ChangeLogScreen
 import tech.thatgravyboat.craftify.screens.servers.ServersScreen
 import tech.thatgravyboat.craftify.screens.volume.VolumeScreen
+import tech.thatgravyboat.craftify.services.ServiceHelper
 import tech.thatgravyboat.craftify.themes.ThemeConfig
 import tech.thatgravyboat.craftify.themes.library.LibraryScreen
 import tech.thatgravyboat.craftify.themes.library.ScreenshotScreen
 import tech.thatgravyboat.craftify.ui.PositionEditorScreen
 import tech.thatgravyboat.craftify.utils.Utils
+import tech.thatgravyboat.jukebox.api.service.ServiceFunction
 
 object Command {
 
@@ -51,7 +54,11 @@ object Command {
     }
 
     private fun volume() {
-        Utils.openScreen(VolumeScreen())
+        if (ServiceHelper.doesSupport(ServiceFunction.VOLUME)) {
+            Utils.openScreen(VolumeScreen())
+        } else {
+            UChat.chat("Your currently selected service does not support volume control.")
+        }
     }
 
     private fun changelog() {

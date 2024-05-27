@@ -12,6 +12,8 @@ import tech.thatgravyboat.craftify.platform.*
 import tech.thatgravyboat.craftify.services.ServiceHelper
 import tech.thatgravyboat.craftify.services.ServiceHelper.close
 import tech.thatgravyboat.craftify.services.ServiceHelper.setup
+import tech.thatgravyboat.craftify.services.ServiceType
+import tech.thatgravyboat.craftify.services.ads.AdManager
 import tech.thatgravyboat.craftify.services.update.Updater
 import tech.thatgravyboat.craftify.ssl.FixSSL
 import tech.thatgravyboat.craftify.ui.Player
@@ -44,6 +46,7 @@ object Initializer {
         //#endif
         Utils.checkEssential()
         Updater.check()
+        AdManager.load()
 
         Events.TICK.register { onTick() }
         Events.RENDER.register { onRender(it) }
@@ -122,61 +125,23 @@ object Initializer {
         if (screen == null && UScreen.currentScreen is SettingsGui) {
             Player.updateTheme()
             val service = Config.getService()
-            when {
-                api !is AppleService && service == "cider" -> {
-                    api?.stop()
-                    api?.close()
-                    api = AppleService()
-                    api?.start()
-                    api?.setup()
-                }
-                api !is AppleService && service == "cider2" -> {
-                    api?.stop()
-                    api?.close()
-                    api = CiderService()
-                    api?.start()
-                    api?.setup()
-                }
-                api !is YoutubeService && service == "ytmd" -> {
-                    api?.stop()
-                    api?.close()
-                    api = YoutubeServiceV2(Config.ytmdToken)
-                    api?.start()
-                    api?.setup()
-                }
-                api !is SpotifyService && service == "spotify" -> {
-                    api?.stop()
-                    api?.close()
-                    api = SpotifyService(Config.token).also(ServiceHelper::setupSpotify)
-                    api?.start()
-                    api?.setup()
-                }
-                api !is FoobarService && service == "beefweb" -> {
-                    api?.stop()
-                    api?.close()
-                    api = FoobarService(Config.servicePort, true)
-                    api?.start()
-                    api?.setup()
-                }
-                service == "disabled" -> {
-                    api?.stop()
-                    api?.close()
-                    api = null
-                }
+            if (service == "disabled") {
+                api?.stop()
+                api?.close()
+                api = null
+            } else {
+                reloadService()
             }
         }
     }
 
     fun reloadService() {
+        val service = Config.getService().takeIf { it != "disabled" } ?: return
+        val type = ServiceType.fromId(service) ?: return
+
         api?.stop()
         api?.close()
-        when (Config.getService()) {
-            "spotify" -> api = SpotifyService(Config.token).also(ServiceHelper::setupSpotify)
-            "ytmd" -> api = YoutubeServiceV2(Config.ytmdToken)
-            "cider" -> api = AppleService()
-            "cider2" -> api = CiderService()
-            "beefweb" -> api = FoobarService(Config.servicePort, true)
-        }
+        api = type.create()
         api?.start()
         api?.setup()
     }

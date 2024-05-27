@@ -6,6 +6,7 @@ import gg.essential.universal.ChatColor
 import gg.essential.universal.UChat
 import gg.essential.universal.wrappers.UPlayer
 import org.apache.commons.io.IOUtils
+import tech.thatgravyboat.craftify.Initializer
 import tech.thatgravyboat.craftify.config.Config
 import tech.thatgravyboat.craftify.ui.Player
 import tech.thatgravyboat.craftify.utils.EssentialUtils
@@ -16,6 +17,7 @@ import tech.thatgravyboat.jukebox.api.events.callbacks.SongChangeEvent
 import tech.thatgravyboat.jukebox.api.events.callbacks.UpdateEvent
 import tech.thatgravyboat.jukebox.api.events.callbacks.VolumeChangeEvent
 import tech.thatgravyboat.jukebox.api.service.BaseService
+import tech.thatgravyboat.jukebox.api.service.ServiceFunction
 import tech.thatgravyboat.jukebox.impl.spotify.SpotifyService
 import java.nio.charset.StandardCharsets
 
@@ -34,6 +36,9 @@ object ServiceHelper {
             showVolumeNotification(it.volume)
         }
     }
+
+    fun doesSupport(function: ServiceFunction): Boolean
+        = Initializer.getAPI()?.getFunctions()?.contains(function) ?: false
 
     fun BaseService.setup() {
         registerListener(EventType.UPDATE, songUpdate)
@@ -126,10 +131,10 @@ object ServiceHelper {
 
     private fun showVolumeNotification(volume: Int) {
         val image = when {
-            volume <= 0 -> "https://i.imgur.com/v2a3Z8n.png"
-            volume <= 30 -> "https://i.imgur.com/8L4av1O.png"
-            volume <= 70 -> "https://i.imgur.com/tGJKxRr.png"
-            else -> "https://i.imgur.com/1Ay43hi.png"
+            volume <= 0 -> "https://images.teamresourceful.com/u/cwD8Hn.png"
+            volume <= 30 -> "https://images.teamresourceful.com/u/xtBaQY.png"
+            volume <= 70 -> "https://images.teamresourceful.com/u/DWDtyo.png"
+            else -> "https://images.teamresourceful.com/u/FKSB9b.png"
         }
         EssentialUtils.sendNotification(
             title = "Craftify",

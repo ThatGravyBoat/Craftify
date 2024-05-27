@@ -1,4 +1,5 @@
 import gg.essential.gradle.util.*
+import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompile
 
 plugins {
     kotlin("jvm")
@@ -32,11 +33,6 @@ base {
 tasks.compileKotlin.setJvmDefault(if (platform.mcVersion >= 11400) "all" else "all-compatibility")
 loom.noServerRunConfigs()
 loom {
-//    if (project.platform.isLegacyForge) {
-//        launchConfigs.named("client") {
-//            arg("--tweakClass", "gg.essential.loader.stage0.EssentialSetupTweaker")
-//        }
-//    }
     mixin.defaultRefmapName.set("mixins.${mod_id}.refmap.json")
 }
 
@@ -65,7 +61,6 @@ dependencies {
         modImplementation("include"("gg.essential:elementa-${elementa_version}")!!)
         modImplementation("include"("gg.essential:vigilance-${vigilance_version}")!!)
         modImplementation("include"("gg.essential:universalcraft-${universal_version}")!!)
-//        runtimeOnly("gg.essential:loader-fabric:1.0.0")
     } else {
         compileOnly("gg.essential:essential-${essential_version ?: platform}")
         shade("gg.essential:loader-launchwrapper:1.1.3") {
@@ -81,7 +76,7 @@ dependencies {
         exclude("org.jetbrains.kotlinx")
         exclude("org.jetbrains.kotlin")
     }
-    shade("tech.thatgravyboat:jukebox-jvm:1.0-20240212.105659-30") {
+    shade("tech.thatgravyboat:jukebox-jvm:1.0-20240526.010630-31") {
         isTransitive = false
     }
 }
@@ -89,9 +84,13 @@ dependencies {
 tasks.processResources {
     inputs.property("id", mod_id)
     inputs.property("name", mod_name)
-    val java = if (project.platform.mcMinor >= 18) {
-        17
-    } else {if (project.platform.mcMinor == 17) 16 else 8 }
+    val java = when {
+        project.platform.mcMinor >= 21 -> 21
+        project.platform.mcMinor == 20 && project.platform.mcPatch >= 5 -> 21
+        project.platform.mcMinor >= 18 -> 17
+        project.platform.mcMinor == 17 -> 16
+        else -> 8
+    }
     val compatLevel = "JAVA_${java}"
     inputs.property("java", java)
     inputs.property("java_level", compatLevel)
@@ -120,6 +119,12 @@ tasks.processResources {
 }
 
 tasks {
+    withType<KotlinJvmCompile>().configureEach {
+        compilerOptions {
+            languageVersion = org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_1_6
+            apiVersion = org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_1_6
+        }
+    }
     withType(Jar::class.java) {
         if (project.platform.isFabric) {
             exclude("mcmod.info", "mods.toml")
