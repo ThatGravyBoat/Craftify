@@ -6,7 +6,8 @@
   "mixins": [
     "MinecraftClientMixin",
     "MouseMixin",
-    "GameRendererMixin"
+    "GameRendererMixin",
+    "CustomPayloadMixin"
   ],
   "verbose": true
 }

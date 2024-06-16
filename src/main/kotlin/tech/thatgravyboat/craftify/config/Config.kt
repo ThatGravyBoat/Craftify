@@ -51,7 +51,7 @@ object Config : Vigilant(File("./config/craftify.toml")) {
         type = PropertyType.SWITCH,
         name = "Send Songs To Servers",
         category = "Servers",
-        description = "Send the song you're listening to the allowed server you are currently on when it changes.\n&cOnly on versions below 1.20.6"
+        description = "Send the song you're listening to the allowed server you are currently on when it changes."
     )
     var sendPackets = false
 
