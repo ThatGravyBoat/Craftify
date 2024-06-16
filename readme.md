@@ -1,10 +1,16 @@
 ## Craftify
 
-Cosmetic Emojis by [Twemoji](https://twemoji.twitter.com/)
-<br>
-Media Not Found icon by [Twemoji](https://twemoji.twitter.com/)
+<div>
+  
+  [![GitHub Repo stars](https://img.shields.io/github/stars/thatgravyboat/craftify?style=for-the-badge&label=Star%20the%20Project&color=%23FFD700)](#)
+  [![Modrinth Downloads](https://img.shields.io/modrinth/dt/craftify?style=for-the-badge&label=Get%20on%20Modrinth&link=https%3A%2F%2Fmodrinth.com%2Fmod%2Fcraftify&color=%231db954)](https://mods.gay/craftify)
+  [![Discord](https://img.shields.io/discord/882179859382665226?style=for-the-badge&color=%235865F2&label=Chat%20on%20Discord&link=https%3A%2F%2Fdiscord.gg%2FjRhkYFmpCa)](https://discord.gg/jRhkYFmpCa)
+  
 
-### How to use
+</div>
+
+
+## How to use
 
 Install Craftify.
 
@@ -103,3 +109,11 @@ After Craftify and your software of choice are installed, pick one of the links 
   - or if you use ModMenu, you can go to the settings by clicking on the mod in ModMenu and clicking the sliders icon.
 
 - Change the mod mode to Beefweb, and you should be set!
+
+## Credits
+
+Cosmetic Emojis by [Twemoji](https://twemoji.twitter.com/)
+<br>
+Media Not Found icon by [Twemoji](https://twemoji.twitter.com/)
+<br>
+Art by [VindoCel](https://www.curseforge.com/members/vindocel/projects)
