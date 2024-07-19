@@ -9,7 +9,7 @@ pluginManagement {
         maven("https://repo.polyfrost.org/releases")
     }
     plugins {
-        val egtVersion = "0.6.0"
+        val egtVersion = "0.6.1"
         id("gg.essential.multi-version.root") version egtVersion
     }
 }
