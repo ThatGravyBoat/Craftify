@@ -37,7 +37,8 @@ loom {
 }
 
 repositories {
-    maven("https://maven.resourcefulbees.com/repository/thatgravyboat/")
+    maven("https://maven.teamresourceful.com/repository/thatgravyboat/")
+    maven("https://maven.teamresourceful.com/repository/maven-private/")
     maven("https://maven.terraformersmc.com/releases/")
     maven("https://repo.essential.gg/repository/maven-public/")
 }
@@ -61,6 +62,10 @@ dependencies {
         modImplementation("include"("gg.essential:elementa-${elementa_version}")!!)
         modImplementation("include"("gg.essential:vigilance-${vigilance_version}")!!)
         modImplementation("include"("gg.essential:universalcraft-${universal_version}")!!)
+
+        if (platform.mcVersion == 12100) {
+            compileOnly("me.zziger:obsoverlay:1.0.0")
+        }
     } else {
         compileOnly("gg.essential:essential-${essential_version ?: platform}")
         shade("gg.essential:loader-launchwrapper:1.1.3") {

@@ -6,6 +6,7 @@ import gg.essential.elementa.dsl.childOf
 import gg.essential.universal.*
 import tech.thatgravyboat.craftify.Initializer
 import tech.thatgravyboat.craftify.config.Config
+import tech.thatgravyboat.craftify.platform.compat.obsoverlay.ObsOverlayCompat
 import tech.thatgravyboat.craftify.services.ads.AdManager
 import tech.thatgravyboat.craftify.themes.library.ScreenshotScreen
 import tech.thatgravyboat.craftify.ui.enums.Anchor
@@ -91,7 +92,9 @@ object Player {
         if (tempHide) return
         if (canRender() && Config.getService() != "disabled") {
             checkAndInitPlayer()
-            window.draw(matrix)
+            ObsOverlayCompat.draw {
+                window.draw(matrix)
+            }
         }
     }
 
