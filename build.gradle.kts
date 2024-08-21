@@ -34,6 +34,15 @@ tasks.compileKotlin.setJvmDefault(if (platform.mcVersion >= 11400) "all" else "a
 loom.noServerRunConfigs()
 loom {
     mixin.defaultRefmapName.set("mixins.${mod_id}.refmap.json")
+
+    runConfigs {
+        getByName("client") {
+            vmArgs("-Xmx4G")
+            if (project.platform.isLegacyForge) {
+                programArgs("--tweakClass", "gg.essential.loader.stage0.EssentialSetupTweaker")
+            }
+        }
+    }
 }
 
 repositories {
@@ -68,9 +77,7 @@ dependencies {
         }
     } else {
         compileOnly("gg.essential:essential-${essential_version ?: platform}")
-        shade("gg.essential:loader-launchwrapper:1.1.3") {
-            isTransitive = false
-        }
+        shade("gg.essential:loader-launchwrapper:1.2.2")
     }
     shade("io.ktor:ktor-client-core-jvm:2.1.0") {
         exclude("org.jetbrains.kotlinx")

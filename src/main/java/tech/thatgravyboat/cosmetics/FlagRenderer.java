@@ -54,11 +54,18 @@ public class FlagRenderer {
 
                 UGraphics.GL.pushMatrix();
                 GlStateManager.alphaFunc(516, 0.1F);
+
+                float yOffset = entity.height + 0.5f;
+                if (entity.getEntityWorld().getScoreboard().getObjectiveInDisplaySlot(2) != null && distanceToEntity < 100) {
+                    yOffset += 0.275f;
+                }
+
                 //#if MC==10809
-                UGraphics.GL.translate(event.x, event.y + entity.height + 0.5, event.z);
+                UGraphics.GL.translate(event.x, event.y + yOffset, event.z);
                 //#else
-                //$$ UGraphics.GL.translate(event.getX(), event.getY() + entity.height + 0.5, event.getZ());
+                //$$ UGraphics.GL.translate(event.getX(), event.getY() + yOffset, event.getZ());
                 //#endif
+
                 GL11.glNormal3f(0.0F, 1.0F, 0.0F);
                 UGraphics.GL.rotate(-renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
                 UGraphics.GL.rotate(renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
@@ -75,8 +82,8 @@ public class FlagRenderer {
                 uRenderer.beginWithActiveShader(UGraphics.DrawMode.QUADS, DefaultVertexFormats.POSITION_COLOR);
                 uRenderer.pos(stack, center + 1.0, -1.0 + offset, 0).color(0f, 0f, 0f, 0.25f).endVertex();
                 uRenderer.pos(stack, center + 1.0, 8.0 + offset, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
-                uRenderer.pos(stack, center + 11.0, 8.0 + offset, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
-                uRenderer.pos(stack, center + 11.0, -1.0 + offset, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
+                uRenderer.pos(stack, center + 12.0, 8.0 + offset, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
+                uRenderer.pos(stack, center + 12.0, -1.0 + offset, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
                 uRenderer.drawDirect();
 
                 UGraphics.bindTexture(0, id);
@@ -87,8 +94,8 @@ public class FlagRenderer {
                 GlStateManager.enablePolygonOffset();
 
                 uRenderer.beginWithActiveShader(UGraphics.DrawMode.QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
-                uRenderer.pos(stack, center + 1.0, 0.25 + offset, 0).tex(0, 10d/72d).color(1f,1f,1f, alpha).endVertex();
-                uRenderer.pos(stack, center + 1.0, 6.75 + offset, 0).tex(0, 62d/72d).color(1f,1f,1f, alpha).endVertex();
+                uRenderer.pos(stack, center + 2.0, 0.25 + offset, 0).tex(0, 10d/72d).color(1f,1f,1f, alpha).endVertex();
+                uRenderer.pos(stack, center + 2.0, 6.75 + offset, 0).tex(0, 62d/72d).color(1f,1f,1f, alpha).endVertex();
                 uRenderer.pos(stack, center + 10.0, 6.75 + offset, 0).tex(1, 62d/72d).color(1f,1f,1f, alpha).endVertex();
                 uRenderer.pos(stack, center + 10.0, 0.25 + offset, 0).tex(1, 10d/72d).color(1f,1f,1f, alpha).endVertex();
                 uRenderer.drawDirect();

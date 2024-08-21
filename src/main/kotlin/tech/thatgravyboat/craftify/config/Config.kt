@@ -148,6 +148,14 @@ object Config : Vigilant(File("./config/craftify.toml")) {
     var premiumControl = false
 
     @Property(
+        type = PropertyType.SWITCH,
+        name = "Streamer Mode",
+        category = "Rendering",
+        description = "Will mark the overlay as an overlay in OBS, meaning if you turn off show overlays it won't be shown.\nThis requires the obs-overlay mod to be installed."
+    )
+    var streamerMode = false
+
+    @Property(
         type = PropertyType.SELECTOR,
         options = [
             "Disable",

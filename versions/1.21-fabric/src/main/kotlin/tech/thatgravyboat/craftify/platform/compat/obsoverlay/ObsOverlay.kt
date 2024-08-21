@@ -1,6 +1,7 @@
 package tech.thatgravyboat.craftify.platform.compat.obsoverlay
 
 import net.fabricmc.loader.api.FabricLoader
+import tech.thatgravyboat.craftify.config.Config
 
 object ObsOverlay {
 
@@ -15,8 +16,9 @@ object ObsOverlay {
 
 object ObsOverlayCompat {
 
-    private val enabled: Boolean = FabricLoader.getInstance().isModLoaded("obs-overlay")
-    // TODO check and add config
+    private val isLoaded = FabricLoader.getInstance().isModLoaded("obs-overlay")
+    val enabled: Boolean
+        get() = isLoaded && Config.streamerMode
 
     fun draw(action: () -> Unit) {
         if (enabled) {
