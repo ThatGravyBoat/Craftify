@@ -32,7 +32,7 @@ object ServiceHelper {
     private val songUpdate: (UpdateEvent) -> Unit = { Player.updatePlayer(it.state) }
     private val songChange: (SongChangeEvent) -> Unit = { Player.changeSong(it.state) }
     private val volumeChange: (VolumeChangeEvent) -> Unit = {
-        if (it.shouldNotify && Utils.isEssentialInstalled()) {
+        if (it.shouldNotify && Utils.isEssentialInstalled) {
             showVolumeNotification(it.volume)
         }
     }
@@ -47,7 +47,7 @@ object ServiceHelper {
         if (Config.sendPackets) {
             ServerAddonHelper.setupServerAddon(this)
         }
-        if (essentialPackets && Utils.isEssentialInstalled()) {
+        if (essentialPackets && Utils.isEssentialInstalled) {
             EssentialUtils.setupServerAddon(this)
         }
     }
@@ -59,7 +59,7 @@ object ServiceHelper {
         if (Config.sendPackets) {
             ServerAddonHelper.closeServerAddon(this)
         }
-        if (essentialPackets && Utils.isEssentialInstalled()) {
+        if (essentialPackets && Utils.isEssentialInstalled) {
             EssentialUtils.closeServerAddon(this)
         }
     }

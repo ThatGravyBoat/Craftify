@@ -7,7 +7,7 @@ import net.minecraft.client.MinecraftClient
 import net.minecraft.client.util.InputUtil
 import net.minecraft.scoreboard.ScoreboardDisplaySlot
 
-typealias MCKeyBinding = net.minecraft.client.option.KeyBinding
+typealias MCKeyBinding = net.minecraft.client.KeyMapping
 typealias MCEscMenu = net.minecraft.client.gui.screen.GameMenuScreen
 typealias MCInventoryMenu = net.minecraft.client.gui.screen.ingame.InventoryScreen
 typealias MCCreativeMenu = net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen

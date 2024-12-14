@@ -1,9 +1,6 @@
 package tech.thatgravyboat.craftify.ui
 
-import gg.essential.elementa.components.UIBlock
-import gg.essential.elementa.components.UIContainer
-import gg.essential.elementa.components.UIImage
-import gg.essential.elementa.components.UIWrappedText
+import gg.essential.elementa.components.*
 import gg.essential.elementa.constraints.CenterConstraint
 import gg.essential.elementa.constraints.ChildBasedSizeConstraint
 import gg.essential.elementa.dsl.*
@@ -16,15 +13,15 @@ import tech.thatgravyboat.craftify.themes.ThemeConfig
 import tech.thatgravyboat.craftify.ui.constraints.ConfigColorConstraint
 import tech.thatgravyboat.craftify.ui.constraints.ThemeFontProvider
 import tech.thatgravyboat.craftify.ui.enums.Anchor
+import tech.thatgravyboat.craftify.utils.MemoryImageCache
 import tech.thatgravyboat.craftify.utils.RenderUtils
-import tech.thatgravyboat.craftify.utils.SingleImageCache
 import tech.thatgravyboat.craftify.utils.Utils.clearFormatting
 import tech.thatgravyboat.jukebox.api.state.State
 import java.net.URL
 import java.util.concurrent.CompletableFuture
 import kotlin.math.min
 
-class UIPlayer : UIBlock(ConfigColorConstraint("background")) {
+class UIPlayer : UIRoundedRectangle(0f) {
 
     init {
         constrain {
@@ -32,6 +29,8 @@ class UIPlayer : UIBlock(ConfigColorConstraint("background")) {
             width = 150.pixel()
             y = 0.percent()
             x = 0.percent()
+            color = ConfigColorConstraint("background")
+            radius = ThemeConfig.backgroundRadius.pixels()
         }
 
         onMouseEnter {
@@ -118,11 +117,11 @@ class UIPlayer : UIBlock(ConfigColorConstraint("background")) {
                         image.clearChildren()
                         image.addChild(
                             UIImage(CompletableFuture.supplyAsync {
-                                return@supplyAsync SingleImageCache[url] ?: RenderUtils.getImage(url).let {
-                                    val scale = min(it.width / 40, it.height / 40)
-                                    it.getSubimage(it.width / 2 - 20 * scale, it.height / 2 - 20 * scale, 40 * scale, 40 * scale)
-                                }.also {
-                                    SingleImageCache[url] = it
+                                MemoryImageCache.COVER_IMAGE.getOrSet(url) { url ->
+                                    RenderUtils.getImage(url).let {
+                                        val scale = min(it.width / 40, it.height / 40)
+                                        it.getSubimage(it.width / 2 - 20 * scale, it.height / 2 - 20 * scale, 40 * scale, 40 * scale)
+                                    }
                                 }
                             }, EmptyImageProvider, EmptyImageProvider).constrain {
                                 width = 100.percent()
@@ -149,6 +148,7 @@ class UIPlayer : UIBlock(ConfigColorConstraint("background")) {
             info.setX(50.pixel())
             this.setWidth(150.pixel())
         }
+        this.setRadius(ThemeConfig.backgroundRadius.pixels())
     }
 
     override fun isHovered(): Boolean {

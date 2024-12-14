@@ -40,11 +40,7 @@ object EssentialUtils {
                             val url = URL(it)
                             this.withCustomComponent(
                                 if (preview) Slot.PREVIEW else Slot.ACTION,
-                                UIImage(CompletableFuture.supplyAsync {
-                                    return@supplyAsync SingleImageCache[url] ?: UIImage.get(url).also { img ->
-                                        SingleImageCache[url] = img
-                                    }
-                                }, EmptyImageProvider, EmptyImageProvider).constrain {
+                                UIImage(CompletableFuture.supplyAsync { MemoryImageCache.COVER_IMAGE.getOrSet(url, UIImage::get) }, EmptyImageProvider, EmptyImageProvider).constrain {
                                     width = 25.pixels()
                                     height = 25.pixels()
                                 }

@@ -26,7 +26,14 @@ import javax.net.ssl.X509TrustManager
 
 object Utils {
 
-    private var isEssentialInstalled = false
+    val isEssentialInstalled by lazy {
+        try {
+            Class.forName("gg.essential.api.EssentialAPI")
+            true
+        } catch (e: ClassNotFoundException) {
+            false
+        }
+    }
 
     private var toOpen: MCScreen? = null
 
@@ -188,16 +195,5 @@ object Utils {
 
     fun String.clearFormatting(): String {
         return this.replace("&([0-9a-fk-or])".toRegex(), "&&r$1")
-    }
-
-    fun isEssentialInstalled() = isEssentialInstalled
-
-    internal fun checkEssential() {
-        isEssentialInstalled = try {
-            Class.forName("gg.essential.api.EssentialAPI")
-            true
-        } catch (e: ClassNotFoundException) {
-            false
-        }
     }
 }

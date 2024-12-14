@@ -6,6 +6,6 @@ object ObsOverlayCompat {
         get() = false
 
     fun draw(action: () -> Unit) {
-
+        action()
     }
 }

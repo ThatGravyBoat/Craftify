@@ -61,7 +61,7 @@ object Player {
                         .replace("\${artist}", state.song.artists.getOrElse(0) { "" })
             )
         }
-        if (Config.announceNewSong == 2 && Utils.isEssentialInstalled()) {
+        if (Config.announceNewSong == 2 && Utils.isEssentialInstalled) {
             EssentialUtils.sendNotification(
                 "Craftify",
                 "Now Playing: \n${state.song.title}",

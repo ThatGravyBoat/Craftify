@@ -18,4 +18,7 @@ enum class DisplayMode {
     open fun canDisplay(state: State?): Boolean {
         throw NotImplementedError()
     }
+
+    override fun toString(): String =
+        this.name.split("_").joinToString(" ") { it.replaceFirstChar(Char::uppercase) }
 }

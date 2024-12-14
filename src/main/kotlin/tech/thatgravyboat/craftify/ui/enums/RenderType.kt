@@ -52,4 +52,10 @@ enum class RenderType {
     open fun canRender(gui: MCScreen?): Boolean {
         throw NotImplementedError()
     }
+
+    override fun toString(): String {
+        return this.name
+    }
+
+
 }

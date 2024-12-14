@@ -9,7 +9,6 @@ import gg.essential.universal.wrappers.UPlayer
 import gg.essential.vigilance.gui.SettingsGui
 import tech.thatgravyboat.craftify.config.Config
 import tech.thatgravyboat.craftify.platform.*
-import tech.thatgravyboat.craftify.services.ServiceHelper
 import tech.thatgravyboat.craftify.services.ServiceHelper.close
 import tech.thatgravyboat.craftify.services.ServiceHelper.setup
 import tech.thatgravyboat.craftify.services.ServiceType
@@ -20,12 +19,6 @@ import tech.thatgravyboat.craftify.ui.Player
 import tech.thatgravyboat.craftify.utils.Utils
 import tech.thatgravyboat.jukebox.api.service.BaseService
 import tech.thatgravyboat.jukebox.api.service.Service
-import tech.thatgravyboat.jukebox.impl.apple.AppleService
-import tech.thatgravyboat.jukebox.impl.cider.CiderService
-import tech.thatgravyboat.jukebox.impl.foobar.FoobarService
-import tech.thatgravyboat.jukebox.impl.spotify.SpotifyService
-import tech.thatgravyboat.jukebox.impl.youtube.YoutubeService
-import tech.thatgravyboat.jukebox.impl.youtubev2.YoutubeServiceV2
 
 object Initializer {
 
@@ -44,7 +37,7 @@ object Initializer {
         FixSSL.fixup()
         Utils.setupJukeboxHttp()
         //#endif
-        Utils.checkEssential()
+        Utils.isEssentialInstalled // Load lazy
         Updater.check()
         AdManager.load()
 

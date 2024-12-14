@@ -127,6 +127,16 @@ object ThemeConfig : Vigilant(
     var backgroundColor: Color = Color(0, 0, 0, 80)
 
     @Property(
+        type = PropertyType.DECIMAL_SLIDER,
+        name = "Background Radius",
+        category = "Theme",
+        minF = 0f,
+        maxF = 10f,
+        decimalPlaces = 0
+    )
+    var backgroundRadius: Float = 0f
+
+    @Property(
         type = PropertyType.COLOR,
         name = "Background Color",
         category = "Theme",

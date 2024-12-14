@@ -6,14 +6,14 @@ import gg.essential.universal.UResolution
 import tech.thatgravyboat.craftify.config.Config
 
 enum class Anchor(private val xAlignment: Alignment, private val yAlignment: Alignment) {
-    TOPLEFT(Alignment.LEFT, Alignment.TOP),
-    TOPMIDDLE(Alignment.MIDDLE, Alignment.TOP),
-    TOPRIGHT(Alignment.RIGHT, Alignment.TOP),
-    MIDDLELEFT(Alignment.LEFT, Alignment.MIDDLE),
-    MIDDLERIGHT(Alignment.RIGHT, Alignment.MIDDLE),
-    BOTTOMLEFT(Alignment.LEFT, Alignment.BOTTOM),
-    BOTTOMMIDDLE(Alignment.MIDDLE, Alignment.BOTTOM),
-    BOTTOMRIGHT(Alignment.RIGHT, Alignment.BOTTOM);
+    TOP_LEFT(Alignment.LEFT, Alignment.TOP),
+    TOP_MIDDLE(Alignment.MIDDLE, Alignment.TOP),
+    TOP_RIGHT(Alignment.RIGHT, Alignment.TOP),
+    MIDDLE_LEFT(Alignment.LEFT, Alignment.MIDDLE),
+    MIDDLE_RIGHT(Alignment.RIGHT, Alignment.MIDDLE),
+    BOTTOM_LEFT(Alignment.LEFT, Alignment.BOTTOM),
+    BOTTOM_MIDDLE(Alignment.MIDDLE, Alignment.BOTTOM),
+    BOTTOM_RIGHT(Alignment.RIGHT, Alignment.BOTTOM);
 
     fun getDefaultXOffset(): Float {
         return if (xAlignment == Alignment.RIGHT) 1f else 0f
@@ -48,4 +48,7 @@ enum class Anchor(private val xAlignment: Alignment, private val yAlignment: Ali
             else -> 0f
         }
     }
+
+    override fun toString(): String =
+        this.name.split("_").joinToString(" ") { it.replaceFirstChar(Char::uppercase) }
 }

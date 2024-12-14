@@ -75,7 +75,7 @@ class UIButton(private var original: URL, private var clicked: URL, private val 
     }
 
     private fun createButtonImageFromUrl(url: URL): UIImage {
-        return UIImage.ofURL(url, MemoryImageCache).constrain {
+        return UIImage.ofURL(url, MemoryImageCache.UI_ELEMENTS).constrain {
             height = 100.percent()
             width = 100.percent()
         }

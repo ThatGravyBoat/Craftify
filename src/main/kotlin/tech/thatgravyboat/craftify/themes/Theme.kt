@@ -16,6 +16,7 @@ data class Theme(
     val artistColor: Color = Color.WHITE,
     val artistFont: Int = 0,
     val backgroundColor: Color = Color(0, 0, 0, 80),
+    val backgroundRadius: Float = 0f,
 
     val controlColor: Color = Color.WHITE,
     val controlHoverColor: Color = Color(150, 150, 150),
@@ -41,6 +42,7 @@ data class Theme(
         ThemeConfig.titleColor = this.titleColor
         ThemeConfig.titleFont = this.titleFont
         ThemeConfig.backgroundColor = this.backgroundColor
+        ThemeConfig.backgroundRadius = this.backgroundRadius
         ThemeConfig.borderColor = this.borderColor
         ThemeConfig.progressColor = this.progressBar.barColor
         ThemeConfig.progressBackgroundColor = this.progressBar.barBackgroundColor
@@ -86,6 +88,7 @@ data class Theme(
                 ThemeConfig.artistColor,
                 ThemeConfig.artistFont,
                 ThemeConfig.backgroundColor,
+                ThemeConfig.backgroundRadius,
                 ThemeConfig.controlColor,
                 ThemeConfig.hoverControlColor,
                 ThemeConfig.selectedControlColor,
