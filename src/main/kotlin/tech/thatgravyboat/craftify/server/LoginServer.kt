@@ -2,8 +2,9 @@ package tech.thatgravyboat.craftify.server
 
 import com.sun.net.httpserver.HttpServer
 import gg.essential.universal.UChat
-import tech.thatgravyboat.craftify.config.Config
 import tech.thatgravyboat.craftify.services.ServiceHelper
+import tech.thatgravyboat.craftify.services.config.ServiceConfig
+import tech.thatgravyboat.craftify.services.config.YoutubeServiceConfig
 import tech.thatgravyboat.craftify.utils.Utils
 import java.net.InetSocketAddress
 import java.util.concurrent.ScheduledFuture
@@ -23,9 +24,8 @@ object LoginServer {
                     it.createContext("/youtube", Page("craftify/youtube"))
                     it.createContext("/spotify/token", SetTokenPage { code -> ServiceHelper.loginToSpotify("auth", code) })
                     it.createContext("/youtube/token", SetTokenPage { code ->
-                        Config.ytmdToken = code
-                        Config.markDirty()
-                        Config.writeData()
+                        YoutubeServiceConfig.token = code
+                        ServiceConfig.save()
                     })
 
                     it.start()

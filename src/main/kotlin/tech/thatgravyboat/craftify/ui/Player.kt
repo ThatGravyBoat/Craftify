@@ -3,17 +3,15 @@ package tech.thatgravyboat.craftify.ui
 import gg.essential.elementa.ElementaVersion
 import gg.essential.elementa.components.Window
 import gg.essential.elementa.dsl.childOf
-import gg.essential.universal.*
+import gg.essential.universal.UMatrixStack
+import gg.essential.universal.UMouse
+import gg.essential.universal.UScreen
 import tech.thatgravyboat.craftify.Initializer
 import tech.thatgravyboat.craftify.config.Config
 import tech.thatgravyboat.craftify.platform.compat.obsoverlay.ObsOverlayCompat
 import tech.thatgravyboat.craftify.services.ads.AdManager
 import tech.thatgravyboat.craftify.themes.library.ScreenshotScreen
 import tech.thatgravyboat.craftify.ui.enums.Anchor
-import tech.thatgravyboat.craftify.ui.enums.DisplayMode
-import tech.thatgravyboat.craftify.ui.enums.RenderType
-import tech.thatgravyboat.craftify.utils.EssentialUtils
-import tech.thatgravyboat.craftify.utils.Utils
 import tech.thatgravyboat.jukebox.api.state.State
 
 object Player {
@@ -27,7 +25,7 @@ object Player {
     private fun checkAndInitPlayer() {
         if (player == null) {
             player = UIPlayer() childOf window
-            changePosition(Anchor.values()[Config.anchorPoint])
+            changePosition(Config.anchorPoint)
             updateTheme()
             Initializer.getAPI()?.getState()?.let {
                 player?.updateState(it)
@@ -51,24 +49,8 @@ object Player {
         player?.clientStop()
     }
 
-    fun changeSong(state: State) {
+    fun changeSong() {
         AdManager.changeAd()
-        if (Config.announceNewSong == 1) {
-            UChat.chat(
-                Config.announcementMessage
-                        .replace("\${song}", state.song.title)
-                        .replace("\${artists}", state.song.artists.joinToString( ", "))
-                        .replace("\${artist}", state.song.artists.getOrElse(0) { "" })
-            )
-        }
-        if (Config.announceNewSong == 2 && Utils.isEssentialInstalled) {
-            EssentialUtils.sendNotification(
-                "Craftify",
-                "Now Playing: \n${state.song.title}",
-                if (Config.announcementRendering != 0) state.song.cover else null,
-                Config.announcementRendering == 1
-            )
-        }
     }
 
     fun updatePlayer(state: State) {
@@ -90,7 +72,7 @@ object Player {
 
     fun onRender(matrix: UMatrixStack) {
         if (tempHide) return
-        if (canRender() && Config.getService() != "disabled") {
+        if (canRender() && Config.musicService != "disabled") {
             checkAndInitPlayer()
             ObsOverlayCompat.draw {
                 window.draw(matrix)
@@ -100,14 +82,14 @@ object Player {
 
     private fun canRender(): Boolean {
         if (UScreen.currentScreen is PositionEditorScreen) return false
-        val renderType = RenderType.values()[Config.renderType].canRender(UScreen.currentScreen)
-        val displayMode = DisplayMode.values()[Config.displayMode].canDisplay(Initializer.getAPI()?.getState())
-        return (UScreen.currentScreen is ScreenshotScreen || (renderType && displayMode)) && Config.getService() != "disabled"
+        val renderType = Config.renderType.canRender(UScreen.currentScreen)
+        val displayMode = Config.displayMode.canDisplay(Initializer.getAPI()?.getState())
+        return (UScreen.currentScreen is ScreenshotScreen || (renderType && displayMode)) && Config.musicService != "disabled"
     }
 
     // XY values taken from GuiScreen go there if anything screws up.
     fun onMouseClicked(button: Int): Boolean {
-        if (Config.getService() == "disabled") return false
+        if (Config.musicService == "disabled") return false
         if (tempHide) return false
         if (canRender() && player?.isHovered() == true) {
             player?.mouseClick(UMouse.Scaled.x, UMouse.Scaled.y, button)

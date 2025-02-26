@@ -61,8 +61,6 @@ val shade: Configuration by configurations.creating {
 }
 
 dependencies {
-    val elementa_version: String by project
-    val vigilance_version: String by project
     val universal_version: String by project
     val essential_version: String? by project
     if (platform.isFabric) {
@@ -72,8 +70,8 @@ dependencies {
         modImplementation("net.fabricmc.fabric-api:fabric-api:$fabricApiVersion")
         modImplementation("net.fabricmc:fabric-language-kotlin:$fabricLanguageKotlinVersion")
         modImplementation("com.terraformersmc:modmenu:$modMenuVersion")
-        modImplementation("include"("gg.essential:elementa-${elementa_version}")!!)
-        modImplementation("include"("gg.essential:vigilance-${vigilance_version}")!!)
+        modImplementation("include"("gg.essential:elementa:676")!!)
+        modImplementation("include"("gg.essential:vigilance:306")!!)
         modImplementation("include"("gg.essential:universalcraft-${universal_version}")!!)
 
         if (platform.mcVersion >= 12100) {
@@ -92,7 +90,7 @@ dependencies {
         exclude("org.jetbrains.kotlinx")
         exclude("org.jetbrains.kotlin")
     }
-    shade("tech.thatgravyboat:jukebox-jvm:1.0-20240526.010630-31") {
+    shade("tech.thatgravyboat:jukebox-jvm:1.0-20250215.194152-32") {
         isTransitive = false
     }
 }

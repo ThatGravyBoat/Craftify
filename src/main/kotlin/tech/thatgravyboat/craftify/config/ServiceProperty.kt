@@ -16,6 +16,7 @@ import gg.essential.vigilance.gui.VigilancePalette
 import gg.essential.vigilance.gui.settings.DropDownComponent
 import gg.essential.vigilance.gui.settings.SettingComponent
 import gg.essential.vigilance.utils.onLeftClick
+import tech.thatgravyboat.craftify.services.config.ServiceConfig
 import java.awt.Color
 
 class ServiceProperty : PropertyInfo() {
@@ -87,6 +88,8 @@ class ServiceComponent(value: String) : SettingComponent() {
             runWindowOnRender {
                 it.removeChild(overlay)
                 it.removeFloatingComponent(overlay)
+
+                ServiceConfig.save()
             }
         }
 

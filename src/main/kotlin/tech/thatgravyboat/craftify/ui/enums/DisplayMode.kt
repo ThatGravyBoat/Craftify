@@ -11,7 +11,7 @@ enum class DisplayMode {
         override fun canDisplay(state: State?): Boolean = state?.isPlaying ?: false
     },
 
-    WHEN_SOUND_FOUND {
+    WHEN_SONG_FOUND {
         override fun canDisplay(state: State?) = state?.song != null
     };
 

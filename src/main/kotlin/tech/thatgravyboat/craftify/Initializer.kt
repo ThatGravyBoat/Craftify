@@ -117,7 +117,7 @@ object Initializer {
     private fun onScreenChanged(screen: MCScreen?) {
         if (screen == null && UScreen.currentScreen is SettingsGui) {
             Player.updateTheme()
-            val service = Config.getService()
+            val service = Config.musicService
             if (service == "disabled") {
                 api?.stop()
                 api?.close()
@@ -129,7 +129,7 @@ object Initializer {
     }
 
     fun reloadService() {
-        val service = Config.getService().takeIf { it != "disabled" } ?: return
+        val service = Config.musicService.takeIf { it != "disabled" } ?: return
         val type = ServiceType.fromId(service) ?: return
 
         api?.stop()
