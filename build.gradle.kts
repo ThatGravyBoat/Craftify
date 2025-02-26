@@ -1,5 +1,6 @@
 import gg.essential.gradle.util.*
-import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompile
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 
 plugins {
     kotlin("jvm")
@@ -70,7 +71,7 @@ dependencies {
         modImplementation("include"("gg.essential:vigilance:306")!!)
         modImplementation("include"("gg.essential:universalcraft-${universal_version}")!!)
 
-        if (platform.mcVersion == 12100) {
+        if (platform.mcVersion >= 12100) {
             compileOnly("me.zziger:obsoverlay:1.0.0")
         }
     } else {
@@ -129,7 +130,7 @@ tasks.processResources {
 }
 
 tasks {
-    withType<KotlinJvmCompile>().configureEach {
+    withType<KotlinCompile>().configureEach {
         compilerOptions {
             languageVersion = org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_1_6
             apiVersion = org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_1_6
