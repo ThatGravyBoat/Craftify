@@ -4,7 +4,6 @@ package tech.thatgravyboat.cosmetics;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.mojang.util.UUIDTypeAdapter;
 import tech.thatgravyboat.craftify.utils.Utils;
 
 import java.util.HashMap;
@@ -63,7 +62,7 @@ public class FlagCosmetics {
 
     private static Optional<UUID> getUUID(String uuid) throws IllegalArgumentException {
         if (uuid.length() == 36 && uuid.contains("-")) {
-            return Optional.of(UUIDTypeAdapter.fromString(uuid));
+            return Optional.of(UUID.fromString(uuid.replaceFirst("(\\w{8})(\\w{4})(\\w{4})(\\w{4})(\\w{12})", "$1-$2-$3-$4-$5")));
         } else if (uuid.length() == 32) {
             return Optional.of(UUID.fromString(uuid));
         }

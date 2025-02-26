@@ -2,6 +2,9 @@ package tech.thatgravyboat.craftify.config
 
 import gg.essential.vigilance.data.*
 import tech.thatgravyboat.craftify.server.LoginServer
+import tech.thatgravyboat.craftify.services.config.BeefwebServiceConfig
+import tech.thatgravyboat.craftify.services.config.SpotifyServiceConfig
+import tech.thatgravyboat.craftify.services.config.YoutubeServiceConfig
 import tech.thatgravyboat.craftify.utils.Utils
 
 object ServiceConfigs {
@@ -37,10 +40,10 @@ object ServiceConfigs {
                     protected = true,
                 ),
                 ReadWritePropertyValue(
-                    { Config.token },
+                    { SpotifyServiceConfig.auth },
                     {
                         if (it is String) {
-                            Config.token = it
+                            SpotifyServiceConfig.auth = it
                         } else {
                             val name = it?.let { it::class.simpleName } ?: "null"
                             println("Invalid token type: $name")
@@ -61,10 +64,10 @@ object ServiceConfigs {
                     protected = true,
                 ),
                 ReadWritePropertyValue(
-                    { Config.refreshToken },
+                    { SpotifyServiceConfig.refresh },
                     {
                         if (it is String) {
-                            Config.refreshToken = it
+                            SpotifyServiceConfig.refresh = it
                         } else {
                             val name = it?.let { it::class.simpleName } ?: "null"
                             println("Invalid refresh token type: $name")
@@ -108,10 +111,10 @@ object ServiceConfigs {
                     protected = true,
                 ),
                 ReadWritePropertyValue(
-                    { Config.ytmdToken },
+                    { YoutubeServiceConfig.token },
                     {
                         if (it is String) {
-                            Config.ytmdToken = it
+                            YoutubeServiceConfig.token = it
                         } else {
                             val name = it?.let { it::class.simpleName } ?: "null"
                             println("Invalid token type: $name")
@@ -149,10 +152,10 @@ object ServiceConfigs {
                     min = 0, max = 65535,
                 ),
                 ReadWritePropertyValue(
-                    { Config.servicePort },
+                    { BeefwebServiceConfig.port },
                     {
                         if (it is Int) {
-                            Config.servicePort = it
+                            BeefwebServiceConfig.port = it
                         } else {
                             val name = it?.let { it::class.simpleName } ?: "null"
                             println("Invalid token type: $name")

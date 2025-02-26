@@ -1,5 +1,7 @@
 package tech.thatgravyboat.craftify.utils
 
+import com.google.gson.JsonObject
+import com.google.gson.JsonPrimitive
 import gg.essential.universal.UChat
 import gg.essential.universal.UDesktop
 import gg.essential.universal.UScreen

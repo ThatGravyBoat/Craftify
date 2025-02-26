@@ -20,8 +20,8 @@ class PositionEditorScreen : WindowScreen(ElementaVersion.V2) {
         height = 50.pixels()
         width = if (ThemeConfig.hideImage) 105.pixels() else 150.pixels()
     }.apply {
-        this.setX(Anchor.values()[Config.anchorPoint].getX(this))
-        this.setY(Anchor.values()[Config.anchorPoint].getY(this))
+        this.setX(Config.anchorPoint.getX(this))
+        this.setY(Config.anchorPoint.getY(this))
     }.onMouseClick {
         if (it.relativeX < 0 || it.relativeY < 0 || it.relativeX > getWidth() || it.relativeY > getHeight()) {
             clickPos = null
@@ -46,11 +46,10 @@ class PositionEditorScreen : WindowScreen(ElementaVersion.V2) {
     override fun onScreenClose() {
         super.onScreenClose()
 
-        val position = Anchor.values()[Config.anchorPoint]
-        Config.xOffset = position.getXOffset(box)
-        Config.yOffset = position.getYOffset(box)
+        Config.xOffset = Config.anchorPoint.getXOffset(box)
+        Config.yOffset = Config.anchorPoint.getYOffset(box)
         Config.markDirty()
         Config.writeData()
-        Player.changePosition(position)
+        Player.changePosition(Config.anchorPoint)
     }
 }

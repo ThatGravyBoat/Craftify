@@ -51,14 +51,18 @@ class UIControls : UIContainer() {
         x = SiblingConstraint(padding = 2f)
     } childOf this
 
-    private val shuffleButton by UIButton(URL(shuffle), URL(shuffle), true, click = { state -> Initializer.getAPI()?.setShuffle(!state) ?: false }).constrain {
+    private val shuffleButton by UIButton(URL(shuffle), URL(shuffle), true, click = {
+        Initializer.getAPI()?.toggleShuffle() == true
+    }).constrain {
         width = 10.pixels()
         height = 10.pixels()
         y = 0.pixels()
         x = SiblingConstraint(padding = 2f)
     } childOf this
 
-    private val prevButton by UIButton(URL(prev), URL(prev), click = { Initializer.getAPI()?.prev() ?: false }).constrain {
+    private val prevButton by UIButton(URL(prev), URL(prev), click = {
+        Initializer.getAPI()?.prev() == true
+    }).constrain {
         width = 10.pixels()
         height = 10.pixels()
         x = SiblingConstraint(padding = 2f)
@@ -66,20 +70,24 @@ class UIControls : UIContainer() {
 
     private val playButton by UIButton(URL(play), URL(pause), click = { state ->
         Player.stopClient()
-        Initializer.getAPI()?.setPaused(state) ?: false
+        Initializer.getAPI()?.setPaused(state) == true
     }).constrain {
         width = 10.pixels()
         height = 10.pixels()
         x = SiblingConstraint(padding = 2f)
     } childOf this
 
-    private val nextButton by UIButton(URL(next), URL(next), click = { Initializer.getAPI()?.next() ?: false }).constrain {
+    private val nextButton by UIButton(URL(next), URL(next), click = {
+        Initializer.getAPI()?.next() == true
+    }).constrain {
         width = 10.pixels()
         height = 10.pixels()
         x = SiblingConstraint(padding = 2f)
     } childOf this
 
-    private val repeatButton by UIButton(URL(repeat), URL(repeat), true, click = { state -> Initializer.getAPI()?.setRepeat(if (state) RepeatState.OFF else RepeatState.SONG) ?: false }).constrain {
+    private val repeatButton by UIButton(URL(repeat), URL(repeat), true, click = { state ->
+        Initializer.getAPI()?.toggleRepeat() == true
+    }).constrain {
         width = 10.pixels()
         height = 10.pixels()
         x = SiblingConstraint(padding = 2f)
@@ -87,8 +95,7 @@ class UIControls : UIContainer() {
 
     private val externalButton by UIButton(URL(external), URL(external), click = {
         Initializer.getAPI()?.getState()?.let {
-            val linkingMode = LinkingMode.values()[Config.linkMode]
-            if (!linkingMode.copy(URI(it.song.url))) {
+            if (!Config.linkMode.copy(URI(it.song.url))) {
                 val component = UTextComponent("${ChatColor.GREEN}Craftify > ${ChatColor.GRAY} $it")
                 component.setClick(MCClickEventAction.OPEN_URL, it.song.url)
                 UChat.chat(component)

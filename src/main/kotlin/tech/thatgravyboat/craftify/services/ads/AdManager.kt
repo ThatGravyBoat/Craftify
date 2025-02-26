@@ -29,10 +29,13 @@ object AdManager {
         try {
             val json = GSON.fromJson(Utils.fetchString(JSON_URL), JsonObject::class.java)
             for (entry in json.entrySet()) {
-                if (entry.value !is JsonObject) continue
-                ads[entry.key] = GSON.fromJson(entry.value, Advertisment::class.java)
+                if (entry.value !is JsonObject) {
+                    ads.remove(entry.key)
+                } else {
+                    ads[entry.key] = GSON.fromJson(entry.value, Advertisment::class.java)
+                }
             }
-        } catch (ignored: Exception) {
+        } catch (_: Exception) {
             // Ignore when could not download
         }
     }

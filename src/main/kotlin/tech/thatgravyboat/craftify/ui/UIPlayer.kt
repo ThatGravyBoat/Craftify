@@ -37,8 +37,7 @@ class UIPlayer : UIRoundedRectangle(0f) {
             enableEffect(OutlineEffect(ThemeConfig.borderColor, 1F, drawInsideChildren = true))
             if (Config.premiumControl) {
                 setHeight(63.pixel())
-                val pos = Anchor.values()[Config.anchorPoint]
-                if (pos.ordinal > 4) setY(pos.getY(this) - 13.pixels())
+                if (Config.anchorPoint.ordinal > 4) setY(Config.anchorPoint.getY(this) - 13.pixels())
                 this.addChild(controls)
             }
         }
@@ -46,8 +45,7 @@ class UIPlayer : UIRoundedRectangle(0f) {
         onMouseLeave {
             removeEffect<OutlineEffect>()
             setHeight(50.pixel())
-            val pos = Anchor.values()[Config.anchorPoint]
-            if (pos.ordinal > 4) setY(pos.getY(this))
+            if (Config.anchorPoint.ordinal > 4) setY(Config.anchorPoint.getY(this))
             this.removeChild(controls)
         }
     }
