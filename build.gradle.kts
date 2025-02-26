@@ -1,9 +1,6 @@
 import gg.essential.gradle.util.*
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-java {
-    withSourcesJar()
-}
 
 plugins {
     kotlin("jvm")
