@@ -41,22 +41,22 @@ object LibraryStorage {
             Pair(
                 "default",
                 LibraryTheme(
-                    "default", "Default Theme", "ThatGravyBoat",
-                    URL("https://files.teamresourceful.com/r/ctWcDL.png"), URL("https://files.teamresourceful.com/r/TeRHEF.png"),
-                    "This is the default theme provided by the mod.", Theme()
+                    "default",
+                    "Default Theme",
+                    "ThatGravyBoat",
+                    URL("https://files.teamresourceful.com/r/ctWcDL.png"),
+                    URL("https://files.teamresourceful.com/r/TeRHEF.png"),
+                    "This is the default theme provided by the mod.",
+                    Theme()
                 )
             )
         )
     }
 
-    private fun download() {
-        try {
-            val fromJson = GSON.fromJson(Utils.fetchString(JSON_URL), Array<LibraryTheme>::class.java)
-            for (libraryTheme in fromJson) {
-                storage[libraryTheme.id] = libraryTheme
-            }
-        } catch (ignored: Exception) {
-            // Ignore when could not download
+    private fun download() = runCatching {
+        val fromJson = GSON.fromJson(Utils.fetchString(JSON_URL), Array<LibraryTheme>::class.java)
+        for (libraryTheme in fromJson) {
+            storage[libraryTheme.id] = libraryTheme
         }
     }
 }

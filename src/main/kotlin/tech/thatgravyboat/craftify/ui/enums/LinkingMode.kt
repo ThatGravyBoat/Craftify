@@ -23,4 +23,10 @@ enum class LinkingMode {
     open fun copy(url: URI): Boolean {
         throw NotImplementedError()
     }
+
+    override fun toString(): String = when (this) {
+        OPEN -> "Open in Browser"
+        COPY -> "Copy to Clipboard"
+        CHAT -> "Put in Chat"
+    }
 }

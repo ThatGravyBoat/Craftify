@@ -63,7 +63,7 @@ object ServiceHelper {
                         val accessToken = data.getString("access_token")
                         if (accessToken != null) {
                             SpotifyServiceConfig.auth = accessToken
-                            SpotifyServiceConfig.refresh = refreshToken.takeIf { type == "refresh" } ?: SpotifyServiceConfig.refresh
+                            SpotifyServiceConfig.refresh = refreshToken ?: SpotifyServiceConfig.refresh
                             ServiceConfig.save()
 
                             Config.musicService = "spotify"

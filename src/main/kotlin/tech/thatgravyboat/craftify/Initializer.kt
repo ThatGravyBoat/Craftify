@@ -37,7 +37,6 @@ object Initializer {
         FixSSL.fixup()
         Utils.setupJukeboxHttp()
         //#endif
-        Utils.isEssentialInstalled // Load lazy
         Updater.check()
         AdManager.load()
 

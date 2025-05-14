@@ -16,7 +16,7 @@ public class GameRendererMixin {
     @Inject(
         method = "render",
         at = @At(
-            value = "INVOKE",
+            value = "INVOKE:LAST",
             target = "Lnet/minecraft/client/gui/DrawContext;draw()V",
             shift = At.Shift.BEFORE
         )

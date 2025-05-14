@@ -22,17 +22,17 @@ object ConfigMigrations {
 
         // Migrate service configs to global system
         Migration {
-            SpotifyServiceConfig.auth = it.remove("login.spotify_login_token") as? String ?: ""
-            SpotifyServiceConfig.refresh = it.remove("login.refresh_token") as? String ?: ""
-            YoutubeServiceConfig.token = it.remove("login.ytmd_token") as? String ?: ""
-            BeefwebServiceConfig.port = it.remove("login.service_port") as? Int ?: 8880
+            SpotifyServiceConfig.auth = it.remove("login.spotify_login_token") as? String ?: SpotifyServiceConfig.auth
+            SpotifyServiceConfig.refresh = it.remove("login.refresh_token") as? String ?: SpotifyServiceConfig.refresh
+            YoutubeServiceConfig.token = it.remove("login.ytmd_token") as? String ?: YoutubeServiceConfig.token
+            BeefwebServiceConfig.port = it.remove("login.service_port") as? Int ?: BeefwebServiceConfig.port
 
             ServiceConfig.save()
         },
 
         // Removal of Essential announcement
         Migration {
-            it["general.announcement"] = it.remove("general.announce_new_song") != 0
+            it["general.announcement"] = it.remove("general.announce_new_song") != 0 || it["general.announcement"] == true
         },
     )
 }

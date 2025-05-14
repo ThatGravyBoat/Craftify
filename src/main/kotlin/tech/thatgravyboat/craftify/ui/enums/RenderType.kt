@@ -53,8 +53,14 @@ enum class RenderType {
         throw NotImplementedError()
     }
 
-    override fun toString(): String {
-        return this.name
+    override fun toString(): String = when (this) {
+        ESC_ONLY -> "Esc Only"
+        IN_GAME_ONLY -> "In-Game Only"
+        NON_INTRUSIVE -> "Non Intrusive"
+        ALL -> "Always"
+        INV -> "In Inventory"
+        ESC_INVENTORY -> "Esc/Inventory"
+        TAB -> "Tab List"
     }
 
 

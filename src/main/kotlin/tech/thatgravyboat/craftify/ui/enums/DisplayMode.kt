@@ -19,6 +19,9 @@ enum class DisplayMode {
         throw NotImplementedError()
     }
 
-    override fun toString(): String =
-        this.name.split("_").joinToString(" ") { it.replaceFirstChar(Char::uppercase) }
+    override fun toString(): String = when (this) {
+        ALL_THE_TIME -> "All the Time"
+        WHEN_PLAYING -> "When Playing"
+        WHEN_SONG_FOUND -> "When Song Found"
+    }
 }

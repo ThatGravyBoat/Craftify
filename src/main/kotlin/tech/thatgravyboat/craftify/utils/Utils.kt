@@ -1,7 +1,5 @@
 package tech.thatgravyboat.craftify.utils
 
-import com.google.gson.JsonObject
-import com.google.gson.JsonPrimitive
 import gg.essential.universal.UChat
 import gg.essential.universal.UDesktop
 import gg.essential.universal.UScreen
@@ -27,15 +25,6 @@ import javax.net.ssl.HttpsURLConnection
 import javax.net.ssl.X509TrustManager
 
 object Utils {
-
-    val isEssentialInstalled by lazy {
-        try {
-            Class.forName("gg.essential.api.EssentialAPI")
-            true
-        } catch (e: ClassNotFoundException) {
-            false
-        }
-    }
 
     private var toOpen: MCScreen? = null
 
@@ -183,16 +172,14 @@ object Utils {
      * Taken from UDesktop because it's private
      */
     private fun runCommand(vararg command: String, checkExitStatus: Boolean = false): Boolean {
-        return try {
+        return runCatching {
             val process = Runtime.getRuntime().exec(command) ?: return false
             if (checkExitStatus) {
                 return !process.waitFor(3, TimeUnit.SECONDS) || process.exitValue() == 0
             } else {
                 process.isAlive
             }
-        } catch (e: IOException) {
-            false
-        }
+        }.getOrDefault(false)
     }
 
     fun String.clearFormatting(): String {
