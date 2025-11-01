@@ -1,177 +1,114 @@
-import gg.essential.gradle.util.*
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-
 plugins {
-    kotlin("jvm")
-    id("gg.essential.multi-version")
-    id("gg.essential.defaults")
-    id("com.github.johnrengelman.shadow")
-    id("net.kyori.blossom")
-}
-
-val mod_name: String by project
-val mod_version: String by project
-val mod_id: String by project
-
-preprocess {
-    vars.put("MODERN", if (project.platform.mcMinor >= 16) 1 else 0)
-}
-
-blossom {
-    replaceToken("@VER@", mod_version)
-    replaceToken("@NAME@", mod_name)
-    replaceToken("@ID@", mod_id)
-    replaceToken("@DEBUG@", true)
-}
-
-version = mod_version
-group = "tech.thatgravyboat"
-base {
-    archivesName.set(mod_name)
-}
-
-tasks.compileKotlin.setJvmDefault(if (platform.mcVersion >= 11400) "all" else "all-compatibility")
-loom.noServerRunConfigs()
-loom {
-    mixin.defaultRefmapName.set("mixins.${mod_id}.refmap.json")
-
-    runConfigs {
-        getByName("client") {
-            vmArgs("-Xmx4G")
-            if (project.platform.isLegacyForge) {
-                programArgs("--tweakClass", "gg.essential.loader.stage0.EssentialSetupTweaker")
-            }
-        }
-    }
+    idea
+    kotlin("jvm") version "2.1.0"
+    alias(libs.plugins.terrarium.cloche)
+    alias(libs.plugins.classextensions)
 }
 
 repositories {
-    maven("https://maven.teamresourceful.com/repository/thatgravyboat/")
-    maven("https://maven.teamresourceful.com/repository/maven-private/")
-    maven("https://maven.terraformersmc.com/releases/")
-    maven("https://repo.essential.gg/repository/maven-public/")
+    mavenCentral()
+    mavenLocal()
+    maven(url = "https://repo.essential.gg/repository/maven-public")
+    maven(url = "https://maven.teamresourceful.com/repository/maven-public")
+    maven(url = "https://maven.msrandom.net/repository/root")
+    maven(url = "https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1")
 }
 
-val shade: Configuration by configurations.creating {
-    configurations.implementation.get().extendsFrom(this)
-}
+cloche {
+    metadata {
+        modId = "craftify"
+        name = "Craftify"
+        version = project.version.toString()
+        license = "ARR"
+        description = ""
+        author("ThatGravyBoat")
+    }
 
-dependencies {
-    val universal_version: String by project
-    val essential_version: String? by project
-    if (platform.isFabric) {
-        val fabricApiVersion: String by project
-        val fabricLanguageKotlinVersion: String by project
-        val modMenuVersion: String by project
-        modImplementation("net.fabricmc.fabric-api:fabric-api:$fabricApiVersion")
-        modImplementation("net.fabricmc:fabric-language-kotlin:$fabricLanguageKotlinVersion")
-        modImplementation("com.terraformersmc:modmenu:$modMenuVersion")
-        modImplementation("include"("gg.essential:elementa:676")!!)
-        modImplementation("include"("gg.essential:vigilance:306")!!)
-        modImplementation("include"("gg.essential:universalcraft-${universal_version}")!!)
+    common {
+        mixins.from("src/mixins/craftify.mixins.json")
 
-        if (platform.mcVersion >= 12100) {
-            compileOnly("me.zziger:obsoverlay:1.0.0")
-        }
-    } else {
-        compileOnly("gg.essential:essential-${essential_version ?: platform}")
-        shade("gg.essential:loader-launchwrapper:1.2.2")
-    }
-    shade("io.ktor:ktor-client-core-jvm:2.1.0") {
-        exclude("org.jetbrains.kotlinx")
-        exclude("org.jetbrains.kotlin")
-        exclude("org.slf4j")
-    }
-    shade("io.ktor:ktor-client-cio-jvm:2.1.0") {
-        exclude("org.jetbrains.kotlinx")
-        exclude("org.jetbrains.kotlin")
-    }
-    shade("tech.thatgravyboat:jukebox-jvm:1.0-20250215.194152-32") {
-        isTransitive = false
-    }
-}
+        dependencies {
+            implementation(libs.vigilance) { isTransitive = false }
+            implementation(libs.elementa) { isTransitive = false }
 
-tasks.processResources {
-    inputs.property("id", mod_id)
-    inputs.property("name", mod_name)
-    val java = when {
-        project.platform.mcMinor >= 21 -> 21
-        project.platform.mcMinor == 20 && project.platform.mcPatch >= 5 -> 21
-        project.platform.mcMinor >= 18 -> 17
-        project.platform.mcMinor == 17 -> 16
-        else -> 8
-    }
-    val compatLevel = "JAVA_${java}"
-    inputs.property("java", java)
-    inputs.property("java_level", compatLevel)
-    inputs.property("version", mod_version)
-    inputs.property("mcVersionStr", project.platform.mcVersionStr)
-    filesMatching(listOf("mcmod.info", "mixins.${mod_id}.json", "mods.toml")) {
-        expand(mapOf(
-            "id" to mod_id,
-            "name" to mod_name,
-            "java" to java,
-            "java_level" to compatLevel,
-            "version" to mod_version,
-            "mcVersionStr" to project.platform.mcVersionStr
-        ))
-    }
-    filesMatching("fabric.mod.json") {
-        expand(mapOf(
-            "id" to mod_id,
-            "name" to mod_name,
-            "java" to java,
-            "java_level" to compatLevel,
-            "version" to mod_version,
-            "mcVersionStr" to project.platform.mcVersionStr.substringBeforeLast(".") + ".x"
-        ))
-    }
-}
+            implementation(libs.jukebox) { isTransitive = false }
+            implementation(libs.ktor.cio) {
+                exclude("org.jetbrains.kotlinx")
+                exclude("org.jetbrains.kotlin")
+            }
+            implementation(libs.ktor.core) {
+                exclude("org.jetbrains.kotlinx")
+                exclude("org.jetbrains.kotlin")
+                exclude("org.slf4j")
+            }
 
-tasks {
-    withType<KotlinCompile>().configureEach {
-        compilerOptions {
-            languageVersion = org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_1_6
-            apiVersion = org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_1_6
+            modImplementation(libs.fabric.kotlin)
+
+            runtimeOnly(libs.devauth)
         }
     }
-    withType(Jar::class.java) {
-        if (project.platform.isFabric) {
-            exclude("mcmod.info", "mods.toml")
-        } else {
-            exclude("fabric.mod.json", "mixins.${mod_id}.json")
-            if (project.platform.isLegacyForge) {
-                exclude("mods.toml")
-            } else {
-                exclude("mcmod.info")
+
+    fun createVersion(
+        version: String,
+        fabricVersion: String,
+        olympus: Provider<MinimalExternalModuleDependency>,
+        rlib: Provider<MinimalExternalModuleDependency>,
+    ) {
+
+        fabric("versions:$version") {
+            includedClient()
+            minecraftVersion = version
+            loaderVersion = libs.versions.fabric.loader.get()
+
+            metadata {
+                entrypoint("client") {
+                    adapter = "kotlin"
+                    value = "tech.thatgravyboat.craftify.Craftify"
+                }
+            }
+
+            dependencies {
+                fabricApi(fabricVersion, minecraftVersion)
+                modImplementation("gg.essential:universalcraft-${version}-fabric:${libs.versions.universalcraft.get()}")
+                modImplementation(olympus)
+                modImplementation(rlib)
+
+                include(libs.vigilance)
+                include(libs.elementa)
+                include("gg.essential:universalcraft-${version}-fabric:${libs.versions.universalcraft.get()}")
+                include(libs.jukebox)
+                libs.bundles.ktor.get().forEach {
+                    include(provider { it })
+                }
+                include(olympus) { isTransitive = false }
+                include(rlib)
+            }
+
+            runs {
+                client {
+                    jvmArgs("-Ddevauth.enabled=true")
+                }
             }
         }
     }
-    named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar") {
-        archiveClassifier.set("dev")
-        configurations = listOf(shade)
-        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    }
-    remapJar {
-        input.set(shadowJar.get().archiveFile)
-        archiveClassifier.set("")
-    }
-    jar {
-        if (project.platform.isLegacyForge) {
-            manifest {
-                attributes(
-                    mapOf(
-                        "ModSide" to "CLIENT",
-                        "TweakOrder" to "0",
-                        "TweakClass" to "gg.essential.loader.stage0.EssentialSetupTweaker",
-                        "ForceLoadAsMod" to true
-                    )
-                )
-            }
-        }
-        dependsOn(shadowJar)
-        archiveClassifier.set("")
-        enabled = false
+
+    createVersion("1.21.5", "0.128.1", libs.olympus.lib1215, libs.resourceful.lib1215)
+    createVersion("1.21.9", "0.134.0", libs.olympus.lib1219, libs.resourceful.lib1219)
+}
+
+
+tasks.withType<KotlinCompile>().configureEach {
+    compilerOptions.jvmTarget.set(JvmTarget.JVM_21)
+    compilerOptions {
+        languageVersion = KotlinVersion.KOTLIN_2_0
+        freeCompilerArgs.addAll(
+            "-Xmulti-platform",
+            "-Xno-check-actual",
+            "-Xexpect-actual-classes",
+        )
     }
 }
