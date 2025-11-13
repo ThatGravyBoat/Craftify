@@ -6,8 +6,7 @@ import gg.essential.vigilance.data.Property
 import gg.essential.vigilance.data.PropertyData
 import gg.essential.vigilance.data.PropertyType
 import gg.essential.vigilance.data.SortingBehavior
-import tech.thatgravyboat.craftify.ui.Player
-import tech.thatgravyboat.craftify.utils.Utils
+import tech.thatgravyboat.craftify.platform.McClient
 import java.awt.Color
 import java.io.File
 
@@ -48,7 +47,7 @@ object ThemeConfig : Vigilant(
         } catch (ignored: Exception) {
             // Don't do anything if fails.
         }
-        ThemeConfig.gui()?.let { Utils.openScreen(it) }
+        McClient.screen = ThemeConfig.gui()
     }
 
     @Property(
@@ -60,7 +59,7 @@ object ThemeConfig : Vigilant(
     )
     fun reset() {
         Theme().setConfig()
-        ThemeConfig.gui()?.let { Utils.openScreen(it) }
+        McClient.screen = ThemeConfig.gui()
     }
 
     @Property(

@@ -64,7 +64,7 @@ object UIPlayerControls {
                 McClient.screen = PositionEditorScreen()
             }
             .withButton(ThemeConfig.showSettingsButton, ThemeConfig.settingsIcon) {
-                Config.gui()?.let { it1 -> Utils.openScreen(it1) }
+                McClient.screen = Config.gui()
             }
             .withButton(ThemeConfig.showShuffleButton && canUseShuffle, ThemeConfig.shuffleIcon, state = this.shuffle) {
                 Craftify.service?.toggleShuffle()
@@ -90,7 +90,7 @@ object UIPlayerControls {
                 }
             }
             .withButton(ThemeConfig.showVolumeButton && canUseVolume, ThemeConfig.volumeIcon) {
-                Utils.openScreen(VolumeScreen())
+                McClient.screen = VolumeScreen()
             }
     }
 }

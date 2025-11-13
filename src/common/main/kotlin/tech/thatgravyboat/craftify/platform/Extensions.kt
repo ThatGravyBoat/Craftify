@@ -1,6 +1,7 @@
 package tech.thatgravyboat.craftify.platform
 
 import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 
 expect inline fun GuiGraphics.pushPop(runnable: () -> Unit)
@@ -13,4 +14,7 @@ expect fun GuiGraphics.drawTexture(
 )
 expect fun GuiGraphics.drawSprite(
     texture: ResourceLocation, x: Int, y: Int, width: Int, height: Int,
+)
+expect fun GuiGraphics.drawString(
+    text: Component, x: Int, y: Int, color: Int = -1, dropShadow: Boolean = false
 )

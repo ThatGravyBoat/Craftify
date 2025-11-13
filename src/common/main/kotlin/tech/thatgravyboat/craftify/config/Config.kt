@@ -33,6 +33,7 @@ object Config : Vigilant(File("./config/craftify.toml")) {
     var premiumControl = false
     var xOffset = 0
     var yOffset = 0
+    var marqueeSpeed = 5
 
     init {
         category("General") {
@@ -81,6 +82,8 @@ object Config : Vigilant(File("./config/craftify.toml")) {
             enum(::renderType, "Render Type", "How/When the song with display.")
             enum(::displayMode, "Display Mode", "When it will display.")
             switch(::premiumControl, "Controls", "Will allow you to pause/play, skip forward and backwards, repeat, and shuffle the music in game. (Requires Spotify Premium)")
+
+            slider(::marqueeSpeed, "Marquee Speed", "The speed at which the text scrolls when it is too long to fit.", min = 1, max = 5)
         }
 
         initialize()

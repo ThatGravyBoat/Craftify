@@ -6,14 +6,13 @@ import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource
 import tech.thatgravyboat.craftify.config.Config
 import tech.thatgravyboat.craftify.platform.McClient
+import tech.thatgravyboat.craftify.screens.PositionEditorScreen
 import tech.thatgravyboat.craftify.screens.ServersScreen
 import tech.thatgravyboat.craftify.screens.volume.VolumeScreen
 import tech.thatgravyboat.craftify.services.ServiceHelper
 import tech.thatgravyboat.craftify.themes.ThemeConfig
 import tech.thatgravyboat.craftify.themes.library.LibraryScreen
 import tech.thatgravyboat.craftify.themes.library.ScreenshotScreen
-import tech.thatgravyboat.craftify.screens.PositionEditorScreen
-import tech.thatgravyboat.craftify.utils.Utils
 import tech.thatgravyboat.jukebox.api.service.ServiceFunction
 
 object Command {
@@ -41,19 +40,19 @@ object Command {
     }
 
     private fun handle() {
-        Config.gui()?.let(Utils::openScreen)
+        McClient.screen = Config.gui()
     }
 
     private fun theme() {
-        ThemeConfig.gui()?.let(Utils::openScreen)
+        McClient.screen = ThemeConfig.gui()
     }
 
     private fun library() {
-        Utils.openScreen(LibraryScreen())
+        McClient.screen = LibraryScreen()
     }
 
     private fun screenshot() {
-        Utils.openScreen(ScreenshotScreen)
+        McClient.screen = ScreenshotScreen
     }
 
     private fun restart() {
@@ -66,7 +65,7 @@ object Command {
 
     private fun volume() {
         if (ServiceHelper.doesSupport(ServiceFunction.VOLUME)) {
-            Utils.openScreen(VolumeScreen())
+            McClient.screen = VolumeScreen()
         } else {
             UChat.chat("Your currently selected service does not support volume control.")
         }

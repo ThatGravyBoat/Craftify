@@ -2,9 +2,7 @@ package tech.thatgravyboat.craftify.utils
 
 import gg.essential.universal.UChat
 import gg.essential.universal.UDesktop
-import gg.essential.universal.UScreen
 import org.apache.commons.io.IOUtils
-import tech.thatgravyboat.craftify.platform.McClient
 import java.io.InputStream
 import java.net.HttpURLConnection
 import java.net.URL
@@ -23,15 +21,6 @@ object Utils {
 
     private var executor = ThreadPoolExecutor(10, 30, 0L, TimeUnit.SECONDS, LinkedBlockingQueue()) { target: Runnable? ->
         Thread(target, "Craftify ${counter.incrementAndGet()}")
-    }
-
-    /**
-     * Opens the screen 1 tick after this is run to make sure the chat doesn't close it.
-     */
-    fun openScreen(screen: UScreen) {
-        McClient.run(true) {
-            UScreen.displayScreen(screen)
-        }
     }
 
     fun schedule(delay: Long, unit: TimeUnit, runnable: Runnable): ScheduledFuture<*>

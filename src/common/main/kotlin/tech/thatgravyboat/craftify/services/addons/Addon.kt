@@ -10,9 +10,7 @@ interface Addon {
     companion object {
 
         val addons = listOf<Addon>(
-            PlayerUIAddon,
-            ConfigAddon,
-
+            PlayerAddon,
             ServerShareAddon,
         )
     }

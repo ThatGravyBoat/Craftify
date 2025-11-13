@@ -18,18 +18,17 @@ object ImageCaches {
     private val HTTP = HttpClient.newBuilder().followRedirects(HttpClient.Redirect.NORMAL).build()
 
     val MISSING_TEXTURE: ResourceLocation = ResourceLocation.withDefaultNamespace("missingno")
-    val ALBUM: ImageProvider<URI> = ImageProviders.register(
-        "craftify_jpeg_url",
-        this::fetch,
-        { url -> Hashing.sha256().hashUnencodedChars(url.toString()) },
-        Duration.ofMinutes(1)
-    )
-    val ASSET: ImageProvider<URI> = ImageProviders.register(
-        "craftify_asset_url",
-        this::fetch,
-        { url -> Hashing.sha256().hashUnencodedChars(url.toString()) },
-        Duration.ofHours(1)
-    )
+    val ALBUM: ImageProvider<URI> = create("craftify_jpeg_url", Duration.ofMinutes(1))
+    val ASSET: ImageProvider<URI> = create("craftify_asset_url", Duration.ofHours(1))
+
+    private fun create(id: String, duration: Duration): ImageProvider<URI> {
+        return ImageProviders.register(
+            id,
+            this::fetch,
+            { url -> Hashing.sha256().hashUnencodedChars(url.toString()) },
+            duration
+        )
+    }
 
     private fun fetch(url: URI): CompletableFuture<NativeImage> {
         return HTTP.sendAsync(HttpRequest.newBuilder(url).build(), HttpResponse.BodyHandlers.ofInputStream()).thenApply { response ->

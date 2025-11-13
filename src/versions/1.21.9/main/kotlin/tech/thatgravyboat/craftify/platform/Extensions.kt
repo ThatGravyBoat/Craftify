@@ -4,6 +4,7 @@ import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.render.TextureSetup
 import net.minecraft.client.gui.render.state.BlitRenderState
 import net.minecraft.client.renderer.RenderPipelines
+import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import org.joml.Matrix3x2f
 
@@ -41,4 +42,7 @@ actual fun GuiGraphics.drawSprite(
     texture: ResourceLocation, x: Int, y: Int, width: Int, height: Int,
 ) {
     this.blitSprite(RenderPipelines.GUI_TEXTURED, texture, x, y, width, height)
+}
+actual fun GuiGraphics.drawString(text: Component, x: Int, y: Int, color: Int, dropShadow: Boolean) {
+    this.drawString(McClient.font, text, x, y, color, dropShadow)
 }

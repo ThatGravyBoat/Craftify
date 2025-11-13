@@ -12,6 +12,7 @@ import net.minecraft.util.ARGB
 import tech.thatgravyboat.craftify.platform.pushPop
 import tech.thatgravyboat.craftify.platform.scale
 import tech.thatgravyboat.craftify.platform.translate
+import tech.thatgravyboat.craftify.ui.v2.MarqueeWidgetRenderer
 import java.awt.Color
 import java.awt.image.BufferedImage
 import com.teamresourceful.resourcefullib.common.color.Color as OlympusColor
@@ -51,21 +52,23 @@ fun <T : AbstractWidget> WidgetRenderer<T>.withScale(scale: Float): WidgetRender
 }
 
 fun <T : AbstractWidget> OlympusState<String>.asRenderer(alignment: Float = 0f, color: Color, scale: Float = 1f): WidgetRenderer<T> {
+    val color = color.toOlympus()
     return WidgetRenderer<T> { graphics, context, partialTicks ->
         WidgetRenderers.text<T>(Component.literal(this.get()))
             .withShadow()
             .withAlignment(alignment)
-            .withColor(color.toOlympus())
+            .withColor(color)
             .withScale(scale)
             .render(graphics, context, partialTicks)
     }
 }
 
 fun <T : AbstractWidget> String.asRenderer(alignment: Float = 0f, color: Color, scale: Float = 1f): WidgetRenderer<T> {
-    return WidgetRenderers.text<T>(Component.literal(this))
+    val color = color.toOlympus()
+    return MarqueeWidgetRenderer<T>(Component.literal(this))
         .withShadow()
         .withAlignment(alignment)
-        .withColor(color.toOlympus())
+        .withColor(color)
         .withScale(scale)
 }
 

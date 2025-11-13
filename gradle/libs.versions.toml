@@ -40,7 +40,7 @@ resourceful-lib1219 = { module = "com.teamresourceful.resourcefullib:resourceful
 
 [plugins]
 
-terrarium-cloche = { id = "earth.terrarium.cloche", version = "0.13.5" }
+terrarium-cloche = { id = "earth.terrarium.cloche", version = "0.16.11" }
 classextensions = { id = "net.msrandom.classextensions", version = "1.0.11" }
 
 [bundles]

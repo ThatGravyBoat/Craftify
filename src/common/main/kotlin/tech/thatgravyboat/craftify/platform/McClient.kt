@@ -3,6 +3,7 @@ package tech.thatgravyboat.craftify.platform
 import com.mojang.blaze3d.platform.Window
 import net.minecraft.client.Minecraft
 import net.minecraft.client.Options
+import net.minecraft.client.gui.Font
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.client.multiplayer.ServerData
 import net.minecraft.client.player.LocalPlayer
@@ -11,6 +12,7 @@ import net.minecraft.world.scores.DisplaySlot
 object McClient {
 
     val self: Minecraft get() = Minecraft.getInstance()
+    val font: Font get() = self.font
     var screen: Screen?
         get() = self.screen
         set(value) {
