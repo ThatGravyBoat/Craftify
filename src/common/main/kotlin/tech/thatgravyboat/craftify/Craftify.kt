@@ -39,7 +39,7 @@ object Craftify : ClientModInitializer {
     private var initalized: Boolean = false
 
     override fun onInitializeClient() {
-        Updater.check()
+//        Updater.check()
         AdManager.load()
         ServiceConfig.load()
 

@@ -2,6 +2,7 @@ package tech.thatgravyboat.craftify.platform
 
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.renderer.RenderType
+import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 
 actual inline fun GuiGraphics.pushPop(runnable: () -> Unit) {
@@ -40,4 +41,7 @@ actual fun GuiGraphics.drawSprite(
     texture: ResourceLocation, x: Int, y: Int, width: Int, height: Int,
 ) {
     this.blitSprite(RenderType::guiTextured, texture, x, y, width, height)
+}
+actual fun GuiGraphics.drawString(text: Component, x: Int, y: Int, color: Int, dropShadow: Boolean) {
+    this.drawString(McClient.font, text, x, y, color, dropShadow)
 }
