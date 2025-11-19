@@ -18,7 +18,7 @@ devauth = { module = "me.djtheredstoner:DevAuth-fabric", version = "1.2.1" }
 
 elementa = { module = "gg.essential:elementa", version.ref = "elementa" }
 vigilance = { module = "gg.essential:vigilance", version.ref = "vigilance" }
-jukebox = { module = "tech.thatgravyboat:jukebox-jvm", version = "1.0.1" }
+jukebox = { module = "tech.thatgravyboat:jukebox-jvm", version = "1.0.2" }
 ktor-cio = { module = "io.ktor:ktor-client-cio-jvm", version.ref = "ktor" }
 ktor-core = { module = "io.ktor:ktor-client-core-jvm", version.ref = "ktor" }
 ktor-events = { module = "io.ktor:ktor-events-jvm", version.ref = "ktor" }
