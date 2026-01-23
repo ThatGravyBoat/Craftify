@@ -1,5 +1,7 @@
 ## Craftify
 
+## ALL CREDITS TO ThatGravyBoat THIS IS ONLY A REUPLOAD OF CRAFTIFY.
+
 <div>
   
   [![GitHub Repo stars](https://img.shields.io/github/stars/thatgravyboat/craftify?style=for-the-badge&label=Star%20the%20Project&color=%23FFD700)](#)
