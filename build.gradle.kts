@@ -6,7 +6,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     idea
-    kotlin("jvm") version "2.2.0"
+    kotlin("jvm") version "2.3.0"
     alias(libs.plugins.loom)
     alias(libs.plugins.shadow)
 }
@@ -24,7 +24,7 @@ loom {
 }
 
 val shadowImplementation by configurations.creating {
-    configurations["modImplementation"].extendsFrom(this)
+    configurations["implementation"].extendsFrom(this)
 }
 
 repositories {
@@ -38,11 +38,10 @@ repositories {
 
 dependencies {
     "minecraft"(libs.minecraft)
-    "mappings"(loom.officialMojangMappings())
 
-    "modImplementation"(libs.fabric.loader)
-    "modImplementation"(libs.fabric.api)
-    "modImplementation"(libs.fabric.kotlin)
+    "implementation"(libs.fabric.loader)
+    "implementation"(libs.fabric.api)
+    "implementation"(libs.fabric.kotlin)
 
     "runtimeOnly"(libs.devauth)
 
@@ -57,10 +56,10 @@ dependencies {
         exclude("org.jetbrains.kotlin")
         exclude("net.fabricmc")
     }
-    "modImplementation"(libs.resourceful.lib) {
+    "implementation"(libs.resourceful.lib) {
         "include"(this)
     }
-    "modImplementation"(libs.olympus) {
+    "implementation"(libs.olympus) {
         "include"(this)
     }
 
@@ -98,11 +97,11 @@ tasks.withType<RemapJarTask> {
 }
 
 tasks.withType<JavaCompile>().configureEach {
-    options.release.set(21)
+    options.release.set(25)
 }
 
 tasks.withType<KotlinCompile>().configureEach {
-    compilerOptions.jvmTarget.set(JvmTarget.JVM_21)
+    compilerOptions.jvmTarget.set(JvmTarget.JVM_25)
     compilerOptions {
         languageVersion = KotlinVersion.KOTLIN_2_0
     }

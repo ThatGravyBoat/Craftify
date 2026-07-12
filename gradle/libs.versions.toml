@@ -3,14 +3,14 @@
 ktor = "2.1.0"
 
 fabric-loader = "0.17.3"
-fabric-api = "0.141.3+1.21.11"
+fabric-api = "0.154.2+26.1.2"
 fabric-kotlin = "1.13.0+kotlin.2.1.0"
 
-minecraft = "1.21.11"
+minecraft = "26.1"
 
-universalcraft = "453"
-elementa = "local-SNAPSHOT"
-vigilance = "312"
+universalcraft = "505"
+elementa = "745"
+vigilance = "314"
 
 [libraries]
 
@@ -37,16 +37,16 @@ ktor-websockets = { module = "io.ktor:ktor-websockets-jvm", version.ref = "ktor"
 
 jukebox = { module = "tech.thatgravyboat:jukebox-jvm", version = "1.0.2" }
 
-universalcraft = { module = "gg.essential:universalcraft-1.21.11-fabric", version.ref = "universalcraft" }
+universalcraft = { module = "gg.essential:universalcraft-26.1-fabric", version.ref = "universalcraft" }
 elementa = { module = "gg.essential:elementa", version.ref = "elementa" }
 vigilance = { module = "gg.essential:vigilance", version.ref = "vigilance" }
 
-olympus = { module = "earth.terrarium.olympus:olympus-fabric-1.21.11", version = "1.7.1" }
-resourceful-lib = { module = "com.teamresourceful.resourcefullib:resourcefullib-fabric-1.21.11", version = "3.11.0" }
+olympus = { module = "earth.terrarium.olympus:olympus-fabric-26.1", version = "1.8.0" }
+resourceful-lib = { module = "com.teamresourceful.resourcefullib:resourcefullib-fabric-26.1", version = "4.0.1" }
 
 [plugins]
 
-loom = { id = "net.fabricmc.fabric-loom-remap", version = "1.15-SNAPSHOT" }
+loom = { id = "net.fabricmc.fabric-loom", version = "1.15-SNAPSHOT" }
 shadow = { id = "com.gradleup.shadow", version = "9.3.0" }
 
 [bundles]

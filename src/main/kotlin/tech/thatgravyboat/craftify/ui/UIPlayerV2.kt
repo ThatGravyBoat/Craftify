@@ -6,7 +6,7 @@ import earth.terrarium.olympus.client.layouts.LinearViewLayout
 import earth.terrarium.olympus.client.pipelines.RoundedRectangle
 import earth.terrarium.olympus.client.pipelines.RoundedTexture
 import earth.terrarium.olympus.client.utils.Orientation
-import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.input.MouseButtonEvent
 import net.minecraft.client.input.MouseButtonInfo
 import tech.thatgravyboat.craftify.config.Config
@@ -34,7 +34,7 @@ object UIPlayerV2 : BaseRenderable(WIDTH, HEIGHT) {
         this.height = if (this.isHovered && Config.premiumControl) FOCUSED_HEIGHT else HEIGHT
     }
 
-    override fun render(graphics: GuiGraphics, mouseX: Int, mouseY: Int, partialTicks: Float) {
+    override fun render(graphics: GuiGraphicsExtractor, mouseX: Int, mouseY: Int, partialTicks: Float) {
         val layout = this.layout ?: return
         val hoveredLayout = this.hoveredLayout ?: return
 
@@ -46,12 +46,12 @@ object UIPlayerV2 : BaseRenderable(WIDTH, HEIGHT) {
         )
 
         layout.setPosition(x + PADDING, y + PADDING)
-        layout.build { it.render(graphics, mouseX, mouseY, partialTicks) }
+        layout.build { it.extractRenderState(graphics, mouseX, mouseY, partialTicks) }
 
         if (this.isHovered && Config.premiumControl) {
             hoveredLayout.arrangeElements()
             hoveredLayout.setPosition(x + PADDING + (WIDTH - PADDING * 2 - hoveredLayout.width) / 2, y + PADDING + 40 + 4)
-            hoveredLayout.build { it.render(graphics, mouseX, mouseY, partialTicks) }
+            hoveredLayout.build { it.extractRenderState(graphics, mouseX, mouseY, partialTicks) }
         }
     }
 

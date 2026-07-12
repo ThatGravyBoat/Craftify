@@ -1,7 +1,7 @@
 package tech.thatgravyboat.craftify.ui
 
 import gg.essential.universal.UScreen
-import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.client.gui.GuiGraphicsExtractor
 import tech.thatgravyboat.craftify.Craftify
 import tech.thatgravyboat.craftify.config.Config
 import tech.thatgravyboat.craftify.platform.McClient
@@ -36,7 +36,7 @@ object Player {
         temporarilyHidden = !temporarilyHidden
     }
 
-    fun onRender(graphics: GuiGraphics, mouseX: Int, mouseY: Int, partialTicks: Float) {
+    fun onRender(graphics: GuiGraphicsExtractor, mouseX: Int, mouseY: Int, partialTicks: Float) {
         if (hidden) return
         UIPlayerV2.renderWithEffects(graphics, mouseX, mouseY, partialTicks)
     }
