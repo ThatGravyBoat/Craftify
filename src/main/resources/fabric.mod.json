@@ -1,0 +1,34 @@
+{
+    "schemaVersion": 1,
+    "id": "craftify",
+    "name": "Craftify",
+    "version": "${version}",
+    "description": "Music controls in minecraft!",
+    "authors": [
+        "ThatGravyBoat"
+    ],
+    "contact": {
+        "homepage": "https://modrinth.com/mod/craftify",
+        "sources": "https://github.com/ThatGravyBoat/Craftify",
+        "issues": "https://github.com/ThatGravyBoat/Craftify/issues"
+    },
+    "entrypoints": {
+        "client": [
+            {
+                "adapter": "kotlin",
+                "value": "tech.thatgravyboat.craftify.Craftify"
+            }
+        ]
+    },
+    "mixins": [
+        "craftify.mixins.json"
+    ],
+    "license": "All Rights Reserved",
+    "environment": "client",
+    "depends": {
+        "fabric-language-kotlin": ">=1.6.4+kotlin.1.5.30",
+        "fabricloader": ">=0.12.0",
+        "fabric-api": "*",
+        "minecraft": ">=1.21.11"
+    }
+}

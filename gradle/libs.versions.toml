@@ -3,22 +3,25 @@
 ktor = "2.1.0"
 
 fabric-loader = "0.17.3"
+fabric-api = "0.141.3+1.21.11"
 fabric-kotlin = "1.13.0+kotlin.2.1.0"
 
-universalcraft = "436"
+minecraft = "1.21.11"
+
+universalcraft = "453"
 elementa = "local-SNAPSHOT"
 vigilance = "312"
 
 [libraries]
 
 fabric-loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric-loader" }
+fabric-api = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabric-api" }
 fabric-kotlin = { module = "net.fabricmc:fabric-language-kotlin", version.ref = "fabric-kotlin" }
 
-devauth = { module = "me.djtheredstoner:DevAuth-fabric", version = "1.2.1" }
+minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
 
-elementa = { module = "gg.essential:elementa", version.ref = "elementa" }
-vigilance = { module = "gg.essential:vigilance", version.ref = "vigilance" }
-jukebox = { module = "tech.thatgravyboat:jukebox-jvm", version = "1.0.2" }
+devauth = { module = "me.djtheredstoner:DevAuth-fabric", version = "1.2.2" }
+
 ktor-cio = { module = "io.ktor:ktor-client-cio-jvm", version.ref = "ktor" }
 ktor-core = { module = "io.ktor:ktor-client-core-jvm", version.ref = "ktor" }
 ktor-events = { module = "io.ktor:ktor-events-jvm", version.ref = "ktor" }
@@ -32,16 +35,19 @@ ktor-utils = { module = "io.ktor:ktor-utils-jvm", version.ref = "ktor" }
 ktor-websocket-serialization = { module = "io.ktor:ktor-websocket-serialization-jvm", version.ref = "ktor" }
 ktor-websockets = { module = "io.ktor:ktor-websockets-jvm", version.ref = "ktor" }
 
-olympus-lib1215 = { module = "earth.terrarium.olympus:olympus-fabric-1.21.5", version = "1.3.6" }
-olympus-lib1219 = { module = "earth.terrarium.olympus:olympus-fabric-1.21.9", version = "1.6.2" }
+jukebox = { module = "tech.thatgravyboat:jukebox-jvm", version = "1.0.2" }
 
-resourceful-lib1215 = { module = "com.teamresourceful.resourcefullib:resourcefullib-fabric-1.21.5", version = "3.5.0" }
-resourceful-lib1219 = { module = "com.teamresourceful.resourcefullib:resourcefullib-fabric-1.21.9", version = "3.9.1" }
+universalcraft = { module = "gg.essential:universalcraft-1.21.11-fabric", version.ref = "universalcraft" }
+elementa = { module = "gg.essential:elementa", version.ref = "elementa" }
+vigilance = { module = "gg.essential:vigilance", version.ref = "vigilance" }
+
+olympus = { module = "earth.terrarium.olympus:olympus-fabric-1.21.11", version = "1.7.1" }
+resourceful-lib = { module = "com.teamresourceful.resourcefullib:resourcefullib-fabric-1.21.11", version = "3.11.0" }
 
 [plugins]
 
-terrarium-cloche = { id = "earth.terrarium.cloche", version = "0.16.11" }
-classextensions = { id = "net.msrandom.classextensions", version = "1.0.11" }
+loom = { id = "net.fabricmc.fabric-loom-remap", version = "1.15-SNAPSHOT" }
+shadow = { id = "com.gradleup.shadow", version = "9.3.0" }
 
 [bundles]
 
