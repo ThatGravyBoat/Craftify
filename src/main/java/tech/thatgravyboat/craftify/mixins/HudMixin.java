@@ -2,8 +2,8 @@ package tech.thatgravyboat.craftify.mixins;
 
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.Hud;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -11,8 +11,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import tech.thatgravyboat.craftify.screens.PositionEditorScreen;
 import tech.thatgravyboat.craftify.ui.Player;
 
-@Mixin(Gui.class)
-public class GuiMixin {
+@Mixin(Hud.class)
+public class HudMixin {
 
     @Inject(
             method = "extractRenderState",
@@ -21,7 +21,7 @@ public class GuiMixin {
     private void onRenderNormal(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, CallbackInfo ci) {
         var mc = Minecraft.getInstance();
         var window = mc.getWindow();
-        var hasScreen = mc.screen != null && !(mc.screen instanceof PositionEditorScreen);
+        var hasScreen = mc.gui.screen() != null && !(mc.gui.screen() instanceof PositionEditorScreen);
         if (mc.level == null) return;
 
         graphics.pose().pushMatrix();

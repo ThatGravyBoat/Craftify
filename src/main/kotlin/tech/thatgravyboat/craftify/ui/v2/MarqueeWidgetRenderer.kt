@@ -35,7 +35,7 @@ class MarqueeWidgetRenderer<T : AbstractWidget>(private val text: Component) : W
         if (textWidth > context.width) {
             val gap = min(SCROLL_GAP, context.width)
             val speedModifier = max(6 - Config.marqueeSpeed, 1)
-            val ticks = Minecraft.getInstance().gui.guiTicks.let { Mth.lerp(partialTick, it - 1f, it.toFloat()) } / speedModifier
+            val ticks = Minecraft.getInstance().gui.hud.guiTicks.let { Mth.lerp(partialTick, it - 1f, it.toFloat()) } / speedModifier
             val offset = (ticks % (textWidth + gap)).roundToInt()
 
             graphics.enableScissor(context.left, context.top, context.right, context.bottom)
