@@ -29,6 +29,6 @@
         "fabric-language-kotlin": ">=1.6.4+kotlin.1.5.30",
         "fabricloader": ">=0.12.0",
         "fabric-api": "*",
-        "minecraft": ">=1.21.11"
+        "minecraft": "26.1.x"
     }
 }

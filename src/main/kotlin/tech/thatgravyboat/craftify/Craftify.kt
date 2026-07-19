@@ -51,8 +51,8 @@ object Craftify : ClientModInitializer {
         ClientTickEvents.END_CLIENT_TICK.register { onTick() }
         ClientCommandRegistrationCallback.EVENT.register { dispatcher, _ -> Command.register(dispatcher) }
 
-        PayloadTypeRegistry.playC2S().register(ServerboundSongPacket.TYPE, ServerboundSongPacket.CODEC)
-        PayloadTypeRegistry.configurationC2S().register(ServerboundSongPacket.TYPE, ServerboundSongPacket.CODEC)
+        PayloadTypeRegistry.serverboundPlay().register(ServerboundSongPacket.TYPE, ServerboundSongPacket.CODEC)
+        PayloadTypeRegistry.serverboundConfiguration().register(ServerboundSongPacket.TYPE, ServerboundSongPacket.CODEC)
     }
 
     private fun onTick() {

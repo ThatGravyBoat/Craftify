@@ -6,7 +6,7 @@ import earth.terrarium.olympus.client.components.renderers.ColorableWidget
 import earth.terrarium.olympus.client.constants.MinecraftColors
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.Font
-import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.components.AbstractWidget
 import net.minecraft.network.chat.Component
 import net.minecraft.util.Mth
@@ -27,7 +27,7 @@ class MarqueeWidgetRenderer<T : AbstractWidget>(private val text: Component) : W
 
     private var alignX = 0.5f
 
-    override fun render(graphics: GuiGraphics, context: WidgetRendererContext<T?>, partialTick: Float) {
+    override fun render(graphics: GuiGraphicsExtractor, context: WidgetRendererContext<T?>, partialTick: Float) {
         val textWidth = this.font.width(this.text)
         val centerY = context.y + context.height / 2 - font.lineHeight / 2
         val color = if (this.color.intAlpha == 0) this.color.value or 0xFF000000.toInt() else this.color.value

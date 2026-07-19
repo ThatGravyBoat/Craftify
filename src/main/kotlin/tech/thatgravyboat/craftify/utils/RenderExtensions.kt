@@ -4,7 +4,7 @@ import com.mojang.blaze3d.platform.NativeImage
 import earth.terrarium.olympus.client.components.base.renderer.WidgetRenderer
 import earth.terrarium.olympus.client.components.renderers.WidgetRenderers
 import earth.terrarium.olympus.client.pipelines.RoundedRectangle
-import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.client.gui.GuiGraphicsExtractor
 import earth.terrarium.olympus.client.utils.State as OlympusState
 import net.minecraft.client.gui.components.AbstractWidget
 import net.minecraft.network.chat.Component
@@ -72,7 +72,7 @@ fun <T : AbstractWidget> String.asRenderer(alignment: Float = 0f, color: Color, 
         .withScale(scale)
 }
 
-fun GuiGraphics.fillRounded(x: Int, y: Int, width: Int, height: Int, color: Color, radius: Float) {
+fun GuiGraphicsExtractor.fillRounded(x: Int, y: Int, width: Int, height: Int, color: Color, radius: Float) {
     RoundedRectangle.draw(this, x, y, width, height, color.rgb, 0, radius, 0)
 }
 

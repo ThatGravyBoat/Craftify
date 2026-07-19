@@ -1,6 +1,5 @@
 package tech.thatgravyboat.craftify.screens
 
-import com.teamresourceful.resourcefullib.client.screens.BaseCursorScreen
 import com.teamresourceful.resourcefullib.common.utils.TriState
 import earth.terrarium.olympus.client.components.Widgets
 import earth.terrarium.olympus.client.components.buttons.Button
@@ -12,7 +11,8 @@ import earth.terrarium.olympus.client.ui.UIConstants
 import earth.terrarium.olympus.client.ui.UIIcons
 import earth.terrarium.olympus.client.ui.UITexts
 import earth.terrarium.olympus.client.utils.Orientation
-import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.client.gui.GuiGraphicsExtractor
+import net.minecraft.client.gui.screens.Screen
 import net.minecraft.network.chat.CommonComponents
 import net.minecraft.network.chat.Component
 import tech.thatgravyboat.craftify.platform.McClient
@@ -24,10 +24,10 @@ private const val PADDING = 5
 private const val WIDTH = 140
 private const val HEIGHT = 200
 
-class ServersScreen : BaseCursorScreen(CommonComponents.EMPTY) {
+class ServersScreen : Screen(CommonComponents.EMPTY) {
 
-    override fun renderBackground(graphics: GuiGraphics, mouseX: Int, mouseY: Int, partialTicks: Float) {
-        super.renderBackground(graphics, mouseX, mouseY, partialTicks)
+    override fun extractBackground(graphics: GuiGraphicsExtractor, mouseX: Int, mouseY: Int, partialTicks: Float) {
+        super.extractBackground(graphics, mouseX, mouseY, partialTicks)
 
         graphics.drawSprite(
             UIConstants.MODAL,
