@@ -1,5 +1,6 @@
 package tech.thatgravyboat.craftify.mixins;
 
+import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -14,26 +15,26 @@ import tech.thatgravyboat.craftify.ui.Player;
 @Mixin(Gui.class)
 public class GuiMixin {
 
-    @Inject(
-            method = "extractRenderState",
-            at = @At("TAIL")
-    )
-    private void onRenderNormal(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, CallbackInfo ci) {
-        var mc = Minecraft.getInstance();
-
-        if (mc.screen instanceof PositionEditorScreen) return;
-
-        var window = mc.getWindow();
-        var hasScreen = mc.screen != null;
-        if (mc.level == null) return;
-
-        graphics.pose().pushMatrix();
-        Player.INSTANCE.onRender(
-                graphics,
-                hasScreen ? (int) mc.mouseHandler.getScaledXPos(window) : -1,
-                hasScreen ? (int) mc.mouseHandler.getScaledYPos(window) : -1,
-                deltaTracker.getGameTimeDeltaPartialTick(false)
-        );
-        graphics.pose().popMatrix();
-    }
+    //@Inject(
+    //        method = "extractRenderState",
+    //        at = @At("TAIL")
+    //)
+    //private void onRenderNormal(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, CallbackInfo ci) {
+    //    var mc = Minecraft.getInstance();
+//
+    //    if (mc.screen instanceof PositionEditorScreen) return;
+//
+    //    var window = mc.getWindow();
+    //    var hasScreen = mc.screen != null;
+    //    if (mc.level == null) return;
+//
+    //    graphics.pose().pushMatrix();
+    //    Player.INSTANCE.onRender(
+    //            graphics,
+    //            hasScreen ? (int) mc.mouseHandler.getScaledXPos(window) : -1,
+    //            hasScreen ? (int) mc.mouseHandler.getScaledYPos(window) : -1,
+    //        deltaTracker.getGameTimeDeltaPartialTick(false)
+    //    );
+    //    graphics.pose().popMatrix();
+    //}
 }

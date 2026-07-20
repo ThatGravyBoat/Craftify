@@ -5,7 +5,7 @@
     "package": "tech.thatgravyboat.craftify.mixins",
     "client": [
       "HudMixin",
-        "MinecraftMixin",
-        "MouseHandlerMixin"
+      "MinecraftMixin",
+      "MouseHandlerMixin"
     ]
 }
