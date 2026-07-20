@@ -16,11 +16,11 @@ object Utils {
     private val counter = AtomicInteger(0)
 
     private val scheduler: ScheduledExecutorService = Executors.newScheduledThreadPool(10) { target: Runnable? ->
-        Thread(target, "Craftify Thread " + counter.incrementAndGet())
+        Thread(target, "Craftify Thread " + counter.incrementAndGet()).apply { isDaemon = false }
     }
 
     private var executor = ThreadPoolExecutor(10, 30, 0L, TimeUnit.SECONDS, LinkedBlockingQueue()) { target: Runnable? ->
-        Thread(target, "Craftify ${counter.incrementAndGet()}")
+        Thread(target, "Craftify ${counter.incrementAndGet()}").apply { isDaemon = false }
     }
 
     fun schedule(delay: Long, unit: TimeUnit, runnable: Runnable): ScheduledFuture<*>
