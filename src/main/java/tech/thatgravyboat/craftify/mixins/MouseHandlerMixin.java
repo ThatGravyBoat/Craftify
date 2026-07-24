@@ -14,7 +14,7 @@ public class MouseHandlerMixin {
 
     @WrapOperation(method = "onButton", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/Screen;mouseClicked(Lnet/minecraft/client/input/MouseButtonEvent;Z)Z"))
     private boolean onSetScreen(Screen instance, MouseButtonEvent event, boolean doubleClicked, Operation<Boolean> original) {
-        if (Player.INSTANCE.onMouseClicked(event.x(), event.y(), event.button())) {
+        if (Player.INSTANCE.onMouseClicked(event.x(), event.y(), event.buttonInfo().button())) {
             return true;
         }
         return original.call(instance, event, doubleClicked);

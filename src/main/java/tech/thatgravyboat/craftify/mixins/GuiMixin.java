@@ -21,10 +21,10 @@ public class GuiMixin {
     private void onRenderNormal(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, CallbackInfo ci) {
         var mc = Minecraft.getInstance();
 
-        if (mc.screen instanceof PositionEditorScreen) return;
+        if (mc.gui.screen() instanceof PositionEditorScreen) return;
 
         var window = mc.getWindow();
-        var hasScreen = mc.screen != null;
+        var hasScreen = mc.gui.screen() != null;
         if (mc.level == null) return;
 
         graphics.pose().pushMatrix();
