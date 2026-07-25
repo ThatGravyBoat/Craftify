@@ -2,8 +2,10 @@ package tech.thatgravyboat.craftify.config
 
 import gg.essential.universal.UScreen
 import gg.essential.vigilance.Vigilant
+import tech.thatgravyboat.craftify.Craftify
 import tech.thatgravyboat.craftify.platform.McClient
 import tech.thatgravyboat.craftify.screens.ServersScreen
+import tech.thatgravyboat.craftify.themes.ThemeConfig
 import tech.thatgravyboat.craftify.ui.enums.Anchor
 import tech.thatgravyboat.craftify.ui.enums.DisplayMode
 import tech.thatgravyboat.craftify.ui.enums.LinkingMode
@@ -18,6 +20,10 @@ object Config : Vigilant(File("./config/craftify.toml")) {
     // General
     var firstTime = true
     var musicService: String? = "disabled"
+        set(value) {
+            field = value
+            Craftify.reloadService()
+        }
     var linkMode = LinkingMode.OPEN
     var announcementEnabled = false
     var announcementMessage = "&aCraftify > &7Now Playing: &b\${song} by \${artists}"
@@ -50,7 +56,7 @@ object Config : Vigilant(File("./config/craftify.toml")) {
                 - ${'$'}{artist} will be replaced by the first artist.
             """.trimIndent())
             button("Theme Config", "Open theme config.", "Open") {
-                gui()?.let(UScreen::displayScreen)
+                ThemeConfig.gui()?.let(UScreen::displayScreen)
             }
 
             subcategory("Self Promotion") {
