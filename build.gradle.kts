@@ -1,5 +1,3 @@
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-import net.fabricmc.loom.task.RemapJarTask
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -8,7 +6,12 @@ plugins {
     idea
     kotlin("jvm") version "2.3.0"
     alias(libs.plugins.loom)
-    alias(libs.plugins.shadow)
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(25))
+    }
 }
 
 loom {
@@ -21,10 +24,6 @@ loom {
             vmArgs("-Ddevauth.enabled=true")
         }
     }
-}
-
-val shadowImplementation by configurations.creating {
-    configurations["implementation"].extendsFrom(this)
 }
 
 repositories {
@@ -45,17 +44,23 @@ dependencies {
 
     "runtimeOnly"(libs.devauth)
 
-    "shadowImplementation"(libs.vigilance) {
+    "implementation"(libs.vigilance) {
         isTransitive = false
     }
-    "shadowImplementation"(libs.elementa) {
+    "include"(libs.vigilance)
+    
+    "implementation"(libs.elementa) {
         isTransitive = false
     }
-    "shadowImplementation"(libs.universalcraft) {
+    "include"(libs.elementa)
+    
+    "implementation"(libs.universalcraft) {
         exclude("org.jetbrains.kotlinx")
         exclude("org.jetbrains.kotlin")
         exclude("net.fabricmc")
     }
+    "include"(libs.universalcraft)
+    
     "implementation"(libs.resourceful.lib) {
         "include"(this)
     }
@@ -79,21 +84,6 @@ dependencies {
     libs.bundles.ktor.get().forEach {
         "include"(provider { it })
     }
-}
-
-tasks.withType<ShadowJar> {
-    archiveClassifier.set("dev")
-    configurations = listOf(shadowImplementation)
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-
-    relocate("gg.essential", "tech.thatgravyboat.craftify.libs.essential")
-    exclude("pack.mcmeta")
-    exclude("META-INF/maven/**")
-}
-
-tasks.withType<RemapJarTask> {
-    inputFile.set(tasks.shadowJar.flatMap { it.archiveFile })
-    archiveClassifier.set("")
 }
 
 tasks.withType<JavaCompile>().configureEach {
