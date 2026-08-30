@@ -38,5 +38,11 @@ bin/
 ### Mac OS ###
 .DS_Store
 
-### MC ###
-run
+### MC / Fabric Loom ###
+run/
+.gradle-wrapper/
+.loom-cache/
+remappedSrc/
+
+### JDK Toolchain (scaricati da Gradle Foojay) ###
+jdks/
