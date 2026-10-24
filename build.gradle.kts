@@ -1,8 +1,16 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-import net.fabricmc.loom.task.RemapJarTask
+import net.fabricmc.loom.build.nesting.NestableJarGenerationTask
+import net.fabricmc.loom.configuration.providers.minecraft.MinecraftSourceSets
+import net.fabricmc.loom.task.ManifestModificationAction
+import net.fabricmc.loom.task.NestJarsAction
+import net.fabricmc.loom.task.service.ClientEntriesService
+import net.fabricmc.loom.task.service.JarManifestService
+import net.fabricmc.loom.util.gradle.SourceSetHelper
+import net.fabricmc.loom.util.service.ScopedServiceFactory
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import java.io.IOException
 
 plugins {
     idea
@@ -81,19 +89,63 @@ dependencies {
     }
 }
 
+tasks.withType<ProcessResources> {
+    inputs.property("version", version.toString())
+
+    filesMatching("fabric.mod.json") {
+        expand("version" to version.toString())
+    }
+}
+
 tasks.withType<ShadowJar> {
-    archiveClassifier.set("dev")
+    archiveClassifier.set("")
     configurations = listOf(shadowImplementation)
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
     relocate("gg.essential", "tech.thatgravyboat.craftify.libs.essential")
     exclude("pack.mcmeta")
     exclude("META-INF/maven/**")
+
+    val processTask = tasks.named<NestableJarGenerationTask>("processIncludeJars")
+    dependsOn(processTask)
+
+    NestJarsAction.addToTask(
+        this,
+        project.fileTree(processTask.flatMap { it.outputDirectory })
+            .matching { include("*.jar") }
+    )
+
+    this.doLast(
+        ManifestModificationAction(
+            JarManifestService.get(project),
+            "official",
+            project.provider { loom.areEnvironmentSourceSetsSplit() },
+            project.provider {
+                if (!loom.areEnvironmentSourceSetsSplit()) {
+                    return@provider mutableListOf()
+                }
+                val clientSourceSet = SourceSetHelper.getSourceSetByName(
+                    MinecraftSourceSets.Split.CLIENT_ONLY_SOURCE_SET_NAME,
+                    project
+                )
+                val optionsProvider: Provider<ClientEntriesService.Classes.Options> = ClientEntriesService.Classes.createOptions(project, clientSourceSet)
+                try {
+                    ScopedServiceFactory().use { serviceFactory ->
+                        val service: ClientEntriesService<ClientEntriesService.Classes.Options> = serviceFactory.get(optionsProvider)
+                        return@provider ArrayList(service.clientOnlyEntries)
+                    }
+                } catch (e: IOException) {
+                    throw RuntimeException("Failed to determine client-only entries", e)
+                }
+            }
+        )
+    )
+
+    this.usesService(JarManifestService.get(project))
 }
 
-tasks.withType<RemapJarTask> {
-    inputFile.set(tasks.shadowJar.flatMap { it.archiveFile })
-    archiveClassifier.set("")
+tasks.named<Jar>("jar") {
+    archiveClassifier.set("dev")
 }
 
 tasks.withType<JavaCompile>().configureEach {
